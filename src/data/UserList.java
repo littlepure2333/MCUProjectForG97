@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 @SuppressWarnings("WeakerAccess")
 public class UserList implements java.io.Serializable{
-    public ArrayList<User> list = new ArrayList<>();
+    public ArrayList<User> list;
 
     public UserList() {
-
+        this.list = Models.readUserData();
     }
 
     ArrayList<User> getList() {
@@ -22,9 +22,7 @@ public class UserList implements java.io.Serializable{
         this.list.add(user);
     }
 
-    void removeUser(User user) {
-
-    }
+    //void removeUser(UserControl user) {}
 
 
 }
