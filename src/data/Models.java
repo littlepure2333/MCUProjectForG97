@@ -5,9 +5,9 @@ import java.beans.XMLEncoder;
 import java.io.*;
 import java.util.ArrayList;
 
-public class DataModel {
+public class Models {
 
-    public static void saveUserData(ArrayList saveList) {
+    public static void saveUserData(ArrayList<User> saveList) {
         try {
             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("../data/user.xml"));
             XMLEncoder encoder = new XMLEncoder(out);
@@ -19,18 +19,17 @@ public class DataModel {
         }
     }
 
-    public static void readUserData() {
+    public static ArrayList<User> readUserData() {
         try {
             XMLDecoder d=new XMLDecoder(new BufferedInputStream(new FileInputStream("../data/user.xml")));
             @SuppressWarnings("unchecked")
             ArrayList<User> p = (ArrayList<User>) d.readObject();
-            for (User user: p) {
-                System.out.println(user.getQmNumber());
-            }
             d.close();
+            return p;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return new ArrayList<>();
     }
 
 }
