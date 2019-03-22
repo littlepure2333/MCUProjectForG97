@@ -7,7 +7,7 @@
      <string>qmNumber</string>
      <void method="set">
       <object idref="User0"/>
-      <int>123456781</int>
+      <int>123456780</int>
      </void>
     </void>
     <void class="data.User" method="getField">
@@ -18,10 +18,17 @@
      </void>
     </void>
     <void class="data.User" method="getField">
-     <string>emailAddress</string>
+     <string>email</string>
      <void method="set">
       <object idref="User0"/>
       <string>aaa@a.com</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>needToPay</string>
+     <void method="set">
+      <object idref="User0"/>
+      <string>false</string>
      </void>
     </void>
    </object>
@@ -43,10 +50,17 @@
      </void>
     </void>
     <void class="data.User" method="getField">
-     <string>emailAddress</string>
+     <string>email</string>
      <void method="set">
       <object idref="User1"/>
       <string>bbb@b.cn</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>needToPay</string>
+     <void method="set">
+      <object idref="User1"/>
+      <string>false</string>
      </void>
     </void>
    </object>
