@@ -10,15 +10,16 @@ public class UserList implements java.io.Serializable{
         this.list = Models.readUserData();
     }
 
-    ArrayList<User> getList() {
+    public ArrayList<User> getList() {
         return list;
     }
 
-    void setList(ArrayList<User> list) {
+    public void setList(ArrayList<User> list) {
         this.list = list;
+        Models.saveUserData(list);
     }
 
-    void addUser(User user) {
+    public void addUser(User user) {
         this.list.add(user);
     }
 
