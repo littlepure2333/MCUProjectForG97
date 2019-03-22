@@ -18,7 +18,7 @@ public class UserManage {
         for (User user:userList.getList()) {
             if (qmNumber == user.getQmNumber())
                 return true;
-            if (email.equals(user.getEmailAddress()))
+            if (email.equals(user.getEmail()))
                 return true;
         }
         return false;

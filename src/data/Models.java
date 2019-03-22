@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 class Models {
 
-    static void saveUserData(ArrayList<User> saveList) {
+    static void saveUserData(ArrayList<User> userList) {
         String location = "./statics/user.xml";
-        save(saveList, location);
+        save(userList, location);
     }
 
     static ArrayList<User> readUserData() {
