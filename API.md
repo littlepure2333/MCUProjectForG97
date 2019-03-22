@@ -1,16 +1,12 @@
 此文档用于描述部分关键接口。<br/>
 
 # bin包 -- 前端与后台交互逻辑
-## bin.User -- 用户相关信息处理
-* bin.User.ifDuplicate(qmNumber, fullName, email)<br/>
-检验用户信息是否已存在于数据中，返回为true/false
-
+## bin.UserManage -- 用户相关信息处理
 * bin.User.registration(qmNumber, fullName, email)<br/>
-将指定用户注册为一个新用户，无返回值
-
+将指定用户注册为一个新用户，注册成功返回true，注册失败（卡号或邮箱重复）返回false
 
 # data包 -- 数据模型和I/O
-## data.User -- 单个用户信息
+## data.UserManage -- 单个用户信息
 * data.User(qmNumber, fullName, email)<br/>
 创建实例时设置用户的参数，默认others=false
 

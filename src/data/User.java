@@ -10,7 +10,7 @@ public class User implements java.io.Serializable{
     @SuppressWarnings("WeakerAccess")
     public boolean needToPay;
 
-    int getQmNumber() {
+    public int getQmNumber() {
         return qmNumber;
     }
 
@@ -46,9 +46,8 @@ public class User implements java.io.Serializable{
         this.qmNumber = qmNumber;
         this.fullName = fullName;
         this.emailAddress = emailAddress;
+        this.needToPay = false;
     }
 
-   public User() {
-
-   }
+   public User() { }
 }

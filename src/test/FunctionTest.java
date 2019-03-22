@@ -1,18 +1,21 @@
 package test;
 
-import org.junit.jupiter.api.Test;
-import data.Models;
+import data.UserList;
 import data.User;
+import org.junit.Test;
+
 import java.util.ArrayList;
 
-class FunctionTest {
-
+public class FunctionTest {
     @Test
-    private void testUserDataIO() {
+    public void testUserDataIO2() {
+        UserList list = new UserList();
         ArrayList<User> userList = new ArrayList<>();
-        userList.add(new User(123456789,"first","aaa@a.com"));
-        userList.add(new User(111111111,"second","bbb@b.cn"));
-        Models.saveUserData(userList);
-        Models.readUserData();
+        userList.add(new User(123456781,"first","aaa@a.com"));
+        userList.add(new User(111111110,"second","bbb@b.cn"));
+        list.setList(userList);
+        for (User user: list.getList()) {
+            System.out.println(user.getQmNumber());
+        }
     }
 }
