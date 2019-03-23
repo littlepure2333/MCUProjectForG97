@@ -65,5 +65,37 @@
     </void>
    </object>
   </void>
+  <void method="add">
+   <object class="data.User" id="User2">
+    <void class="data.User" method="getField">
+     <string>qmNumber</string>
+     <void method="set">
+      <object idref="User2"/>
+      <int>100000000</int>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>fullName</string>
+     <void method="set">
+      <object idref="User2"/>
+      <string>aaa</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>email</string>
+     <void method="set">
+      <object idref="User2"/>
+      <string>ccc@se16.qmul.uk</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>needToPay</string>
+     <void method="set">
+      <object idref="User2"/>
+      <string>false</string>
+     </void>
+    </void>
+   </object>
+  </void>
  </object>
 </java>
