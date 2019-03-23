@@ -4,7 +4,7 @@ import data.UserList;
 
 public class UserManage {
 
-    public boolean registration(int qmNumber, String fullName, String email){
+    public static boolean registration(int qmNumber, String fullName, String email){
         if(!ifDuplicate(qmNumber, email)){
             UserList userList = new UserList();
             userList.addUser(new User(qmNumber, fullName, email));
@@ -13,7 +13,7 @@ public class UserManage {
         return false;
     }
 
-    private boolean ifDuplicate(int qmNumber, String email) {
+    private static boolean ifDuplicate(int qmNumber, String email) {
         UserList userList = new UserList();
         for (User user:userList.getList()) {
             if (qmNumber == user.getQmNumber())
