@@ -4,23 +4,24 @@ import java.util.ArrayList;
 
 @SuppressWarnings("WeakerAccess")
 public class UserList implements java.io.Serializable{
-    public ArrayList<User> list;
+    public ArrayList<User> userList;
 
     public UserList() {
-        this.list = Models.readUserData();
+        this.userList = Models.readUserData();
     }
 
     public ArrayList<User> getList() {
-        return list;
+        return userList;
     }
 
-    public void setList(ArrayList<User> list) {
-        this.list = list;
-        Models.saveUserData(list);
+    public void setList(ArrayList<User> userList) {
+        this.userList = userList;
+        Models.saveUserData(userList);
     }
 
     public void addUser(User user) {
-        this.list.add(user);
+        this.userList.add(user);
+        Models.saveUserData(userList);
     }
 
     //void removeUser(UserControl user) {}
