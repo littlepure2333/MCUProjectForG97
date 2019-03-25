@@ -18,8 +18,8 @@ public class FunctionTest {
     public void testSetUserData() {
         UserList list = new UserList();
         ArrayList<User> userList = new ArrayList<>();
-        userList.add(new User(123456780,"first","aaa@a.com"));
-        userList.add(new User(111111110,"second","bbb@b.cn"));
+        userList.add(new User(123456780,"first","aaa@qmul.ac.uk"));
+        userList.add(new User(111111110,"second","bbb@qmul.ac.uk"));
         list.setList(userList);
         for (User user: list.getList()) {
             System.out.println(user.getQmNumber());
