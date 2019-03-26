@@ -1,6 +1,6 @@
 package data;
 
-public class User implements java.io.Serializable{
+public class User {
     @SuppressWarnings("WeakerAccess")
     public int qmNumber;
     @SuppressWarnings("WeakerAccess")

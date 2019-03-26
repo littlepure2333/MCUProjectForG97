@@ -5,20 +5,12 @@ import java.beans.XMLEncoder;
 import java.io.*;
 import java.util.ArrayList;
 
-class Models {
+/**
+ * Data I/O
+ */
+abstract class Models {
 
-    static void saveUserData(ArrayList<User> userList) {
-        String location = "./statics/user.xml";
-        save(userList, location);
-    }
-
-    static ArrayList<User> readUserData() {
-        String location = "./statics/user.xml";
-        //noinspection unchecked
-        return (ArrayList<User>) read(location);
-    }
-
-    private static < E > void save(E data, String location) {
+    < E > void save(E data, String location) {
         try {
             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(location));
             XMLEncoder encoder = new XMLEncoder(out);
@@ -30,7 +22,7 @@ class Models {
         }
     }
 
-    private static ArrayList<?> read(String location) {
+    ArrayList<?> read(String location) {
         try {
             XMLDecoder d=new XMLDecoder(new BufferedInputStream(new FileInputStream(location)));
             ArrayList<?> p = (ArrayList<?>) d.readObject();
