@@ -1,29 +1,41 @@
 package views;
 
 import bin.UserManage;
+import views.components.*;
+
 
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
-import java.awt.event.*; 
 
 public class RegisterInputFrame extends JFrame{
 	JFrame myFrame2;//The general frame
-	JPanel idPanel;
-	JPanel namePanel;
-	JPanel addPanel;
+
+	/* ！
+	 * 从组件库中获取没有事件监听器的普通组件，
+	 * 现在已经拥有了单独的类名，
+	 * 它们都位于views.components中，
+	 * 如果需要创建新的组件，可以参照API文档在组件库中
+	 * 创建并继承相应的原型
+	*/
+	IdPanel idPanel;
+	NamePanel namePanel;
+	AddPanel addPanel;
+
+	//！checkPanel也没有监听器
+	//  可能需要大量复用（没有改动）
+	JPanel checkPanel;
 	JPanel emptyPanel1;
 //	JPanel emptyPanel2;
 	JPanel submitPanel;
-	JPanel checkPanel;
 	JPanel buttonPanel;
 	
 	JTextField idText;
 	JTextField nameText;
 	JTextField addText;
+
 	JLabel checkLabel;
 	
 	
@@ -31,9 +43,20 @@ public class RegisterInputFrame extends JFrame{
 		this.setTitle("Please register a new user.");
 		
 		emptyPanel1=new EmptyPanel();
-		idPanel=new IdPanel();
-		namePanel=new NamePanel();
-		addPanel=new AddPanel();
+
+		/* ！
+		 * 这是原来的三个输入Panel
+		 * 对应的class被移出该类
+		 * new ??Panel(text) -> text为提示标签的文字
+		 * xxPanel.bindTextField() -> 将Panel里面的文本框的引用传给该界面，便于Listener控制
+		 */
+		idPanel = new IdPanel("ID:                 ");
+		idText = idPanel.bindTextField();
+		namePanel = new NamePanel("Full Name:     ");
+		nameText = namePanel.bindTextField();
+		addPanel = new AddPanel("Email Add:     ");
+		addText = addPanel.bindTextField();
+
 //		emptyPanel2=new EmptyPanel();
 		submitPanel=new SubmitPanel();
 		checkPanel=new CheckPanel();
@@ -54,84 +77,45 @@ public class RegisterInputFrame extends JFrame{
 		this.setVisible(true);
 		
 	}
-	
-	class IdPanel extends JPanel{
-		IdPanel(){
-			JLabel idLabel=new JLabel("ID:                 ");
-			idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			idText=new JTextField(15);
-			idText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-		
-			this.add(idLabel);
-			this.add(idText);
-		}
-	}
-	
-	class NamePanel extends JPanel{
-		NamePanel(){
-			JLabel nameLabel=new JLabel("Full Name:     ");
-			nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			nameText=new JTextField(15);
-			nameText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			
-			this.add(nameLabel);
-			this.add(nameText);
-		}
-	}
-	
-	class AddPanel extends JPanel{
-		AddPanel(){
-			JLabel addLabel=new JLabel("Email Add:     ");
-			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			addText=new JTextField(15);
-			addText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			
-			this.add(addLabel);
-			this.add(addText);
-		}
-	}
-	
-	class SubmitPanel extends JPanel implements ActionListener{
-		SubmitPanel(){
-			JButton submitButton=new JButton("Submit");
-			submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
-			
+
+	class SubmitPanel extends JPanel implements ActionListener {
+		SubmitPanel() {
+			JButton submitButton = new JButton("Submit");
+			submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+
 			this.add(submitButton);
 			submitButton.addActionListener(this);
 		}
-		
-		public void actionPerformed(ActionEvent e){
+
+		/*	！
+		 * 	这里对于数据格式的检查方法已经写入一个了单独的类
+		 *	views.FormatCheck
+		 *	其中的方法均是静态类型，不需要创建实例
+		 *	检查格式的功能不变
+		 */
+		public void actionPerformed(ActionEvent e) {
 			if (idText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the ID!");
-			} 
-			else if(isID(idText.getText())==0) {
+			}
+			else if(FormatCheck.isID(idText.getText())==0) {
 				checkLabel.setText("Invalid ID. You must enter 9 digits!");
 			}
 			else if(nameText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the full name!");
 			}
-			else if(isName(nameText.getText())==0) {
+			else if(FormatCheck.isName(nameText.getText())==0) {
 				checkLabel.setText("<html>Invalid name.<br/> Example: Xiaoming Wang</html>");
 			}
 			else if(addText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the email address!");
 			}
-			else if(isAddress(addText.getText())==0) {
+			else if(FormatCheck.isAddress(addText.getText())==0) {
 				checkLabel.setText("<html>Invalid email address. <br/>Example:qmul123_uk@qmul.ac.uk.</html>");
 			}
 			else {
 				// Login Successful
 				if (UserManage.registration(Integer.parseInt(idText.getText()), nameText.getText(), addText.getText())) {
-					JFrame littleFrame =new JFrame("Successful");
-					JLabel littleLabel=new JLabel("Successful Input.");
-					littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-					littleFrame.add(littleLabel);
-
-					checkLabel.setText("Successful Input.");
-
-					littleFrame.setSize(500, 500);
-					//littleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					littleFrame.setVisible(true);
+					this.registerSuccess();
 				}
 				// Duplicate
 				else {
@@ -139,90 +123,31 @@ public class RegisterInputFrame extends JFrame{
 				}
 			}
 		}
-		
-		public int isID(String str){
-			 for (int i = str.length();--i>=0;){   
-	    		    if (!Character.isDigit(str.charAt(i))){
-	    		      return 0;
-	    		     }
-	         }
-			 
-			 if(str.length()!=9)
-				 return 0;
-			return 1;
-			
+
+		/*	！
+		 *	这里是第一次迭代界面与后台交互的部分（注册成功）
+		 */
+		void registerSuccess() {
+			JFrame littleFrame =new JFrame("Successful");
+			JLabel littleLabel=new JLabel("Successful Input.");
+			littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			littleFrame.add(littleLabel);
+
+			checkLabel.setText("Successful Input.");
+
+			littleFrame.setSize(500, 500);
+			//littleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			littleFrame.setVisible(true);
 		}
-		
-		public int isCharacter(char c) {
-			if(!((c>='a' && c<='z')||(c>='A' && c<='Z')))
-				return 0;
-			else
-				return 1;
-		}
-		
-		public int isName(String str) {
-			for (int i = str.length();--i>=0;){   
-    		    if ((isCharacter(str.charAt(i))==0)&&(str.charAt(i)!=' ')){
-    		      return 0;
-    		    }
-    		    else if(str.charAt(0)==' '||str.charAt(str.length()-1)==' ') {
-    		    	return 0;
-    		    }
-    		}
-			return 1;	
-		}
-		
-		public int isAddress(String str) {
-			int count1=0,count2=0;
-			int j=0,k=0,l=0;
-			for (int i = str.length();--i>=0;){
-				if(str.charAt(i)=='@') {
-					count1++;
-					j=i;
-				}	
-				if(str.charAt(i)=='.'&&count2==0) {
-					count2++;
-					k=i;
-				}
-				else if(str.charAt(i)=='.'&&count2==1) {
-					count2++;
-					l=i;
-				}
-			}
-			//System.out.println(" "+j+k+l);
-			if((count1!=1||count2!=2)) {
-				return 0;
-			}
-			else if(!((j<l)&&(l<k)))
-				return 0;
-			//������򣺱�����xxx@qmul.ac.uk;xxx���������֡���ĸ���»��ߣ���һλ��������ĸ
-			for (int i = j;--i>=0;){
-				if ((isCharacter(str.charAt(i))==0)&&(!Character.isDigit(str.charAt(i)))&&(str.charAt(i)!='_')){
-	    		      return 0;
-	    		}
-				else if(isCharacter(str.charAt(0))==0)
-					return 0;
-			}
-			
-			String subfix = str.substring(j+1);
-			if(!subfix.equals("qmul.ac.uk")) {
-				return 0;
-			}
-			
-			return 1;
-		}
-			
-		
-		
 	}
 	
-	class CheckPanel extends JPanel{
+	class CheckPanel extends JPanel {
 		CheckPanel(){
 			checkLabel=new JLabel("Please enter info.");
 			this.add(checkLabel);
 			//checkLabel.setSize(5, 100);
-			checkLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
-			
+			checkLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+
 		}
 	}
 	
@@ -241,7 +166,7 @@ public class RegisterInputFrame extends JFrame{
 		
 		public void actionPerformed(ActionEvent e){
 			String actionCommand = e.getActionCommand();
-			if(actionCommand=="Clear") {
+			if(actionCommand.equals("Clear")) {
     			idText.setText("");
     			nameText.setText("");
     			addText.setText("");
