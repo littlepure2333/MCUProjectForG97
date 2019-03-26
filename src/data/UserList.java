@@ -3,28 +3,28 @@ import java.util.ArrayList;
 
 
 @SuppressWarnings("WeakerAccess")
-public class UserList implements java.io.Serializable{
+public class UserList extends Models {
     public ArrayList<User> userList;
+    private static final String fileLocation = "./statics/user.xml";
 
     public UserList() {
-        this.userList = Models.readUserData();
+        //noinspection unchecked
+        this.userList = (ArrayList<User>)read(fileLocation);
     }
 
-    public ArrayList<User> getList() {
+    public ArrayList<User> getUserList() {
         return userList;
     }
 
     public void setList(ArrayList<User> userList) {
         this.userList = userList;
-        Models.saveUserData(userList);
+        save(userList, fileLocation);
     }
 
-    public void addUser(User user) {
+    public void add(User user) {
         this.userList.add(user);
-        Models.saveUserData(userList);
+        save(userList, fileLocation);
     }
-
-    //void removeUser(UserControl user) {}
 
 
 }

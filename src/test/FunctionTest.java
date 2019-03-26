@@ -21,7 +21,7 @@ public class FunctionTest {
         userList.add(new User(123456780,"first","aaa@qmul.ac.uk"));
         userList.add(new User(111111110,"second","bbb@qmul.ac.uk"));
         list.setList(userList);
-        for (User user: list.getList()) {
+        for (User user: list.getUserList()) {
             System.out.println(user.getQmNumber());
         }
     }
@@ -33,9 +33,9 @@ public class FunctionTest {
      */
     @Test
     public void testRegistration() {
-        System.out.println(UserManage.registration(100000000,"aaa","ccc@se16.qmul.uk"));
+        System.out.println(UserManage.registration(100000000,"aaa","ccc@qmul.ac.uk"));
         UserList userList = new UserList();
-        for (User user: userList.getList()) {
+        for (User user: userList.getUserList()) {
             System.out.println(user.getQmNumber());
         }
     }

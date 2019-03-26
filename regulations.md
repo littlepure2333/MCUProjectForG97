@@ -2,7 +2,7 @@
 ### 编译环境
 1> 每次开工之前核对项目的时间线（先fetch再查看history）。如果自己要编码的文件已经更新了，请先pull最新的版本之后，再开始工作
 
-2> 
+2> 遇到项目无法编译，先去查看.project文件/project naturals，再去查看build path
 ### 代码
 1> 类和成员的命名方法均采用驼峰命名法（camelCase）
 

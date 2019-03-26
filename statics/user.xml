@@ -71,7 +71,7 @@
      <string>qmNumber</string>
      <void method="set">
       <object idref="User2"/>
-      <int>123456781</int>
+      <int>100000000</int>
      </void>
     </void>
     <void class="data.User" method="getField">

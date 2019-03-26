@@ -14,16 +14,47 @@
 * data.UserList()<br/>
 创建实例时自动获得文件中的用户信息
 
-* data.UserList.getList()<br/>
-获得所有用户信息
+* data.UserList.getUserList()<br/>
+获得所有用户信息，返回为ArrayList<User>
 
 * data.UserList.addUser(user)<br/>
 向所有用户的信息中添加一个新用户
 
-## data.Models -- 将数据写入/取出本地文件(仅允许内部访问)
+* data.UserList.setUserList(userList)<br/>
+重新定义用户信息列表，慎用！！！
 
-* data.Models.saveUserData(allUser)<br/>
-将用户数据保存至本地文件，无返回值
+## data.Models -- 将数据写入/取出本地文件(被所有data.???List类继承)
 
-* data.Models.readUserData()<br/>
-获得文件中的用户数据，返回用户数据的数组
+* data.Models.save(data, location)<br/>
+将数据保存至本地文件（指定位置），无返回值
+
+* data.Models.read(location)<br/>
+获得指定文件中的数据，返回为数据集合组成的数组
+
+# views包 -- 视图和前端逻辑
+## views.FormatCheck -- 格式检查
+* views.FormatCheck.isID()
+* views.FormatCheck.isName()
+* views.FormatCheck.isAddress()
+
+# views.components包 -- 组件库和组件原型
+
+## views.components.InputPanelPrototype -- 标签+文本框
+通过被JPanel继承，构建一个 包括标签和文本框的{输入panel}，只能在包内定义
+```java
+class InputPanel extends InputPanelPrototype {
+    public InputPanel(String text) {
+        super(text);
+    }
+}
+
+//如果内部的文本框需要被全局访问，
+//原型类提供绑定方法：
+class SomeClass {
+    SomeClass() {
+        JTextField jTextField;
+            JPanel inputPanel = new InputPanel("aaa");
+            jTextfield = inputPanel.bindTextfield();
+    }
+}
+```
