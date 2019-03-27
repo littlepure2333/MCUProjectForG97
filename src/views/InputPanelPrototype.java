@@ -1,4 +1,4 @@
-package views.components;
+package views;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ abstract class InputPanelPrototype extends JPanel {
         this.add(jTextField);
     }
 
-    public JTextField bindTextField() {
+    JTextField bindTextField() {
         return this.jTextField;
     }
 }
