@@ -1,7 +1,6 @@
 package views;
 
 import bin.UserManage;
-import views.components.*;
 
 
 import javax.swing.*;
@@ -10,13 +9,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegisterInputFrame extends JFrame{
+class RegisterInputFrame extends JFrame{
 	JFrame myFrame2;//The general frame
 
 	/* ！
-	 * 从组件库中获取没有事件监听器的普通组件，
-	 * 现在已经拥有了单独的类名，
-	 * 它们都位于views.components中，
+	 * 从组件库中获取没有事件监听器的输入框，
+	 * 现在已经拥有了统一的父类，
 	 * 如果需要创建新的组件，可以参照API文档在组件库中
 	 * 创建并继承相应的原型
 	*/
@@ -24,8 +22,6 @@ public class RegisterInputFrame extends JFrame{
 	NamePanel namePanel;
 	AddPanel addPanel;
 
-	//！checkPanel也没有监听器
-	//  可能需要大量复用（没有改动）
 	JPanel checkPanel;
 	JPanel emptyPanel1;
 //	JPanel emptyPanel2;
@@ -76,6 +72,28 @@ public class RegisterInputFrame extends JFrame{
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		this.setVisible(true);
 		
+	}
+
+	/* ！
+	 * 为什么这些类都变小了？
+	 * ：为了减少重复代码，这三个组件共有的部分已经被放入InputPanelPrototype
+	 */
+	private class IdPanel extends InputPanelPrototype {
+		IdPanel(String text) {
+			super(text);
+		}
+	}
+
+	private class NamePanel extends InputPanelPrototype {
+		NamePanel(String text) {
+			super(text);
+		}
+	}
+
+	private class AddPanel extends InputPanelPrototype {
+		AddPanel(String text) {
+			super(text);
+		}
 	}
 
 	class SubmitPanel extends JPanel implements ActionListener {
@@ -150,7 +168,7 @@ public class RegisterInputFrame extends JFrame{
 
 		}
 	}
-	
+
 	class ButtonPanel extends JPanel implements ActionListener{
 		ButtonPanel(){
 			JButton clearButton=new JButton("Clear");
@@ -163,7 +181,7 @@ public class RegisterInputFrame extends JFrame{
 //			this.add(backButton);
 //			backButton.addActionListener(this);
 		}
-		
+
 		public void actionPerformed(ActionEvent e){
 			String actionCommand = e.getActionCommand();
 			if(actionCommand.equals("Clear")) {

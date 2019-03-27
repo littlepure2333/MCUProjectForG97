@@ -32,14 +32,16 @@
 获得指定文件中的数据，返回为数据集合组成的数组
 
 # views包 -- 视图和前端逻辑
+
 ## views.FormatCheck -- 格式检查
 * views.FormatCheck.isID()
 * views.FormatCheck.isName()
 * views.FormatCheck.isAddress()
+* views.FormatCheck.isCharacter()<br/>
+以上方法均返回整数类型（1或0）
 
-# views.components包 -- 组件库和组件原型
 
-## views.components.InputPanelPrototype -- 标签+文本框
+## views.InputPanelPrototype -- 标签+文本框
 通过被JPanel继承，构建一个 包括标签和文本框的{输入panel}，只能在包内定义
 ```java
 class InputPanel extends InputPanelPrototype {
@@ -53,8 +55,8 @@ class InputPanel extends InputPanelPrototype {
 class SomeClass {
     SomeClass() {
         JTextField jTextField;
-            JPanel inputPanel = new InputPanel("aaa");
-            jTextfield = inputPanel.bindTextfield();
+        JPanel inputPanel = new InputPanel("aaa");
+        jTextfield = inputPanel.bindTextfield();
     }
 }
 ```
