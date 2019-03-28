@@ -2,13 +2,13 @@ package data;
 import java.util.ArrayList;
 
 
-@SuppressWarnings("WeakerAccess")
+
 public class UserList extends Models {
     public ArrayList<User> userList;
     private static final String fileLocation = "./statics/user.xml";
 
-    public UserList() {
-        //noinspection unchecked
+    @SuppressWarnings("unchecked")
+	public UserList() {
         this.userList = (ArrayList<User>)read(fileLocation);
     }
 

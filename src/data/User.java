@@ -1,13 +1,13 @@
 package data;
 
 public class User {
-    @SuppressWarnings("WeakerAccess")
+
     public int qmNumber;
-    @SuppressWarnings("WeakerAccess")
+
     public String fullName;
-    @SuppressWarnings("WeakerAccess")
+
     public String email;
-    @SuppressWarnings("WeakerAccess")
+
     public String needToPay;
 
     public int getQmNumber() {
