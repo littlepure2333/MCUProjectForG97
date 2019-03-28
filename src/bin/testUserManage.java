@@ -25,7 +25,7 @@ class testUserManage {
     @Test
     void testIfDuplicate() {
     	UserManage.registration(123456700,"first","aaafdas@qmul.ac.uk");
-    	assertTrue(UserManage.ifDuplicate(123456700,"aaafdas@qmul.ac.uk"));
+    	assertTrue(UserManage.isDuplicate(123456700,"aaafdas@qmul.ac.uk"));
     }
 
 }
