@@ -11,6 +11,10 @@ import java.util.Random;
 import java.awt.event.*; 
 
 public class RegisterInputFrame extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JFrame myFrame2;//The general frame
 	JPanel idPanel;
 	JPanel namePanel;
@@ -56,6 +60,11 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class IdPanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		IdPanel(){
 			JLabel idLabel=new JLabel("ID:                 ");
 			idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
@@ -68,6 +77,11 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class NamePanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		NamePanel(){
 			JLabel nameLabel=new JLabel("Full Name:     ");
 			nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
@@ -80,6 +94,11 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class AddPanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		AddPanel(){
 			JLabel addLabel=new JLabel("Email Add:     ");
 			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
@@ -92,6 +111,11 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class SubmitPanel extends JPanel implements ActionListener{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		SubmitPanel(){
 			JButton submitButton=new JButton("Submit");
 			submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
@@ -217,6 +241,11 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class CheckPanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		CheckPanel(){
 			checkLabel=new JLabel("Please enter info.");
 			this.add(checkLabel);
@@ -227,6 +256,11 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class ButtonPanel extends JPanel implements ActionListener{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		ButtonPanel(){
 			JButton clearButton=new JButton("Clear");
 			clearButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
@@ -254,6 +288,11 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class EmptyPanel extends JPanel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		
 	}
 
