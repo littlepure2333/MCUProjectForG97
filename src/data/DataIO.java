@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Data I/O
  */
-abstract class Models {
+abstract class DataIO {
 
     < E > void save(E data, String location) {
         try {
