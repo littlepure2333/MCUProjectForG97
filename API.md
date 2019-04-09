@@ -23,12 +23,12 @@
 * data.UserList.setUserList(userList)<br/>
 重新定义用户信息列表，慎用！！！
 
-## data.Models -- 将数据写入/取出本地文件(被所有data.???List类继承)
+## data.DataIO -- 将数据写入/取出本地文件(被所有data.???List类继承)
 
-* data.Models.save(data, location)<br/>
+* data.DataIO.save(data, location)<br/>
 将数据保存至本地文件（指定位置），无返回值
 
-* data.Models.read(location)<br/>
+* data.DataIO.read(location)<br/>
 获得指定文件中的数据，返回为数据集合组成的数组
 
 # views包 -- 视图和前端逻辑

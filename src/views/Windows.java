@@ -5,38 +5,36 @@ import java.awt.*;
 import java.util.Stack;
 
 public class Windows {
-    static final JFrame fr = new JFrame("aa");
-    JPanel p1 = new JPanel();
-    JPanel p2 = new JPanel();
-    JPanel p3 = new JPanel();
-    JButton goto2 = new GotoButton("go2", p2);
-    JButton goto3 = new GotoButton("go3", p3);
+    static final JFrame frame = new JFrame("QM scooter system");
 
+    //panels
+    //所有界面添加到此处
+    private RegisterInputPanel registerInputPanel = new RegisterInputPanel();
+    private BorrowPanel borrowPanel = new BorrowPanel();
+    private ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
+    private IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, borrowPanel);
+
+    //return
+    static JPanel returnPanel = new JPanel();
+    //stack
     static Stack<JPanel> stack = new Stack<>();
 
-    public static void main(String[] args) {
-        Windows win = new Windows();
-    }
 
-    private Windows() {
-        fr.setSize(500,500);
-        p1.setLayout(new GridLayout(3,1));
-        p2.setLayout(new GridLayout(3,1));
-        p3.setLayout(new GridLayout(3,1));
-        fr.add(p1);
-        p1.add(goto2);
-        p1.add(new JPanel());
-        p1.add(new JPanel());
 
-        p2.add(new ReturnButton("ret"));
-        p2.add(goto3);
-        p2.add(new JPanel());
+    public Windows() {
 
-        p3.add(new ReturnButton("ret"));
-        p3.add(new JPanel());
-        p3.add(new JPanel());
+        frame.setSize(1200, 1000);
+        frame.setLayout(new BorderLayout());
+        frame.setVisible(true);
 
-        fr.setVisible(true);
-        stack.push(p1);
+
+        returnPanel.setLayout(new BorderLayout());
+        returnPanel.add(new ReturnButton("return"), BorderLayout.WEST);
+        returnPanel.setVisible(false);
+        frame.add(returnPanel, BorderLayout.NORTH);
+
+        frame.add(identityChoosePanel, BorderLayout.CENTER);
+        stack.push(identityChoosePanel);
+
     }
 }
