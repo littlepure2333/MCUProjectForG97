@@ -1,24 +1,11 @@
 package views;
-
-import bin.UserManage;
+import views.*;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
-import java.awt.event.*;
-
-// ！
-// 四个用来识别格式的方法被抽离并单独构建成了一个类
-import static views.FormatCheck.*;
-
-public class RegisterInputFrame extends JFrame{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class RegisterInputPanel extends JPanel {
 	JFrame myFrame2;//The general frame
 	JPanel idPanel;
 	JPanel namePanel;
@@ -35,8 +22,8 @@ public class RegisterInputFrame extends JFrame{
 	JLabel checkLabel;
 	
 	
-	RegisterInputFrame(){
-		this.setTitle("Please register a new user.");
+	RegisterInputPanel(){
+//		this.setTitle("Please register a new user.");
 		
 		emptyPanel1=new EmptyPanel();
 		idPanel=new IdPanel();
@@ -57,18 +44,11 @@ public class RegisterInputFrame extends JFrame{
 		this.add(buttonPanel);
 		
 		this.setLayout(new GridLayout(7,1));
-		this.setSize(1200, 1000);
-		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		this.setVisible(true);
 		
 	}
 	
 	class IdPanel extends JPanel{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		IdPanel(){
 			JLabel idLabel=new JLabel("ID:                 ");
 			idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
@@ -81,11 +61,6 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class NamePanel extends JPanel{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		NamePanel(){
 			JLabel nameLabel=new JLabel("Full Name:     ");
 			nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
@@ -98,11 +73,6 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class AddPanel extends JPanel{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		AddPanel(){
 			JLabel addLabel=new JLabel("Email Add:     ");
 			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
@@ -115,11 +85,6 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class SubmitPanel extends JPanel implements ActionListener{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		SubmitPanel(){
 			JButton submitButton=new JButton("Submit");
 			submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
@@ -132,42 +97,34 @@ public class RegisterInputFrame extends JFrame{
 			if (idText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the ID!");
 			} 
-			else if(isID(idText.getText())==0) {
+			else if(FormatCheck.isID(idText.getText())==0) {
 				checkLabel.setText("Invalid ID. You must enter 9 digits!");
 			}
 			else if(nameText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the full name!");
 			}
-			else if(isName(nameText.getText())==0) {
+			else if(FormatCheck.isName(nameText.getText())==0) {
 				checkLabel.setText("<html>Invalid name.<br/> Example: Xiaoming Wang</html>");
 			}
 			else if(addText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the email address!");
 			}
-			else if(isAddress(addText.getText())==0) {
+			else if(FormatCheck.isAddress(addText.getText())==0) {
 				checkLabel.setText("<html>Invalid email address. <br/>Example:qmul123_uk@qmul.ac.uk.</html>");
 			}
 			else {
-				// Login Successful
-				if (UserManage.registration(Integer.parseInt(idText.getText()), nameText.getText(), addText.getText())) {
-					JFrame littleFrame =new JFrame("Successful");
-					JLabel littleLabel=new JLabel("Successful Input.");
-					littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-					littleFrame.add(littleLabel);
-
-					checkLabel.setText("Successful Input.");
-
-					littleFrame.setSize(500, 500);
-					//littleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					littleFrame.setVisible(true);
-				}
-				// Duplicate
-				else {
-					checkLabel.setText("Duplicate qmNumber or Email!");
-				}
+				JFrame littleFrame =new JFrame("Successful");
+				JLabel littleLabel=new JLabel("Successful Input.");
+				littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
+				littleFrame.add(littleLabel);
+				
+				checkLabel.setText("Successful Input.");
+				
+				littleFrame.setSize(500, 500);
+				//littleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+				littleFrame.setVisible(true);
 			}
 		}
-		
 
 			
 		
@@ -175,11 +132,6 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class CheckPanel extends JPanel{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		CheckPanel(){
 			checkLabel=new JLabel("Please enter info.");
 			this.add(checkLabel);
@@ -190,11 +142,6 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class ButtonPanel extends JPanel implements ActionListener{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		ButtonPanel(){
 			JButton clearButton=new JButton("Clear");
 			clearButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
@@ -222,11 +169,6 @@ public class RegisterInputFrame extends JFrame{
 	}
 	
 	class EmptyPanel extends JPanel {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
 		
 	}
 

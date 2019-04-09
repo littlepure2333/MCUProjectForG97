@@ -11,12 +11,14 @@ class ReturnButton extends JButton implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
 
-        Windows.fr.remove(Windows.stack.peek());
+        Windows.frame.remove(Windows.stack.peek());
         Windows.stack.pop();
-        Windows.fr.add(Windows.stack.peek());
+        Windows.frame.add(Windows.stack.peek());
+        if(Windows.stack.size()==1)
+            Windows.returnPanel.setVisible(false);
 
         //重绘界面
-        Windows.fr.validate();
-        Windows.fr.repaint();
+        Windows.frame.validate();
+        Windows.frame.repaint();
     }
 }

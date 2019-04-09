@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 
 @SuppressWarnings("WeakerAccess")
-public class UserList extends Models {
+public class UserList extends DataIO {
     public ArrayList<User> userList;
     private static final String fileLocation = "./statics/user.xml";
 
