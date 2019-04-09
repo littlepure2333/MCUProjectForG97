@@ -14,6 +14,13 @@ class FormatCheck {
 
     }
 
+    static int isCharacter(char c) {
+        if(!((c>='a' && c<='z')||(c>='A' && c<='Z')))
+            return 0;
+        else
+            return 1;
+    }
+
     static int isName(String str) {
         for (int i = str.length();--i>=0;){
             if ((isCharacter(str.charAt(i))==0)&&(str.charAt(i)!=' ')){
@@ -64,12 +71,5 @@ class FormatCheck {
         }
 
         return 1;
-    }
-
-    static int isCharacter(char c) {
-        if(!((c>='a' && c<='z')||(c>='A' && c<='Z')))
-            return 0;
-        else
-            return 1;
     }
 }
