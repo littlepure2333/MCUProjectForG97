@@ -2,36 +2,36 @@ package views;
 
 import bin.UserManage;
 
-
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
+import java.awt.event.*;
 
-class RegisterInputFrame extends JFrame{
+// ！
+// 四个用来识别格式的方法被抽离并单独构建成了一个类
+import static views.FormatCheck.*;
+
+public class RegisterInputFrame extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JFrame myFrame2;//The general frame
-
-	/* ！
-	 * 从组件库中获取没有事件监听器的输入框，
-	 * 现在已经拥有了统一的父类，
-	 * 如果需要创建新的组件，可以参照API文档在组件库中
-	 * 创建并继承相应的原型
-	*/
-	IdPanel idPanel;
-	NamePanel namePanel;
-	AddPanel addPanel;
-
-	JPanel checkPanel;
+	JPanel idPanel;
+	JPanel namePanel;
+	JPanel addPanel;
 	JPanel emptyPanel1;
 //	JPanel emptyPanel2;
 	JPanel submitPanel;
+	JPanel checkPanel;
 	JPanel buttonPanel;
 	
 	JTextField idText;
 	JTextField nameText;
 	JTextField addText;
-
 	JLabel checkLabel;
 	
 	
@@ -39,20 +39,9 @@ class RegisterInputFrame extends JFrame{
 		this.setTitle("Please register a new user.");
 		
 		emptyPanel1=new EmptyPanel();
-
-		/* ！
-		 * 这是原来的三个输入Panel
-		 * 对应的class被移出该类
-		 * new ??Panel(text) -> text为提示标签的文字
-		 * xxPanel.bindTextField() -> 将Panel里面的文本框的引用传给该界面，便于Listener控制
-		 */
-		idPanel = new IdPanel("ID:                 ");
-		idText = idPanel.bindTextField();
-		namePanel = new NamePanel("Full Name:     ");
-		nameText = namePanel.bindTextField();
-		addPanel = new AddPanel("Email Add:     ");
-		addText = addPanel.bindTextField();
-
+		idPanel=new IdPanel();
+		namePanel=new NamePanel();
+		addPanel=new AddPanel();
 //		emptyPanel2=new EmptyPanel();
 		submitPanel=new SubmitPanel();
 		checkPanel=new CheckPanel();
@@ -73,67 +62,104 @@ class RegisterInputFrame extends JFrame{
 		this.setVisible(true);
 		
 	}
+	
+	class IdPanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-	/* ！
-	 * 为什么这些类都变小了？
-	 * ：为了减少重复代码，这三个组件共有的部分已经被放入InputPanelPrototype
-	 */
-	private class IdPanel extends InputPanelPrototype {
-		IdPanel(String text) {
-			super(text);
+		IdPanel(){
+			JLabel idLabel=new JLabel("ID:                 ");
+			idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
+			idText=new JTextField(15);
+			idText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
+		
+			this.add(idLabel);
+			this.add(idText);
 		}
 	}
+	
+	class NamePanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-	private class NamePanel extends InputPanelPrototype {
-		NamePanel(String text) {
-			super(text);
+		NamePanel(){
+			JLabel nameLabel=new JLabel("Full Name:     ");
+			nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
+			nameText=new JTextField(15);
+			nameText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
+			
+			this.add(nameLabel);
+			this.add(nameText);
 		}
 	}
+	
+	class AddPanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-	private class AddPanel extends InputPanelPrototype {
-		AddPanel(String text) {
-			super(text);
+		AddPanel(){
+			JLabel addLabel=new JLabel("Email Add:     ");
+			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
+			addText=new JTextField(15);
+			addText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
+			
+			this.add(addLabel);
+			this.add(addText);
 		}
 	}
+	
+	class SubmitPanel extends JPanel implements ActionListener{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-	class SubmitPanel extends JPanel implements ActionListener {
-		SubmitPanel() {
-			JButton submitButton = new JButton("Submit");
-			submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-
+		SubmitPanel(){
+			JButton submitButton=new JButton("Submit");
+			submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
+			
 			this.add(submitButton);
 			submitButton.addActionListener(this);
 		}
-
-		/*	！
-		 * 	这里对于数据格式的检查方法已经写入一个了单独的类
-		 *	views.FormatCheck
-		 *	其中的方法均是静态类型，不需要创建实例
-		 *	检查格式的功能不变
-		 */
-		public void actionPerformed(ActionEvent e) {
+		
+		public void actionPerformed(ActionEvent e){
 			if (idText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the ID!");
-			}
-			else if(FormatCheck.isID(idText.getText())==0) {
+			} 
+			else if(isID(idText.getText())==0) {
 				checkLabel.setText("Invalid ID. You must enter 9 digits!");
 			}
 			else if(nameText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the full name!");
 			}
-			else if(FormatCheck.isName(nameText.getText())==0) {
+			else if(isName(nameText.getText())==0) {
 				checkLabel.setText("<html>Invalid name.<br/> Example: Xiaoming Wang</html>");
 			}
 			else if(addText.getText().length()==0) {
 				checkLabel.setText("You haven't entered the email address!");
 			}
-			else if(FormatCheck.isAddress(addText.getText())==0) {
+			else if(isAddress(addText.getText())==0) {
 				checkLabel.setText("<html>Invalid email address. <br/>Example:qmul123_uk@qmul.ac.uk.</html>");
 			}
 			else {
 				// Login Successful
 				if (UserManage.registration(Integer.parseInt(idText.getText()), nameText.getText(), addText.getText())) {
-					this.registerSuccess();
+					JFrame littleFrame =new JFrame("Successful");
+					JLabel littleLabel=new JLabel("Successful Input.");
+					littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+					littleFrame.add(littleLabel);
+
+					checkLabel.setText("Successful Input.");
+
+					littleFrame.setSize(500, 500);
+					//littleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					littleFrame.setVisible(true);
 				}
 				// Duplicate
 				else {
@@ -141,35 +167,34 @@ class RegisterInputFrame extends JFrame{
 				}
 			}
 		}
+		
 
-		/*	！
-		 *	这里是第一次迭代界面与后台交互的部分（注册成功）
-		 */
-		void registerSuccess() {
-			JFrame littleFrame =new JFrame("Successful");
-			JLabel littleLabel=new JLabel("Successful Input.");
-			littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			littleFrame.add(littleLabel);
-
-			checkLabel.setText("Successful Input.");
-
-			littleFrame.setSize(500, 500);
-			//littleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			littleFrame.setVisible(true);
-		}
+			
+		
+		
 	}
 	
-	class CheckPanel extends JPanel {
+	class CheckPanel extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		CheckPanel(){
 			checkLabel=new JLabel("Please enter info.");
 			this.add(checkLabel);
 			//checkLabel.setSize(5, 100);
-			checkLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-
+			checkLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
+			
 		}
 	}
-
+	
 	class ButtonPanel extends JPanel implements ActionListener{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		ButtonPanel(){
 			JButton clearButton=new JButton("Clear");
 			clearButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
@@ -181,10 +206,10 @@ class RegisterInputFrame extends JFrame{
 //			this.add(backButton);
 //			backButton.addActionListener(this);
 		}
-
+		
 		public void actionPerformed(ActionEvent e){
 			String actionCommand = e.getActionCommand();
-			if(actionCommand.equals("Clear")) {
+			if(actionCommand=="Clear") {
     			idText.setText("");
     			nameText.setText("");
     			addText.setText("");
@@ -197,6 +222,11 @@ class RegisterInputFrame extends JFrame{
 	}
 	
 	class EmptyPanel extends JPanel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		
 	}
 

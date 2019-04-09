@@ -11,6 +11,10 @@ import java.awt.event.*;
 
 public class ManagerFrame extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel mainPanel;
 	JPanel emptyPanel1;
 	JPanel emptyPanel2;
@@ -35,11 +39,21 @@ public class ManagerFrame extends JFrame{
 	}
 	
 	class EmptyPanel extends JPanel{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		
 	}
 	
 	class MainPanel extends JPanel implements ActionListener{
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		MainPanel(){
 			JButton registerButton=new JButton("Register");
 			JButton userButton=new JButton("User Information");

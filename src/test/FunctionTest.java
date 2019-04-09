@@ -3,8 +3,8 @@ package test;
 import data.UserList;
 import data.User;
 import bin.UserManage;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
 
 import java.util.ArrayList;
 
