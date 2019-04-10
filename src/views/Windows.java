@@ -13,21 +13,24 @@ public class Windows {
     private BorrowPanel borrowPanel = new BorrowPanel();
     private ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
     private IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, borrowPanel);
+    //
 
-    //return
+
+    //return panel - 应用于所有的界面
     static JPanel returnPanel = new JPanel();
-    //stack
+
+    //stack - 实现返回键功能
     static Stack<JPanel> stack = new Stack<>();
-
-
 
     public Windows() {
 
+        //frame style
         frame.setSize(1200, 1000);
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
 
 
+        //return panel style
         returnPanel.setLayout(new BorderLayout());
         returnPanel.add(new ReturnButton("return"), BorderLayout.WEST);
         returnPanel.setVisible(false);

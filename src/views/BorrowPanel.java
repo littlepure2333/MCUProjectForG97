@@ -161,14 +161,4 @@ public class BorrowPanel extends JPanel {
 			
 		}
 	}
-	
-		
-	public static void main(String[] args) {
-		JFrame j = new JFrame();
-		BorrowPanel my=new BorrowPanel();
-		j.add(my);
-		j.setSize(2000,2000);
-		j.setVisible(true);
-	}
-
 }

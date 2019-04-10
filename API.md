@@ -31,9 +31,5 @@
 * data.DataIO.read(location)<br/>
 获得指定文件中的数据，返回为数据集合组成的数组
 
-# views包 -- 视图和前端逻辑
-## views.FormatCheck -- 格式检查
-* views.FormatCheck.isID()
-* views.FormatCheck.isName()
-* views.FormatCheck.isAddress()
+
 
