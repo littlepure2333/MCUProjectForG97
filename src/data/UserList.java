@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 
 @SuppressWarnings("WeakerAccess")
-public class UserList extends DataIO {
+public class UserList extends DataIO{
     public ArrayList<User> userList;
     private static final String fileLocation = "./statics/user.xml";
 
@@ -12,17 +12,18 @@ public class UserList extends DataIO {
         this.userList = (ArrayList<User>)read(fileLocation);
     }
 
-    public ArrayList<User> getUserList() {
+    public ArrayList<User> getList() {
         return userList;
     }
 
-    public void setList(ArrayList<User> userList) {
-        this.userList = userList;
+    public void addUser(User user) {
+        this.userList.add(user);
         save(userList, fileLocation);
     }
 
-    public void add(User user) {
-        this.userList.add(user);
+
+    public void resetList(ArrayList<User> userList) {
+        this.userList = userList;
         save(userList, fileLocation);
     }
 

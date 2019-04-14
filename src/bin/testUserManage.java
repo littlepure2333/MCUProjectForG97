@@ -14,7 +14,7 @@ class testUserManage {
 	void init() {
         UserList list = new UserList();
         ArrayList<User> userList = new ArrayList<>();
-        list.setList(userList);
+        list.resetList(userList);
 	}
 
     @Test

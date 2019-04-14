@@ -4,11 +4,16 @@ package data;
 public class Station {
 	public int id;
 	public Scooter[] slot;
-	public int slotSize;
-	
-	public Station(int id) {
+	private int slotSize;
+
+	public Station() {
+
+	}
+
+	public Station(int id, int slotSize) {
 		this.id = id;
-		slot = new Scooter[this.slotSize];
+		this.slotSize = slotSize;
+		slot = new Scooter[slotSize];
 	}
 	
 	public int getId() {
