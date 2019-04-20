@@ -58,7 +58,7 @@ public class Station {
 		}
 		else {
 			for (int i = 0; i < this.slotSize; i++) {
-				if (slot[i] != null) {
+				if (slot[i] == null) {
 					slot[i] = item;
 					break;
 				}

@@ -13,7 +13,7 @@ public class UserManage {
         return false;
     }
 
-    public static boolean isDuplicate(int qmNumber, String email) {
+    static boolean isDuplicate(int qmNumber, String email) {
         UserList userList = new UserList();
         for (User user:userList.getList()) {
             if (qmNumber == user.getQmNumber())
@@ -23,6 +23,16 @@ public class UserManage {
         }
         return false;
     }
+
+    public static boolean qmIsExist(int qmNumber) {
+        UserList userList = new UserList();
+        for (User user:userList.getList()) {
+            if (qmNumber == user.getQmNumber())
+                return true;
+        }
+        return false;
+    }
+
 }
 
 //

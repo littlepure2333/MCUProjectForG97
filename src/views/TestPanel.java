@@ -1,16 +1,14 @@
 package views;
 
-import org.junit.jupiter.api.Test;
-
 import javax.swing.*;
 import java.awt.*;
 
 class TestPanel {
 
     private RegisterInputPanel registerInputPanel = new RegisterInputPanel();
-    private BorrowPanel borrowPanel = new BorrowPanel();
+    private BorrowAndReturnPanel borrowAndReturnPanel = new BorrowAndReturnPanel();
     private ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
-    private IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, borrowPanel);
+    private IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, borrowAndReturnPanel);
 
     private JFrame frame = new JFrame();
 
@@ -24,7 +22,7 @@ class TestPanel {
         frame.setVisible(true);
         frame.setLayout(new BorderLayout());
 
-        JPanel testPanel = borrowPanel;     //在这里填入测试用的panel
+        JPanel testPanel = borrowAndReturnPanel;     //在这里填入测试用的panel
         frame.add(testPanel,BorderLayout.CENTER);
     }
 }

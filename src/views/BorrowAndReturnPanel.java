@@ -5,32 +5,31 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class BorrowPanel extends JPanel {
-	JFrame myFrame;//The general frame
-	JPanel mypanel;
-	JLabel mylabel;
-	JLabel selectlabel;
-	JPanel subpanel;
+
+public class BorrowAndReturnPanel extends JPanel implements ComponentState {
+
+
 	JLabel findlabel;
-	JPanel slotpanel1;
-	JPanel slotpanel2;
-	JPanel slotpanel3;
-	JPanel slotpanel4;
-	JPanel slotpanel5;
-	JPanel slotpanel6;
-	JPanel slotpanel7;
-	JPanel slotpanel8;
+	private JPanel slotpanel1;
+	private JPanel slotpanel2;
+	private JPanel slotpanel3;
+	private JPanel slotpanel4;
+	private JPanel slotpanel5;
+	private JPanel slotpanel6;
+	private JPanel slotpanel7;
+	private JPanel slotpanel8;
 	JPanel flashpanel;
-	JPanel submitpanel;
-	
+
 	JLabel emptylabel;
 	
-	BorrowPanel(){
-		myFrame=new JFrame("Station"); 
+	BorrowAndReturnPanel(){
+		//The general frame
+		JFrame myFrame = new JFrame("Station");
+
 		//findlabel=new ;
-		mypanel=new MyPanel();
-		subpanel=new SubPanel();
-		submitpanel=new SubmitPanel();
+		JPanel mypanel = new MyPanel();
+		JPanel subpanel = new SubPanel();
+		JPanel submitpanel = new SubmitPanel();
 		//subpanel=new SubPanel();
 		
 		
@@ -39,14 +38,24 @@ public class BorrowPanel extends JPanel {
 		this.add(submitpanel);
 		
 		this.setLayout(new GridLayout(3,1));
+		this.setVisible(true);
+		
+	}
+
+	public void stateChanged() {
 
 	}
-	
+
+
+	public void update() {
+
+	}
+
 	class MyPanel extends JPanel{
 		MyPanel(){
-			mylabel=new JLabel("Preparing for your scooter......\r\n");
-			mylabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			selectlabel=new JLabel("Please use the one with flashing......");
+			JLabel mylabel = new JLabel("Preparing for your scooter......\r\n");
+			mylabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			JLabel selectlabel = new JLabel("Please use the one with flashing......");
 			selectlabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
 		
 			this.setLayout(new GridLayout(3,1));
@@ -59,7 +68,7 @@ public class BorrowPanel extends JPanel {
 	class SlotPanel extends JPanel{
 		int state=1;
 		public void paintComponent(Graphics g) {
-			ImageIcon image =new ImageIcon("scooter.jpg");
+			ImageIcon image =new ImageIcon("./media/scooter.jpg");
 			image.setImage(image.getImage().getScaledInstance(this.getWidth(),this.getHeight(), 
 					Image.SCALE_AREA_AVERAGING));
 			g.drawImage(image.getImage(),0,0,this);
@@ -69,7 +78,7 @@ public class BorrowPanel extends JPanel {
 	class EmptyPanel extends JPanel{
 		int state=0;
 		public void paintComponent(Graphics g) {
-			ImageIcon image =new ImageIcon("null.jpg");
+			ImageIcon image =new ImageIcon("./media/null.jpg");
 			image.setImage(image.getImage().getScaledInstance(this.getWidth(),this.getHeight(), 
 					Image.SCALE_AREA_AVERAGING));
 			g.drawImage(image.getImage(),0,0,this);
@@ -124,8 +133,8 @@ public class BorrowPanel extends JPanel {
 				for(i=0;i<20;i++) {
 					if(i%2==0) {
 						Graphics g=slotpanel1.getGraphics();
-						ImageIcon image =new ImageIcon("scooterflash.jpg");
-						image.setImage(image.getImage().getScaledInstance(slotpanel1.getWidth(),slotpanel1.getHeight(), 
+						ImageIcon image =new ImageIcon("./media/scooterflash.jpg");
+						image.setImage(image.getImage().getScaledInstance(slotpanel1.getWidth(),slotpanel1.getHeight(),
 						Image.SCALE_AREA_AVERAGING));
 						g.drawImage(image.getImage(),0,0,slotpanel1);
 						
@@ -137,8 +146,8 @@ public class BorrowPanel extends JPanel {
 					}
 					else {
 						Graphics g=slotpanel1.getGraphics();
-						ImageIcon image =new ImageIcon("scooter.jpg");
-						image.setImage(image.getImage().getScaledInstance(slotpanel1.getWidth(),slotpanel1.getHeight(), 
+						ImageIcon image =new ImageIcon("./media/scooter.jpg");
+						image.setImage(image.getImage().getScaledInstance(slotpanel1.getWidth(),slotpanel1.getHeight(),
 						Image.SCALE_AREA_AVERAGING));
 						g.drawImage(image.getImage(),0,0,slotpanel1);
 						
@@ -151,14 +160,15 @@ public class BorrowPanel extends JPanel {
 						
 				}
 			}
-			else if(actionCommand=="Pick") {
+			else if(actionCommand.equals("Pick")) {
 				Graphics g=slotpanel1.getGraphics();
-				ImageIcon image =new ImageIcon("null.jpg");
-				image.setImage(image.getImage().getScaledInstance(slotpanel1.getWidth(),slotpanel1.getHeight(), 
+				ImageIcon image =new ImageIcon("./media/null.jpg");
+				image.setImage(image.getImage().getScaledInstance(slotpanel1.getWidth(),slotpanel1.getHeight(),
 				Image.SCALE_AREA_AVERAGING));
 				g.drawImage(image.getImage(),0,0,slotpanel1);
 			}
 			
 		}
 	}
+
 }
