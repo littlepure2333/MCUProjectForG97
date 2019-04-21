@@ -4,8 +4,6 @@ import data.Station;
 import data.StationList;
 import data.User;
 
-import javax.swing.*;
-import java.util.HashMap;
 
 public class State {
     private static User currentUser;
@@ -27,13 +25,5 @@ public class State {
         State.currentStation = currentStation;
     }
 
-    public static Station findStation(int stationId) {
-        StationList stationList = new StationList();
-        Station returnStation = null;
-        for (Station station : stationList.getList()) {
-            if (station.getId() == stationId)
-                returnStation = station;
-        }
-        return returnStation;
-    }
+
 }

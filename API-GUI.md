@@ -5,5 +5,9 @@
 * views.FormatCheck.isName()
 * views.FormatCheck.isAddress()
 
-## view.GotoButton -- 前往下一界面的按钮
+## views.GotoButton -- 前往下一界面的按钮
 * GotoButton button = new GotoButton(text, nextPanel)
+
+## 进入views.BorrowAndReturnPanel的条件
+* State.setCurrentStation 设置目标站点（选择站点）
+* Windows.stationView(mode) 选择站点界面的模式

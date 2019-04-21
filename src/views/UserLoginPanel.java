@@ -1,20 +1,18 @@
 package views;
 
+import bin.State;
 import bin.UserManage;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class UserLoginPanel extends JPanel{
-	private JPanel borrowAndReturnPanel;
-	private JTextField answertext;
+	private JTextField answerText;
 	private JLabel feedbackLabel;
 
-	UserLoginPanel(JPanel borrowAndReturnPanel){
-		this.borrowAndReturnPanel = borrowAndReturnPanel;
+	UserLoginPanel(){
 		JPanel myPanel = new MyPanel();
 		JPanel feedbackPanel = new FeedbackPanel();
 		
@@ -31,14 +29,12 @@ class UserLoginPanel extends JPanel{
     class MyPanel extends JPanel implements ActionListener{
     	MyPanel(){
     		JButton submitButton=new JButton("Submit");
-        	submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 40)); 
-        	answertext=new JTextField(15);
-        	answertext.setFont(new Font("Times New Roman", Font.PLAIN, 40));
-     
-        	
+        	submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+			answerText=new JTextField(15);
+			answerText.setFont(new Font("Times New Roman", Font.PLAIN, 40));
         	submitButton.addActionListener(this);
         	
-    		this.add(answertext);
+    		this.add(answerText);
         	this.add(submitButton);
         	this.setLayout(new GridLayout(2,1));
         	
@@ -49,17 +45,19 @@ class UserLoginPanel extends JPanel{
     	public void actionPerformed(ActionEvent e){
     		String actionCommand = e.getActionCommand();
 			if(actionCommand.equals("Submit")) {
-				if (answertext.getText().length()==0) {
+				if (answerText.getText().length()==0) {
 					feedbackLabel.setText("You have to type in your QM ID now.");
 				} 
-				else if((FormatCheck.isID(answertext.getText())==0)) {
+				else if((FormatCheck.isID(answerText.getText())==0)) {
 					feedbackLabel.setText("Not in correct format!");
 				}
-				else if(!UserManage.qmIsExist(Integer.parseInt(answertext.getText()))) {
+				else if(!UserManage.isExist(Integer.parseInt(answerText.getText()))) {
 					feedbackLabel.setText("You haven't registered yet!");
 				}
 				else {
-
+					State.setCurrentUser(UserManage.findUserById(Integer.parseInt(answerText.getText())));
+					answerText.setText("");
+					feedbackLabel.setText("Please type in your QM ID.");
 				}
 			}
     	}

@@ -24,7 +24,7 @@ public class UserManage {
         return false;
     }
 
-    public static boolean qmIsExist(int qmNumber) {
+    public static boolean isExist(int qmNumber) {
         UserList userList = new UserList();
         for (User user:userList.getList()) {
             if (qmNumber == user.getQmNumber())
@@ -33,6 +33,14 @@ public class UserManage {
         return false;
     }
 
+    public static User findUserById(int qmNumber) {
+        UserList userList = new UserList();
+        for (User user:userList.getList()) {
+            if (qmNumber == user.getQmNumber())
+                return user;
+        }
+        return null;
+    }
 }
 
 //

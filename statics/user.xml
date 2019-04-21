@@ -34,32 +34,64 @@
    </object>
   </void>
   <void method="add">
-   <object class="data.User" id="User3">
+   <object class="data.User" id="User1">
     <void class="data.User" method="getField">
      <string>qmNumber</string>
      <void method="set">
-      <object idref="User3"/>
+      <object idref="User1"/>
       <int>123456718</int>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>fullName</string>
      <void method="set">
-      <object idref="User3"/>
+      <object idref="User1"/>
       <string>aaa</string>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>email</string>
      <void method="set">
-      <object idref="User3"/>
+      <object idref="User1"/>
       <string>acc@qmul.ac.uk</string>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>needToPay</string>
      <void method="set">
-      <object idref="User3"/>
+      <object idref="User1"/>
+      <string>false</string>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="data.User" id="User2">
+    <void class="data.User" method="getField">
+     <string>qmNumber</string>
+     <void method="set">
+      <object idref="User2"/>
+      <int>123456789</int>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>fullName</string>
+     <void method="set">
+      <object idref="User2"/>
+      <string>asd</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>email</string>
+     <void method="set">
+      <object idref="User2"/>
+      <string>ss@qmul.ac.uk</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>needToPay</string>
+     <void method="set">
+      <object idref="User2"/>
       <string>false</string>
      </void>
     </void>

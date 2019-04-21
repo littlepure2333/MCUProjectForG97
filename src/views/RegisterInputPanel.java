@@ -1,45 +1,33 @@
 package views;
-import views.*;
+
+import bin.UserManage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-public class RegisterInputPanel extends JPanel {
-	JFrame myFrame2;//The general frame
-	JPanel idPanel;
-	JPanel namePanel;
-	JPanel addPanel;
-	JPanel emptyPanel1;
-//	JPanel emptyPanel2;
-	JPanel submitPanel;
-	JPanel checkPanel;
-	JPanel buttonPanel;
-	
-	JTextField idText;
-	JTextField nameText;
-	JTextField addText;
-	JLabel checkLabel;
+class RegisterInputPanel extends JPanel {
+
+	private JTextField idText;
+	private JTextField nameText;
+	private JTextField addText;
+	private JLabel checkLabel;
 	
 	
-	RegisterInputPanel(){
-//		this.setTitle("Please register a new user.");
+	RegisterInputPanel() {
+
+		JPanel idPanel = new IdPanel();
+		JPanel namePanel = new NamePanel();
+		JPanel addPanel = new AddPanel();
+		JPanel submitPanel = new SubmitPanel();
+		JPanel checkPanel = new CheckPanel();
+		JPanel buttonPanel = new ButtonPanel();
 		
-		emptyPanel1=new EmptyPanel();
-		idPanel=new IdPanel();
-		namePanel=new NamePanel();
-		addPanel=new AddPanel();
-//		emptyPanel2=new EmptyPanel();
-		submitPanel=new SubmitPanel();
-		checkPanel=new CheckPanel();
-		buttonPanel=new ButtonPanel();
-		
-		this.add(emptyPanel1);
+		this.add(new JPanel());
 		this.add(idPanel);
 		this.add(namePanel);
 		this.add(addPanel);
 		this.add(submitPanel);
-//		this.add(emptyPanel2);
 		this.add(checkPanel);
 		this.add(buttonPanel);
 		
@@ -113,30 +101,33 @@ public class RegisterInputPanel extends JPanel {
 				checkLabel.setText("<html>Invalid email address. <br/>Example:qmul123_uk@qmul.ac.uk.</html>");
 			}
 			else {
-				JFrame littleFrame =new JFrame("Successful");
-				JLabel littleLabel=new JLabel("Successful Input.");
-				littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-				littleFrame.add(littleLabel);
-				
-				checkLabel.setText("Successful Input.");
-				
-				littleFrame.setSize(500, 500);
-				//littleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-				littleFrame.setVisible(true);
+				if(!UserManage.registration(Integer.parseInt(idText.getText()), nameText.getText(), addText.getText())) {
+					checkLabel.setText("Duplicate ID or email address!");
+				}
+				else {
+					clear();
+					Windows.backToMenu();
+					registerReminder();
+				}
 			}
 		}
 
-			
-		
-		
+		private void registerReminder() {
+			JFrame littleFrame =new JFrame("Successful");
+			JLabel littleLabel=new JLabel("Successful Input!");
+			littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			littleFrame.add(littleLabel);
+			littleFrame.setSize(500, 500);
+			littleFrame.setVisible(true);
+		}
+
 	}
 	
 	class CheckPanel extends JPanel{
 		CheckPanel(){
 			checkLabel=new JLabel("Please enter info.");
 			this.add(checkLabel);
-			//checkLabel.setSize(5, 100);
-			checkLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
+			checkLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
 			
 		}
 	}
@@ -147,29 +138,22 @@ public class RegisterInputPanel extends JPanel {
 			clearButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
 			this.add(clearButton);
 			clearButton.addActionListener(this);
-			
-//			JButton backButton=new JButton("Back");
-//			backButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
-//			this.add(backButton);
-//			backButton.addActionListener(this);
+
 		}
 		
 		public void actionPerformed(ActionEvent e){
 			String actionCommand = e.getActionCommand();
-			if(actionCommand=="Clear") {
-    			idText.setText("");
-    			nameText.setText("");
-    			addText.setText("");
+			if(actionCommand.equals("Clear")) {
+    			clear();
     		}
-			
-//			if(actionCommand=="Back") {
-//				
-//    		}
 		}
 	}
 	
-	class EmptyPanel extends JPanel {
-		
+	private void clear() {
+		idText.setText("");
+		nameText.setText("");
+		addText.setText("");
+		checkLabel.setText("");
 	}
 
 }

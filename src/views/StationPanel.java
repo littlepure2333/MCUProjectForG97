@@ -1,6 +1,7 @@
 package views;
 
 import bin.State;
+import bin.StationManage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,17 +51,18 @@ class StationPanel extends JPanel {
 			String actionCommand = e.getActionCommand();
 			switch (actionCommand) {
 				case "Station A":
-					State.setCurrentStation(State.findStation(1));
+					State.setCurrentStation(StationManage.findStationById(1));
+					System.out.println("station chose: A");
 					break;
 				case "Station B":
-					State.setCurrentStation(State.findStation(2));
+					State.setCurrentStation(StationManage.findStationById(2));
+					System.out.println("station chose: B");
 					break;
 				case "Station C":
-					State.setCurrentStation(State.findStation(3));
+					State.setCurrentStation(StationManage.findStationById(3));
+					System.out.println("station chose: C");
 					break;
 			}
-			System.out.println("station chose");
-			Windows.stationChoose();
 		}
 		
 		

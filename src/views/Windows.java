@@ -1,7 +1,5 @@
 package views;
 
-import bin.State;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +12,7 @@ public class Windows {
     //所有界面添加到此处
     private static RegisterInputPanel registerInputPanel = new RegisterInputPanel();
     private static BorrowAndReturnPanel borrowAndReturnPanel = new BorrowAndReturnPanel();
-    private static UserLoginPanel userLoginPanel = new UserLoginPanel(borrowAndReturnPanel);
+    private static UserLoginPanel userLoginPanel = new UserLoginPanel();
     private static StationPanel stationPanel = new StationPanel(userLoginPanel);
     private static ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
     private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, stationPanel);
@@ -44,8 +42,30 @@ public class Windows {
         stack.push(identityChoosePanel);
     }
 
-    static void stationChoose() {
+    /**
+     * 修改借车还车界面的内容和功能
+     * @param mode 界面模式（借/还）
+     */
+    static void stationView(String mode) {
+        borrowAndReturnPanel.mode = mode;
         borrowAndReturnPanel.stateChanged();
+        borrowAndReturnPanel.update();
+    }
+
+    /**
+     * 回到主页
+     */
+    static void backToMenu() {
+        Windows.frame.remove(Windows.stack.peek());
+        Windows.stack.empty();
+
+        Windows.frame.add(identityChoosePanel);
+        Windows.stack.push(identityChoosePanel);
+        Windows.returnPanel.setVisible(false);
+
+        //重绘界面
+        Windows.frame.validate();
+        Windows.frame.repaint();
     }
 
 }
