@@ -8,6 +8,7 @@ class testStation {
 
     /**
      * 初始化站点信息
+     * （每个站点5辆车，占前五个槽位）
      */
     @Test
     void testAddingStation() {

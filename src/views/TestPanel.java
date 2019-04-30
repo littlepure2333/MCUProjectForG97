@@ -1,6 +1,5 @@
 package views;
 
-import bin.State;
 import bin.StationManage;
 
 import javax.swing.*;
@@ -10,7 +9,7 @@ class TestPanel {
 
     private static RegisterInputPanel registerInputPanel = new RegisterInputPanel();
     private static BorrowAndReturnPanel borrowAndReturnPanel = new BorrowAndReturnPanel();
-    private static UserLoginPanel userLoginPanel = new UserLoginPanel();
+    private static UserLoginPanel userLoginPanel = new UserLoginPanel(borrowAndReturnPanel);    //临时路径（需要修改）
     private static StationPanel stationPanel = new StationPanel(userLoginPanel);
     private static ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
     private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, stationPanel);
@@ -38,8 +37,7 @@ class TestPanel {
      * 2.mode(借/还)
      */
     private void setState() {
-        State.setCurrentStation(StationManage.findStationById(1));
-        Windows.stationView("borrow");
-
+        StationManage.stationChoose(1);
+        Windows.changeStationView("borrow");
     }
 }

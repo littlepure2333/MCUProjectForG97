@@ -12,7 +12,7 @@ public class Windows {
     //所有界面添加到此处
     private static RegisterInputPanel registerInputPanel = new RegisterInputPanel();
     private static BorrowAndReturnPanel borrowAndReturnPanel = new BorrowAndReturnPanel();
-    private static UserLoginPanel userLoginPanel = new UserLoginPanel();
+    private static UserLoginPanel userLoginPanel = new UserLoginPanel(borrowAndReturnPanel);    //临时路径（需要修改）
     private static StationPanel stationPanel = new StationPanel(userLoginPanel);
     private static ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
     private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, stationPanel);
@@ -27,12 +27,16 @@ public class Windows {
 
     public Windows() {
 
-        //frame style
+        /*
+        frame的样式，不要修改
+         */
         frame.setSize(1200, 1000);
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
 
-        //return panel style
+        /*
+        界面上方返回按钮的样式，不要修改
+         */
         returnPanel.setLayout(new BorderLayout());
         returnPanel.add(new ReturnButton("return"), BorderLayout.WEST);
         returnPanel.setVisible(false);
@@ -46,7 +50,7 @@ public class Windows {
      * 修改借车还车界面的内容和功能
      * @param mode 界面模式（借/还）
      */
-    static void stationView(String mode) {
+    static void changeStationView(String mode) {
         borrowAndReturnPanel.mode = mode;
         borrowAndReturnPanel.stateChanged();
         borrowAndReturnPanel.update();
@@ -54,6 +58,8 @@ public class Windows {
 
     /**
      * 回到主页
+     * 注意对于没有实现 ComponentState 的界面
+     * 在调用这个方法前，需要将标签和输入框重置
      */
     static void backToMenu() {
         Windows.frame.remove(Windows.stack.peek());

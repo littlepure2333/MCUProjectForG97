@@ -22,7 +22,8 @@ class RegisterInputPanel extends JPanel {
 		JPanel submitPanel = new SubmitPanel();
 		JPanel checkPanel = new CheckPanel();
 		JPanel buttonPanel = new ButtonPanel();
-		
+
+		this.setLayout(new GridLayout(7,1));
 		this.add(new JPanel());
 		this.add(idPanel);
 		this.add(namePanel);
@@ -31,9 +32,7 @@ class RegisterInputPanel extends JPanel {
 		this.add(checkPanel);
 		this.add(buttonPanel);
 		
-		this.setLayout(new GridLayout(7,1));
 		this.setVisible(true);
-		
 	}
 	
 	class IdPanel extends JPanel{
@@ -82,43 +81,52 @@ class RegisterInputPanel extends JPanel {
 		}
 		
 		public void actionPerformed(ActionEvent e){
-			if (idText.getText().length()==0) {
+			if (idText.getText().length() == 0) {
 				checkLabel.setText("You haven't entered the ID!");
 			} 
-			else if(FormatCheck.isID(idText.getText())==0) {
+			else if (FormatCheck.isID(idText.getText()) == 0) {
 				checkLabel.setText("Invalid ID. You must enter 9 digits!");
 			}
-			else if(nameText.getText().length()==0) {
+			else if (nameText.getText().length() == 0) {
 				checkLabel.setText("You haven't entered the full name!");
 			}
-			else if(FormatCheck.isName(nameText.getText())==0) {
+			else if (FormatCheck.isName(nameText.getText()) == 0) {
 				checkLabel.setText("<html>Invalid name.<br/> Example: Xiaoming Wang</html>");
 			}
-			else if(addText.getText().length()==0) {
+			else if (addText.getText().length() == 0) {
 				checkLabel.setText("You haven't entered the email address!");
 			}
-			else if(FormatCheck.isAddress(addText.getText())==0) {
+			else if (FormatCheck.isAddress(addText.getText()) == 0) {
 				checkLabel.setText("<html>Invalid email address. <br/>Example:qmul123_uk@qmul.ac.uk.</html>");
 			}
 			else {
-				if(!UserManage.registration(Integer.parseInt(idText.getText()), nameText.getText(), addText.getText())) {
+				//判断注册信息是否重复
+				if (!UserManage.registration(Integer.parseInt(idText.getText()), nameText.getText(), addText.getText())) {
 					checkLabel.setText("Duplicate ID or email address!");
 				}
 				else {
+					//注册成功
 					clear();
 					Windows.backToMenu();
-					registerReminder();
+					createRegisterReminder();
 				}
 			}
 		}
 
-		private void registerReminder() {
+		/**
+		 * 弹出一个提醒注册成功的窗口
+		 * 只有提示功能，无实际用处
+		 * （未实现）鼠标单击任意区域即可让窗口消失
+		 */
+		private void createRegisterReminder() {
 			JFrame littleFrame =new JFrame("Successful");
-			JLabel littleLabel=new JLabel("Successful Input!");
-			littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			littleFrame.add(littleLabel);
 			littleFrame.setSize(500, 500);
 			littleFrame.setVisible(true);
+
+
+			JLabel littleLabel=new JLabel("Register successful!");
+			littleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			littleFrame.add(littleLabel);
 		}
 
 	}
@@ -126,19 +134,22 @@ class RegisterInputPanel extends JPanel {
 	class CheckPanel extends JPanel{
 		CheckPanel(){
 			checkLabel=new JLabel("Please enter info.");
-			this.add(checkLabel);
+
 			checkLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-			
+
+			this.add(checkLabel);
 		}
 	}
 	
 	class ButtonPanel extends JPanel implements ActionListener{
 		ButtonPanel(){
 			JButton clearButton=new JButton("Clear");
-			clearButton.setFont(new Font("Times New Roman", Font.PLAIN, 50)); 
-			this.add(clearButton);
+
+			clearButton.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+
 			clearButton.addActionListener(this);
 
+			this.add(clearButton);
 		}
 		
 		public void actionPerformed(ActionEvent e){
@@ -148,7 +159,10 @@ class RegisterInputPanel extends JPanel {
     		}
 		}
 	}
-	
+
+	/**
+	 * 界面初始化（清空所有输入框和标签）
+	 */
 	private void clear() {
 		idText.setText("");
 		nameText.setText("");

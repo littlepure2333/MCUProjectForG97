@@ -9,55 +9,95 @@ import java.awt.event.ActionListener;
 
 
 public class BorrowAndReturnPanel extends JPanel implements ComponentState {
-	//state
+	/**
+	 * 用于表示界面目前的模式（借/还）
+	 */
 	String mode;
 
-	private JPanel[] slotPanel = new JPanel[8];
+	private JPanel[] slotPanel;
 	private JLabel myLabel = new JLabel();
 	private JLabel selectLabel = new JLabel();
 	private JPanel subPanel;
 
 	BorrowAndReturnPanel(){
-		for(int i=0;i<=7;i++) {
-			slotPanel[i] = new EmptySlotPanel();
-		}
 		JPanel upperPanel = new UpperPanel();
-
+		slotPanel = new JPanel[8];
+		for(int i=0;i<=7;i++)
+			slotPanel[i] = new EmptySlotPanel();
 		JPanel submitPanel = new SubmitPanel();
-
 		subPanel = new SubPanel();
+
+		this.setLayout(new GridLayout(3,1));
 		this.add(upperPanel);
 		this.add(subPanel);
 		this.add(submitPanel);
 		
-		this.setLayout(new GridLayout(3,1));
 		this.setVisible(true);
-		
 	}
 
+	/**
+	 * 借/还车界面后台信息的改动
+	 * 直接影响界面内槽位的显示
+	 * 站点必须在之前已经指定好，本类不要调用该方法
+	 */
 	@Override
 	public void stateChanged() {
-		for(int i=0;i<=7;i++) {
-			if (State.getCurrentStation().slot[i]==null)
+		for (int i=0;i<=7;i++) {
+			if (State.getCurrentStation().slot[i] == null)
 				slotPanel[i] = new EmptySlotPanel();
 			else slotPanel[i] = new OccupiedSlotPanel();
 		}
 	}
 
+	/**
+	 * 根据借/还切换文本信息
+	 *
+	 * （未实现）还需要根据借/还替换按钮功能（或是替换按钮本身）
+	 */
 	@Override
 	public void update() {
-		if(this.mode.equals("borrow")) {
-			myLabel.setText("Preparing for your scooter......\r\n");
-			selectLabel.setText("Please use the one with flashing......");
-		}
-		else if(this.mode.equals("return")) {
-			myLabel.setText("Ready for return your scooter......\r\n");
-			selectLabel.setText("Please use the one with flashing......");
-		}
-
 		subPanel.removeAll();
 		for (int i=0;i<=7;i++)
 			subPanel.add(slotPanel[i]);
+
+		if (this.mode.equals("borrow")) {
+			if (!checkIsEmpty()) {
+				myLabel.setText("Preparing for your scooter......\r\n");
+				selectLabel.setText("Please use the one with flashing......");
+			}
+			else {
+				myLabel.setText("No scooter in this station!\r\n");
+				selectLabel.setText("Please check other station!");
+			}
+		}
+		else if (this.mode.equals("return")) {
+			if (!checkIsFull()) {
+				myLabel.setText("Ready for return your scooter......\r\n");
+				selectLabel.setText("Please use the one with flashing......");
+			}
+			else {
+				myLabel.setText("No available slot in this station!\r\n");
+				selectLabel.setText("Please check other station!");
+			}
+		}
+	}
+
+	/**
+	 * （未实现）
+	 * 检查站点是否为空
+	 * @return true-空，false-非空
+	 */
+	private boolean checkIsEmpty() {
+		return false;
+	}
+
+	/**
+	 * （未实现）
+	 * 检查站点是否为满
+	 * @return true-全满，false-有空位
+	 */
+	private boolean checkIsFull() {
+		return false;
 	}
 
 	class UpperPanel extends JPanel{
@@ -94,7 +134,7 @@ public class BorrowAndReturnPanel extends JPanel implements ComponentState {
 	}
 	
 	class SubPanel extends JPanel{
-		SubPanel(){
+		SubPanel() {
 			this.setLayout(new GridLayout(1,8));
 
 			for (int i=0;i<=7;i++)
@@ -103,24 +143,25 @@ public class BorrowAndReturnPanel extends JPanel implements ComponentState {
 	}
 	
 	class SubmitPanel extends JPanel implements ActionListener{
-		JButton helpbutton;
-		SubmitPanel(){
-			helpbutton=new JButton("Help me pick one");
+		JButton helpButton;
+		SubmitPanel() {
+			helpButton=new JButton("Help me pick one");
 			this.setLayout(new GridLayout(2,1));
-			helpbutton.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+			helpButton.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 			this.add(new JLabel(""));
-			this.add(helpbutton);
-			helpbutton.addActionListener(this);
+			this.add(helpButton);
+			helpButton.addActionListener(this);
 		}
+
 		public void actionPerformed(ActionEvent e){
 			String actionCommand = e.getActionCommand();
-			helpbutton.setText("Pick");
+			helpButton.setText("Pick");
 			if(actionCommand.equals("Help me pick one")) {
 				int i=0;
 				//int check;
 				for(i=0;i<20;i++) {
 					if(i%2==0) {
-						setSlotViewFlash(slotPanel[0]);
+						setSlotViewOccupiedFlash(slotPanel[0]);
 						
 						//System.out.println("0");
 						long y=0x10008000l;
@@ -142,28 +183,45 @@ public class BorrowAndReturnPanel extends JPanel implements ComponentState {
 			else if(actionCommand.equals("Pick")) {
 				setSlotViewEmpty(slotPanel[0]);
 			}
-			
 		}
 
+		/**
+		 * 将目标槽位的图片修改为：null-无灯
+		 * @param slotPanel 目标槽位
+		 */
 		private void setSlotViewEmpty(JPanel slotPanel) {
-			Graphics g=slotPanel.getGraphics();
-			ImageIcon image =new ImageIcon("./media/null.jpg");
+			ImageIcon image = new ImageIcon("./media/null.jpg");
 			image.setImage(image.getImage().getScaledInstance(slotPanel.getWidth(), slotPanel.getHeight(), Image.SCALE_AREA_AVERAGING));
-			g.drawImage(image.getImage(),0,0,slotPanel);
+			slotPanel.getGraphics().drawImage(image.getImage(),0,0,slotPanel);
 		}
 
+		/**
+		 * 将目标槽位的图片修改为：有车-无灯
+		 * @param slotPanel 目标槽位
+		 */
 		private void setSlotViewOccupied(JPanel slotPanel) {
-			Graphics g=slotPanel.getGraphics();
-			ImageIcon image =new ImageIcon("./media/scooter.jpg");
+			ImageIcon image = new ImageIcon("./media/scooter.jpg");
 			image.setImage(image.getImage().getScaledInstance(slotPanel.getWidth(), slotPanel.getHeight(), Image.SCALE_AREA_AVERAGING));
-			g.drawImage(image.getImage(),0,0,slotPanel);
+			slotPanel.getGraphics().drawImage(image.getImage(),0,0,slotPanel);
 		}
 
-		private void setSlotViewFlash(JPanel slotPanel) {
-			Graphics g=slotPanel.getGraphics();
-			ImageIcon image =new ImageIcon("./media/scooterflash.jpg");
+		/**
+		 * 将目标槽位的图片修改为：有车-有灯
+		 * @param slotPanel 目标槽位
+		 */
+		private void setSlotViewOccupiedFlash(JPanel slotPanel) {
+			ImageIcon image = new ImageIcon("./media/scooterflash.jpg");
 			image.setImage(image.getImage().getScaledInstance(slotPanel.getWidth(), slotPanel.getHeight(), Image.SCALE_AREA_AVERAGING));
-			g.drawImage(image.getImage(),0,0,slotPanel);
+			slotPanel.getGraphics().drawImage(image.getImage(),0,0,slotPanel);
+		}
+
+		/*
+		缺少null-无灯的显示图片
+		 */
+		private void setSlotViewEmptyFlash(JPanel slotPanel) {
+			ImageIcon image = new ImageIcon();
+			image.setImage(image.getImage().getScaledInstance(slotPanel.getWidth(), slotPanel.getHeight(), Image.SCALE_AREA_AVERAGING));
+			slotPanel.getGraphics().drawImage(image.getImage(),0,0,slotPanel);
 		}
 	}
 

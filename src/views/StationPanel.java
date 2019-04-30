@@ -1,6 +1,5 @@
 package views;
 
-import bin.State;
 import bin.StationManage;
 
 import javax.swing.*;
@@ -13,10 +12,9 @@ class StationPanel extends JPanel {
 
 	StationPanel(JPanel userLoginPanel){
 		this.userLoginPanel = userLoginPanel;
-		JPanel myPanel = new MyPanel();
 
 		this.add(new JPanel());
-		this.add(myPanel);
+		this.add(new MyPanel());
 		this.add(new JPanel());
 		
 		this.setLayout(new GridLayout(3,1));
@@ -26,7 +24,7 @@ class StationPanel extends JPanel {
 
 	
 	class MyPanel extends JPanel implements ActionListener{
-		MyPanel(){
+		MyPanel() {
 			GotoButton buttonA = new GotoButton("Station A", userLoginPanel);
 			GotoButton buttonB = new GotoButton("Station B", userLoginPanel);
 			GotoButton buttonC = new GotoButton("Station C", userLoginPanel);
@@ -38,28 +36,26 @@ class StationPanel extends JPanel {
 			buttonA.addActionListener(this);
 			buttonB.addActionListener(this);
 			buttonC.addActionListener(this);
-			
+
+			this.setLayout(new GridLayout(1,3));
 			this.add(buttonA);
 			this.add(buttonB);
 			this.add(buttonC);
-			
-			this.setLayout(new GridLayout(1,3));
-			
 		}
 		
 		public void actionPerformed(ActionEvent e){
 			String actionCommand = e.getActionCommand();
 			switch (actionCommand) {
 				case "Station A":
-					State.setCurrentStation(StationManage.findStationById(1));
+					StationManage.stationChoose(1);
 					System.out.println("station chose: A");
 					break;
 				case "Station B":
-					State.setCurrentStation(StationManage.findStationById(2));
+					StationManage.stationChoose(2);
 					System.out.println("station chose: B");
 					break;
 				case "Station C":
-					State.setCurrentStation(StationManage.findStationById(3));
+					StationManage.stationChoose(3);
 					System.out.println("station chose: C");
 					break;
 			}
