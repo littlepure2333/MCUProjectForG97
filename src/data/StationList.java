@@ -25,4 +25,9 @@ public class StationList extends DataIO {
 		save(stationList, fileLocation);
 	}
 
+	/* once a change of one station is occurred, this method should be applied immediately */
+	public void updateList() {
+		save(stationList,fileLocation);
+	}
+
 }

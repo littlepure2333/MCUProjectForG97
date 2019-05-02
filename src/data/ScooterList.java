@@ -25,4 +25,9 @@ public class ScooterList extends DataIO {
         save(scooterList, fileLocation);
     }
 
+    /* once a change of one scooter is occurred, this method should be applied immediately */
+    public void updateList() {
+        save(scooterList,fileLocation);
+    }
+
 }

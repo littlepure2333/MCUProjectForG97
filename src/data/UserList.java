@@ -26,4 +26,9 @@ public class UserList extends DataIO{
         save(userList, fileLocation);
     }
 
+    /* once a change of one user is occurred, this method should be applied immediately */
+    public void updateList() {
+        save(userList,fileLocation);
+    }
+
 }
