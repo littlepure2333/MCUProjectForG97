@@ -7,13 +7,15 @@ import data.StationList;
  * 站点管理操作
  */
 public class StationManage {
+    /* 静态加载 stationList */
+    public static StationList stationList = new StationList();
 
     /**
      * 选择当前的站点
      * @param stationId 站点id
      * （未实现）检测错误的站点id
      */
-    public static void stationChoose(int stationId) {
+    public static void chooseStation(int stationId) {
         State.setCurrentStation(findStationById(stationId));
     }
 
@@ -22,8 +24,7 @@ public class StationManage {
      * @param stationId 指定的站点id (默认 1 2 3)
      * @return 站点数据对象，包括其中的slot和scooter数据
      */
-    private static Station findStationById(int stationId) {
-        StationList stationList = new StationList();
+    public static Station findStationById(int stationId) {
         for (Station station : stationList.getList()) {
             if (station.getId() == stationId)
                 return station;

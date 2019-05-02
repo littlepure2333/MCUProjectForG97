@@ -57,17 +57,18 @@ public class Station {
 	}
 	
 	/* remove成功返回scooter，remove失败返回null */
-	public Scooter removeScooter() {
+	public Scooter removeScooter(int scooterId) {
 		Scooter item = null;
 		if (!this.isEmpty()) {
 			for (int i = 0; i < this.slotSize; i++) {
-				if (slot[i] != null) {
+				if (slot[i] != null && slot[i].getId() ==scooterId ) {
 					item = slot[i];
+					slot[i] = null;
 				}
 			}
 		}
 		return item;
 	}
-	
+
 
 }

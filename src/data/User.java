@@ -36,8 +36,8 @@ public class User {
         return this.needToPay;
     }
 
-    /* this user borrow a scooter from one station */
-    public void borrowScooter(Scooter scooter) {
+    /* this user take a scooter from one station */
+    public void takeScooter(Scooter scooter) {
         this.scooter = scooter;
     }
 

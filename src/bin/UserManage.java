@@ -1,4 +1,5 @@
 package bin;
+
 import data.User;
 import data.UserList;
 
@@ -6,6 +7,10 @@ import data.UserList;
  * 用户管理操作
  */
 public class UserManage {
+    /* 静态加载userList */
+    public static UserList userList = new UserList();
+
+/* 注册相关函数 */
 
     /**
      * 用户注册实现
@@ -24,21 +29,7 @@ public class UserManage {
     }
 
     /**
-     * 用户登录实现
-     * @param qmNumber 填入的qm号码
-     * @return true-登录成功 false-登录失败
-     */
-    public static boolean login(int qmNumber) {
-        if (isExist(qmNumber)) {
-            State.setCurrentUser(UserManage.findUserByQm(qmNumber));
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 检查qm号和邮箱是否与数据库信息重复
-     * 用于注册
      * @param qmNumber 填入的qm号码
      * @param email 填入的email地址
      * @return true-信息重复 false-不重复
@@ -54,9 +45,23 @@ public class UserManage {
         return false;
     }
 
+/* 登陆相关函数 */
+
+    /**
+     * 用户登录实现
+     * @param qmNumber 填入的qm号码
+     * @return true-登录成功 false-登录失败
+     */
+    public static boolean login(int qmNumber) {
+        if (isExist(qmNumber)) {
+            State.setCurrentUser(UserManage.findUserByQm(qmNumber));
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 检查qm号是否存在与数据库中
-     * 用于登录
      * @param qmNumber 填入的qm号码
      * @return true-存在 false-不存在
      */
@@ -74,8 +79,7 @@ public class UserManage {
      * @param qmNumber 指定的qm号
      * @return 目标用户信息
      */
-    private static User findUserByQm(int qmNumber) {
-        UserList userList = new UserList();
+    public static User findUserByQm(int qmNumber) {
         for (User user:userList.getList()) {
             if (qmNumber == user.getQmNumber())
                 return user;

@@ -37,7 +37,7 @@ class TestPanel {
      * 2.mode(借/还)
      */
     private void setState() {
-        StationManage.stationChoose(1);
+        StationManage.chooseStation(1);
         Windows.changeStationView("borrow");
     }
 }
