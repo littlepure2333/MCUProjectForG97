@@ -1,6 +1,6 @@
 package bin;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static junit.framework.Assert.assertTrue;
 
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
