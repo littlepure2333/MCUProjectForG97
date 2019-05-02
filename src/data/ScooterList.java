@@ -12,11 +12,17 @@ public class ScooterList extends DataIO {
     }
 
     public ArrayList<Scooter> getList() {
-        return scooterList;
+        return this.scooterList;
     }
 
     public void addScooter(Scooter scooter) {
         this.scooterList.add(scooter);
         save(scooterList, fileLocation);
     }
+
+    public void resetList(ArrayList<Scooter> scooterList) {
+        this.scooterList = scooterList;
+        save(scooterList, fileLocation);
+    }
+
 }

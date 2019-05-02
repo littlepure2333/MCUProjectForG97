@@ -20,4 +20,9 @@ public class StationList extends DataIO {
 		save(stationList, fileLocation);
 	}
 
+	public void resetList(ArrayList<Station> stationList) {
+		this.stationList = stationList;
+		save(stationList, fileLocation);
+	}
+
 }

@@ -1,6 +1,6 @@
 package data;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 
 @SuppressWarnings("WeakerAccess")
 public class UserList extends DataIO{
@@ -21,11 +21,9 @@ public class UserList extends DataIO{
         save(userList, fileLocation);
     }
 
-
     public void resetList(ArrayList<User> userList) {
         this.userList = userList;
         save(userList, fileLocation);
     }
-
 
 }

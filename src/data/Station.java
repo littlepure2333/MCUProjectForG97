@@ -1,6 +1,5 @@
 package data;
 
-
 public class Station {
 	public int id;
 	public Scooter[] slot;
@@ -33,22 +32,12 @@ public class Station {
 	
 	/* 判断station是否slot全占满了 */
 	public boolean isFull() {
-		if (this.size() == this.slotSize) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return this.size() == this.slotSize;
 	}
 	
 	/* 判断station是否slot全为空 */
 	public boolean isEmpty() {
-		if (this.size() == 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return this.size() == 0;
 	}
 	
 	/* 添加成功返回true， 添加失败返回false */
