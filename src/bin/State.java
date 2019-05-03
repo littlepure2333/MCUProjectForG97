@@ -17,6 +17,10 @@ public class State {
      * 目前正在访问的站点
      */
     private static Station currentStation;
+    /**
+     * 目前正在闪烁的slot编号，从0开始编号，可用于借车时，也可用于还车时
+     */
+    private static int currentSlot;
 
     public static User getCurrentUser() {
         return currentUser;
@@ -24,6 +28,10 @@ public class State {
 
     public static Station getCurrentStation() {
         return currentStation;
+    }
+
+    public static int getCurrentSlot() {
+        return currentSlot;
     }
 
     static void setCurrentUser(User currentUser) {
@@ -34,5 +42,7 @@ public class State {
         State.currentStation = currentStation;
     }
 
-
+    public static void setCurrentSlot(int currentSlot) {
+        State.currentSlot = currentSlot;
+    }
 }
