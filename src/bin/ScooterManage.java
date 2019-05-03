@@ -13,54 +13,40 @@ import static bin.UserManage.userList;
  */
 public class ScooterManage {
     /* 静态加载scooterList */
-    public static ScooterList scooterList = new ScooterList();
+    private static ScooterList scooterList = new ScooterList();
 
     /**
-     * 借车操作，车从station拿出来，放到user里
-     * @param stationId 指定的站点id
-     * @param scooterId 指定的单车id
-     * @param qmNumber  指定的用户id
-     * @return true-成功 false-失败
+     * 直接从State里面获取当前用户，当前站点，当前车槽
+     * 进行借车操作，车从station拿出来，放到user里
+     * 没有检查State数据是否正确，所以使用时一定确保数据正确
      */
-    public static boolean takeScooter(int stationId, int scooterId, int qmNumber) {
-        Station station = StationManage.findStationById(stationId);
-        Scooter scooter = station.removeScooter(scooterId);
-
-        if (scooter == null) {
-            return false;
-        }
-
-        User user = UserManage.findUserByQm(qmNumber);
+    public static void takeScooter() {
+        Station station = State.getCurrentStation();
+        Scooter scooter = station.removeScooter(State.getCurrentSlot());
+        User user = State.getCurrentUser();
         user.takeScooter(scooter);
+
+        // 对数据进行修改后，立即更新XML
         scooterList.updateList();
         stationList.updateList();
         userList.updateList();
-
-        return true;
     }
 
     /**
-     * 还车操作，车从user拿出来，放到station里
-     * @param qmNumber  指定的用户id
-     * @param scooterId 指定的单车id
-     * @param stationId 指定的站点id
-     * @return true-成功 false-失败
+     * 直接从State里面获取当前用户，当前站点，当前车槽
+     * 进行还车操作，车从user拿出来，放到station里
+     * 没有检查State数据是否正确，所以使用时一定确保数据正确
      */
-    public static boolean returnScooter(int qmNumber, int scooterId, int stationId) {
-        User user = UserManage.findUserByQm(qmNumber);
+    public static void returnScooter() {
+        User user = State.getCurrentUser();
         Scooter scooter = user.returnScooter();
-
-        if (scooter == null) {
-            return false;
-        }
-
-        Station station = StationManage.findStationById(stationId);
+        Station station = State.getCurrentStation();
         station.addScooter(scooter);
+
+        // 对数据进行更改后，立即更新XML
         scooterList.updateList();
         stationList.updateList();
         userList.updateList();
-
-        return true;
     }
 
     /**

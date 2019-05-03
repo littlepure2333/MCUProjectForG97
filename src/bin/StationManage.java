@@ -20,6 +20,14 @@ public class StationManage {
     }
 
     /**
+     * 选择当前站点闪烁的slot编号
+     * @param slotId
+     */
+    public static void chooseFlashSlot(int slotId) {
+        State.setCurrentSlot(slotId);
+    }
+
+    /**
      * 根据站点id返回指定的站点数据
      * @param stationId 指定的站点id (默认 1 2 3)
      * @return 站点数据对象，包括其中的slot和scooter数据
