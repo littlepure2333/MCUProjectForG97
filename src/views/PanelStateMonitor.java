@@ -5,7 +5,7 @@ package views;
  *
  * 本类不要访问接口的方法
  */
-interface ComponentState {
+interface PanelStateMonitor {
     /**
      * 界面后台信息（状态）的修改
      */

@@ -8,7 +8,7 @@ import data.User;
  * 保存程序中的临时信息便于前端调用
  * 原则上界面对state只能访问数据，只有bin中的类可以修改state中的数据
  */
-public class State {
+public class AppState {
     /**
      * 目前登录中的user
      */
@@ -35,14 +35,14 @@ public class State {
     }
 
     static void setCurrentUser(User currentUser) {
-        State.currentUser = currentUser;
+        AppState.currentUser = currentUser;
     }
 
     static void setCurrentStation(Station currentStation) {
-        State.currentStation = currentStation;
+        AppState.currentStation = currentStation;
     }
 
     public static void setCurrentSlot(int currentSlot) {
-        State.currentSlot = currentSlot;
+        AppState.currentSlot = currentSlot;
     }
 }

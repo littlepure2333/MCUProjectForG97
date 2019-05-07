@@ -60,11 +60,6 @@ class UserLoginPanel extends JPanel{
 				else {
 					//登录成功
 
-					/*
-					 * temporary 修改站点mode并且跳转
-					 * 需要进行修改
-					 */
-					Windows.changeStationView("borrow");
 					answerText.setText("");
 					feedbackLabel.setText("Please type in your QM ID.");
 					jumpToNext();
@@ -80,7 +75,7 @@ class UserLoginPanel extends JPanel{
 			Windows.frame.remove(Windows.stack.peek());
 			Windows.stack.push(borrowAndReturnPanel);
 			Windows.frame.add(borrowAndReturnPanel);
-			Windows.returnPanel.setVisible(true);
+			Windows.upperPanel.setVisible(true);
 
 			//重绘界面
 			Windows.frame.validate();

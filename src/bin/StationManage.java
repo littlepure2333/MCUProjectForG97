@@ -16,7 +16,7 @@ public class StationManage {
      * （未实现）检测错误的站点id
      */
     public static void chooseStation(int stationId) {
-        State.setCurrentStation(findStationById(stationId));
+        AppState.setCurrentStation(findStationById(stationId));
     }
 
     /**
@@ -24,7 +24,7 @@ public class StationManage {
      * @param slotId
      */
     public static void chooseFlashSlot(int slotId) {
-        State.setCurrentSlot(slotId);
+        AppState.setCurrentSlot(slotId);
     }
 
     /**

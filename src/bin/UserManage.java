@@ -54,7 +54,7 @@ public class UserManage {
      */
     public static boolean login(int qmNumber) {
         if (isExist(qmNumber)) {
-            State.setCurrentUser(UserManage.findUserByQm(qmNumber));
+            AppState.setCurrentUser(UserManage.findUserByQm(qmNumber));
             return true;
         }
         return false;

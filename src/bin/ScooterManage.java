@@ -21,9 +21,9 @@ public class ScooterManage {
      * 没有检查State数据是否正确，所以使用时一定确保数据正确
      */
     public static void takeScooter() {
-        Station station = State.getCurrentStation();
-        Scooter scooter = station.removeScooter(State.getCurrentSlot());
-        User user = State.getCurrentUser();
+        Station station = AppState.getCurrentStation();
+        Scooter scooter = station.removeScooter(AppState.getCurrentSlot());
+        User user = AppState.getCurrentUser();
         user.takeScooter(scooter);
 
         // 对数据进行修改后，立即更新XML
@@ -38,9 +38,9 @@ public class ScooterManage {
      * 没有检查State数据是否正确，所以使用时一定确保数据正确
      */
     public static void returnScooter() {
-        User user = State.getCurrentUser();
+        User user = AppState.getCurrentUser();
         Scooter scooter = user.returnScooter();
-        Station station = State.getCurrentStation();
+        Station station = AppState.getCurrentStation();
         station.addScooter(scooter);
 
         // 对数据进行更改后，立即更新XML

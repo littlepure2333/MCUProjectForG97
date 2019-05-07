@@ -1,15 +1,17 @@
 package views;
 
+import bin.ScooterManage;
 import bin.StationManage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Stack;
 
 class TestPanel {
 
     private static RegisterInputPanel registerInputPanel = new RegisterInputPanel();
-    private static BorrowAndReturnPanel borrowAndReturnPanel = new BorrowAndReturnPanel();
-    private static UserLoginPanel userLoginPanel = new UserLoginPanel(borrowAndReturnPanel);    //临时路径（需要修改）
+    private static BorrowPanel borrowPanel = new BorrowPanel();
+    private static UserLoginPanel userLoginPanel = new UserLoginPanel(borrowPanel);    //临时路径（需要修改）
     private static StationPanel stationPanel = new StationPanel(userLoginPanel);
     private static ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
     private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, stationPanel);
@@ -27,17 +29,19 @@ class TestPanel {
         frame.setVisible(true);
         frame.setLayout(new BorderLayout());
         setState();
-        JPanel testPanel = borrowAndReturnPanel;     //在这里填入测试用的panel
+        JPanel testPanel = borrowPanel;     //在这里填入测试用的panel
         frame.add(testPanel,BorderLayout.CENTER);
     }
 
     /**
      * 借/还页的条件
      * 1.选定站点
-     * 2.mode(借/还)
+     * 2.初始化视图
      */
     private void setState() {
         StationManage.chooseStation(1);
-        Windows.changeStationView("borrow");
+        borrowPanel.update();
     }
+
+
 }

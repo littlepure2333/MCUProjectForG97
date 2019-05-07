@@ -15,7 +15,7 @@ class ReturnButton extends JButton implements ActionListener {
         Windows.stack.pop();
         Windows.frame.add(Windows.stack.peek());
         if(Windows.stack.size()==1)
-            Windows.returnPanel.setVisible(false);
+            Windows.upperPanel.setVisible(false);
 
         //重绘界面
         Windows.frame.validate();

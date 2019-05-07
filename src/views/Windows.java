@@ -1,5 +1,7 @@
 package views;
 
+import bin.StationManage;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,8 +13,9 @@ public class Windows {
     //panels
     //所有界面添加到此处
     private static RegisterInputPanel registerInputPanel = new RegisterInputPanel();
-    private static BorrowAndReturnPanel borrowAndReturnPanel = new BorrowAndReturnPanel();
-    private static UserLoginPanel userLoginPanel = new UserLoginPanel(borrowAndReturnPanel);    //临时路径（需要修改）
+    private static ReturnPanel returnPanel = new ReturnPanel();
+    private static BorrowPanel borrowPanel = new BorrowPanel();
+    private static UserLoginPanel userLoginPanel = new UserLoginPanel(borrowPanel);    //临时路径（需要修改）
     private static StationPanel stationPanel = new StationPanel(userLoginPanel);
     private static ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
     private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, stationPanel);
@@ -20,13 +23,21 @@ public class Windows {
 
 
     //return panel - 应用于所有的界面
-    static JPanel returnPanel = new JPanel();
+    static JPanel upperPanel = new JPanel();
 
     //stack - 实现返回键功能
     static Stack<JPanel> stack = new Stack<>();
 
     public Windows() {
+        init();
+        frame.add(identityChoosePanel, BorderLayout.CENTER);
+        stack.push(identityChoosePanel);
+    }
 
+    /**
+     * 窗口布局初始化
+     */
+    private static void init() {
         /*
         frame的样式，不要修改
          */
@@ -37,23 +48,19 @@ public class Windows {
         /*
         界面上方返回按钮的样式，不要修改
          */
-        returnPanel.setLayout(new BorderLayout());
-        returnPanel.add(new ReturnButton("return"), BorderLayout.WEST);
-        returnPanel.setVisible(false);
-        frame.add(returnPanel, BorderLayout.NORTH);
+        upperPanel.setLayout(new BorderLayout());
+        upperPanel.add(new ReturnButton("return"), BorderLayout.WEST);
+        upperPanel.setVisible(false);
+        frame.add(upperPanel, BorderLayout.NORTH);
 
-        frame.add(identityChoosePanel, BorderLayout.CENTER);
-        stack.push(identityChoosePanel);
     }
 
     /**
-     * 修改借车还车界面的内容和功能
-     * @param mode 界面模式（借/还）
+     * 刷新借/还车的界面信息
      */
-    static void changeStationView(String mode) {
-        borrowAndReturnPanel.mode = mode;
-        borrowAndReturnPanel.stateChanged();
-        borrowAndReturnPanel.update();
+    static void updateStationView() {
+        returnPanel.update();
+        borrowPanel.update();
     }
 
     /**
@@ -67,11 +74,38 @@ public class Windows {
 
         Windows.frame.add(identityChoosePanel);
         Windows.stack.push(identityChoosePanel);
-        Windows.returnPanel.setVisible(false);
+        Windows.upperPanel.setVisible(false);
 
         //重绘界面
         Windows.frame.validate();
         Windows.frame.repaint();
+    }
+
+    /**
+     * 界面测试类修改到此处
+     *
+     */
+    static class PanelTest {
+
+        public static void main(String[] args) {
+            init();
+            upperPanel.setVisible(true);
+            setState();
+
+            JPanel testPanel = borrowPanel;             //测试用Panel写在这里
+            frame.add(testPanel, BorderLayout.CENTER);
+            stack.push(testPanel);
+        }
+
+        /**
+         * 借/还页测试专用方法
+         * 1.选定站点
+         * 2.初始化视图
+         */
+        private static void setState() {
+            StationManage.chooseStation(1);
+            updateStationView();
+        }
     }
 
 }

@@ -16,7 +16,7 @@ class GotoButton extends JButton implements ActionListener {
         Windows.frame.remove(Windows.stack.peek());
         Windows.stack.push(this.nextPanel);
         Windows.frame.add(this.nextPanel);
-        Windows.returnPanel.setVisible(true);
+        Windows.upperPanel.setVisible(true);
 
         //重绘界面
         Windows.frame.validate();
