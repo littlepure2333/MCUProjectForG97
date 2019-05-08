@@ -72,7 +72,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		else {
 			myLabel.setText("No scooter in this station!\r\n");
 			selectLabel.setText("Please check other station!");
-			submitPanel.setVisible(false);
+			helpButton.setText("");
 		}
 		helpButton.setText("Help me pick one");
 	}

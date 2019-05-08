@@ -15,13 +15,14 @@ public class GotoButton extends JButton implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        Windows.frame.remove(Windows.stack.peek());
-        Windows.stack.push(this.nextPanel);
-        Windows.frame.add(this.nextPanel);
-        Windows.upperPanel.setVisible(true);
-
-        //重绘界面
-        Windows.frame.validate();
-        Windows.frame.repaint();
+        Windows.goToPanel(this.nextPanel);
+//        Windows.frame.remove(Windows.stack.peek());
+//        Windows.stack.push(this.nextPanel);
+//        Windows.frame.add(this.nextPanel);
+//        Windows.upperPanel.setVisible(true);
+//
+//        //重绘界面
+//        Windows.frame.validate();
+//        Windows.frame.repaint();
     }
 }

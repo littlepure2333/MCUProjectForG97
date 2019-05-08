@@ -60,18 +60,6 @@ class UserPanel extends JPanel implements PanelStateMonitor {
             String actionCommand = e.getActionCommand();
             if (actionCommand.equals("TAKE")) {
                 borrowPanel.update();
-
-
-
-
-
-
-
-
-
-
-
-
             }
             if (actionCommand.equals("RETURN")) {
                 returnPanel.update();

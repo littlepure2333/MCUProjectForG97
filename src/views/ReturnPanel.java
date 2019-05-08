@@ -71,7 +71,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         else {
             myLabel.setText("No available slot in this station!\r\n");
             selectLabel.setText("Please check other station!");
-            submitPanel.setVisible(false);
+            helpButton.setText("");
         }
         helpButton.setText("Help me pick a empty slot");
     }

@@ -1,6 +1,5 @@
 package views;
 
-import bin.StationManage;
 import views.components.ReturnButton;
 
 import javax.swing.*;
@@ -29,6 +28,7 @@ public class Windows {
     /**
      * 窗口布局初始化
      */
+    @SuppressWarnings("Duplicates")
     private static void init() {
         /*
         frame的样式，不要修改
@@ -73,6 +73,21 @@ public class Windows {
         Windows.frame.repaint();
     }
 
+    /**
+     * 从当前界面切换到目标界面
+     * 这和GotoButton的原理是一致的，但是这个方法可以根据条件执行
+     * @param nextPanel 需要跳转到的目标界面
+     * @param <T> 前端使用的界面类
+     */
+    public static < T extends JPanel > void goToPanel(T nextPanel) {
+        Windows.frame.remove(Windows.stack.peek());
+        Windows.stack.push(nextPanel);
+        Windows.frame.add(nextPanel);
+        Windows.upperPanel.setVisible(true);
 
+        //重绘界面
+        Windows.frame.validate();
+        Windows.frame.repaint();
+    }
 
 }

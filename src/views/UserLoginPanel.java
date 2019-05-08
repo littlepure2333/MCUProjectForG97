@@ -62,24 +62,10 @@ class UserLoginPanel extends JPanel{
 					//登录成功
 					answerText.setText("");
 					feedbackLabel.setText("Please type in your QM ID.");
-					jumpToNext();
+					Windows.goToPanel(userPanel);
 				}
 			}
     	}
-
-    	/*
-    	切换窗口
-    	 */
-		private void jumpToNext() {
-			Windows.frame.remove(Windows.stack.peek());
-			Windows.stack.push(userPanel);
-			Windows.frame.add(userPanel);
-			Windows.upperPanel.setVisible(true);
-
-			//重绘界面
-			Windows.frame.validate();
-			Windows.frame.repaint();
-		}
     }
     
     class FeedbackPanel extends JPanel{

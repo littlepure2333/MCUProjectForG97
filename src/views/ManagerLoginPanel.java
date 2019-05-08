@@ -62,25 +62,10 @@ class ManagerLoginPanel extends JPanel {
 					//登录成功
 					answerText.setText("");
 					feedbackLabel.setText("Please type in your manager ID.");
-					jumpToNext();
+					Windows.goToPanel(managerPanel);
 				}
 			}
     	}
-
-		/**
-		 * 修改站点的mode并跳转
-		 * 临时方法 功能修改后需要删除
-		 */
-		private void jumpToNext() {
-			Windows.frame.remove(Windows.stack.peek());
-			Windows.stack.push(managerPanel);
-			Windows.frame.add(managerPanel);
-			Windows.upperPanel.setVisible(true);
-
-			//重绘界面
-			Windows.frame.validate();
-			Windows.frame.repaint();
-		}
     }
     
     class FeedbackPanel extends JPanel{
