@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class StationList extends DataIO {
 	public ArrayList<Station> stationList;
-	private static final String fileLocation = "./statics/stations.xml";
+	private static final String FILE_LOCATION = "./statics/stations.xml";
 	
 	public StationList() {
 		//noinspection unchecked
-		this.stationList = (ArrayList<Station>)read(fileLocation);
+		this.stationList = (ArrayList<Station>)read(FILE_LOCATION);
 	}
 	
 	public ArrayList<Station> getList() {
@@ -17,17 +17,17 @@ public class StationList extends DataIO {
 	
 	public void addStation(Station station) {
 		this.stationList.add(station);
-		save(stationList, fileLocation);
+		save(stationList, FILE_LOCATION);
 	}
 
 	public void resetList(ArrayList<Station> stationList) {
 		this.stationList = stationList;
-		save(stationList, fileLocation);
+		save(stationList, FILE_LOCATION);
 	}
 
 	/* once a change of one station is occurred, this method should be applied immediately */
 	public void updateList() {
-		save(stationList,fileLocation);
+		save(stationList, FILE_LOCATION);
 	}
 
 }

@@ -20,7 +20,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         JPanel upperPanel = new UpperPanel();
         slotPanel = new JPanel[8];
         for(int i=0;i<=7;i++)
-            slotPanel[i] = new EmptySlotPanel();
+            slotPanel[i] = new EmptySlot();
         subPanel = new SubPanel();
 
         this.setLayout(new GridLayout(3,1));
@@ -50,8 +50,8 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
 		 */
         for (int i=0;i<=7;i++) {
             if (AppState.getCurrentStation().slot[i] != null)
-                slotPanel[i] = new OccupiedSlotPanel();
-            else slotPanel[i] = new EmptySlotPanel();
+                slotPanel[i] = new OccupiedSlot();
+            else slotPanel[i] = new EmptySlot();
         }
         subPanel.removeAll();
         for (int i=0;i<=7;i++)
@@ -95,25 +95,6 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             this.add(selectLabel);
 
         }
-    }
-
-    class OccupiedSlotPanel extends JPanel{
-        public void paintComponent(Graphics g) {
-            ImageIcon image =new ImageIcon("./media/scooter.jpg");
-            image.setImage(image.getImage().getScaledInstance(this.getWidth(),this.getHeight(),
-                    Image.SCALE_AREA_AVERAGING));
-            g.drawImage(image.getImage(),0,0,this);
-        }
-
-    }
-    class EmptySlotPanel extends JPanel{
-        public void paintComponent(Graphics g) {
-            ImageIcon image =new ImageIcon("./media/null.jpg");
-            image.setImage(image.getImage().getScaledInstance(this.getWidth(),this.getHeight(),
-                    Image.SCALE_AREA_AVERAGING));
-            g.drawImage(image.getImage(),0,0,this);
-        }
-
     }
 
     class SubPanel extends JPanel{
