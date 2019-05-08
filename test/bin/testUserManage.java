@@ -1,6 +1,6 @@
 package bin;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ class testUserManage {
     void testRegistration() {
     	assertTrue(UserManage.registration(123456700,"first","aaafdas@qmul.ac.uk"));
     }
-    
+
     @Test
     void testIfDuplicate() {
     	UserManage.registration(123456700,"first","aaafdas@qmul.ac.uk");

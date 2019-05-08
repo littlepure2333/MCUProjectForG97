@@ -7,7 +7,7 @@
      <string>qmNumber</string>
      <void method="set">
       <object idref="User0"/>
-      <int>123456700</int>
+      <int>123456789</int>
      </void>
     </void>
     <void class="data.User" method="getField">
@@ -21,7 +21,7 @@
      <string>email</string>
      <void method="set">
       <object idref="User0"/>
-      <string>aaafdas@qmul.ac.uk</string>
+      <string>aaa@qmul.ac.uk</string>
      </void>
     </void>
     <void class="data.User" method="getField">
@@ -39,21 +39,21 @@
      <string>qmNumber</string>
      <void method="set">
       <object idref="User1"/>
-      <int>123456718</int>
+      <int>111111111</int>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>fullName</string>
      <void method="set">
       <object idref="User1"/>
-      <string>aaa</string>
+      <string>second</string>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>email</string>
      <void method="set">
       <object idref="User1"/>
-      <string>acc@qmul.ac.uk</string>
+      <string>bbb@qmul.ac.uk</string>
      </void>
     </void>
     <void class="data.User" method="getField">
@@ -71,21 +71,21 @@
      <string>qmNumber</string>
      <void method="set">
       <object idref="User2"/>
-      <int>123456789</int>
+      <int>222222222</int>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>fullName</string>
      <void method="set">
       <object idref="User2"/>
-      <string>asd</string>
+      <string>third</string>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>email</string>
      <void method="set">
       <object idref="User2"/>
-      <string>ss@qmul.ac.uk</string>
+      <string>ccc@qmul.ac.uk</string>
      </void>
     </void>
     <void class="data.User" method="getField">
@@ -103,27 +103,59 @@
      <string>qmNumber</string>
      <void method="set">
       <object idref="User3"/>
-      <int>111111115</int>
+      <int>333333333</int>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>fullName</string>
      <void method="set">
       <object idref="User3"/>
-      <string>avc</string>
+      <string>second</string>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>email</string>
      <void method="set">
       <object idref="User3"/>
-      <string>aaa@qmul.ac.uk</string>
+      <string>ddd@qmul.ac.uk</string>
      </void>
     </void>
     <void class="data.User" method="getField">
      <string>needToPay</string>
      <void method="set">
       <object idref="User3"/>
+      <string>false</string>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="data.User" id="User4">
+    <void class="data.User" method="getField">
+     <string>qmNumber</string>
+     <void method="set">
+      <object idref="User4"/>
+      <int>444444444</int>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>fullName</string>
+     <void method="set">
+      <object idref="User4"/>
+      <string>second</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>email</string>
+     <void method="set">
+      <object idref="User4"/>
+      <string>eee@qmul.ac.uk</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>needToPay</string>
+     <void method="set">
+      <object idref="User4"/>
       <string>false</string>
      </void>
     </void>

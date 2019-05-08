@@ -21,4 +21,7 @@ public class Scooter {
 		return used;
 	}
 
+	public void setUsed(int used) {
+		this.used = used;
+	}
 }

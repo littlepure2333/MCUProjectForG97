@@ -1,6 +1,7 @@
 package views;
 
 import bin.AppState;
+import bin.ScooterManage;
 import bin.StationManage;
 import views.components.EmptySlot;
 import views.components.OccupiedSlot;
@@ -72,7 +73,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             selectLabel.setText("Please check other station!");
             submitPanel.setVisible(false);
         }
-        helpButton.setText("Help me pick one");
+        helpButton.setText("Help me pick a empty slot");
     }
 
     /**
@@ -130,7 +131,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                 Thread thread = new Thread(new WaitForReturn());
                 helpButton.setText("Return");
                 //从左到右找到一个空车位
-                for(;site<=7;site++) {
+                for(site = 0; site <= 7;site++) {
                     if(AppState.getCurrentStation().slot[site] == null) {
                         StationManage.chooseFlashSlot(site);
                         break;
@@ -142,12 +143,11 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
 			放车阶段
 			 */
             if(actionCommand.equals("Return")) {
-//                ScooterManage.returnScooter();
-                WaitForReturn.abort();
+                ScooterManage.returnScooter();
                 myLabel.setText("You have returned your scooter!\r\n");
                 selectLabel.setText("Thank you for using!");
                 helpButton.setText("Click here to log out");
-                setSlotViewOccupied();
+                WaitForReturn.abort();
             }
             /*
 			完成阶段
@@ -155,6 +155,9 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             if(actionCommand.equals("Click here to log out")) {
                 Windows.backToMenu();
             }
+            /*
+			超时阶段：不会做任何事情
+			 */
         }
 
         /*
@@ -162,6 +165,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
          */
         static class WaitForReturn implements Runnable {
             private static int i;
+            @SuppressWarnings("Duplicates")
             @Override
             public void run() {
                 for (i = 0; i < 20; i++) {
@@ -177,12 +181,17 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    if(i == 3) {
+                        myLabel.setText("Time expired\r\n");
+                        selectLabel.setText("Please return to previous page");
+                        helpButton.setText("Time expired");
+
+                        Windows.frame.validate();
+                        Windows.frame.repaint();
+                        break;
+                    }
                 }
-                if(i == 21) {
-                    myLabel.setText("Time expired\r\n");
-                    selectLabel.setText("Please return to previous page");
-                    helpButton.setText("Time expired");
-                }
+
             }
 
             static void abort() {
@@ -221,5 +230,4 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             slot.getGraphics().drawImage(image.getImage(),0,0,slot);
         }
     }
-
 }

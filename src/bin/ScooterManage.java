@@ -40,8 +40,10 @@ public class ScooterManage {
     public static void returnScooter() {
         User user = AppState.getCurrentUser();
         Scooter scooter = user.returnScooter();
+
         Station station = AppState.getCurrentStation();
-        station.addScooter(scooter);
+        int slotId = AppState.getCurrentSlot();
+        station.returnScooter(scooter, slotId);
 
         // 对数据进行更改后，立即更新XML
         scooterList.updateList();
@@ -54,7 +56,7 @@ public class ScooterManage {
      * @param scooterId 指定的单车id
      * @return 单车数据对象
      */
-    public static Scooter findScooterById(int scooterId) {
+    private static Scooter findScooterById(int scooterId) {
         for (Scooter scooter : scooterList.getList()) {
             if (scooter.getId() == scooterId)
                 return scooter;

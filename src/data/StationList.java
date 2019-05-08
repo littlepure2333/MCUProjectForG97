@@ -15,12 +15,12 @@ public class StationList extends DataIO {
 		return this.stationList;
 	}
 	
-	public void addStation(Station station) {
+	void addStation(Station station) {
 		this.stationList.add(station);
 		save(stationList, FILE_LOCATION);
 	}
 
-	public void resetList(ArrayList<Station> stationList) {
+	void resetList(ArrayList<Station> stationList) {
 		this.stationList = stationList;
 		save(stationList, FILE_LOCATION);
 	}

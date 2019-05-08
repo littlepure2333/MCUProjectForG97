@@ -168,6 +168,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		 */
 		static class WaitForBorrow implements Runnable {
 			private static int i;
+			@SuppressWarnings("Duplicates")
 			@Override
 			public void run() {
 				for (i = 0; i < 20; i++) {
@@ -210,7 +211,6 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			JPanel slot = slotPanel[AppState.getCurrentSlot()];
 			ImageIcon image = new ImageIcon("./media/null.jpg");
 			image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
-			slot.removeAll();
 			slot.getGraphics().drawImage(image.getImage(), 0, 0, slot);
 		}
 

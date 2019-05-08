@@ -15,7 +15,7 @@ public class ScooterList extends DataIO {
         return this.scooterList;
     }
 
-    public void addScooter(Scooter scooter) {
+    void addScooter(Scooter scooter) {
         this.scooterList.add(scooter);
         save(scooterList, FILE_LOCATION);
     }

@@ -3,6 +3,8 @@ package data;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 class testStation {
 
 
@@ -11,18 +13,33 @@ class testStation {
      * （每个站点5辆车，占前五个槽位）
      */
     @Test
-    void testAddingStation() {
+    void testResetStation() {
         int i = 1;
         StationList stationList = new StationList();
+        ScooterList scooterList = new ScooterList();
+
+        stationList.resetList(new ArrayList<>());
+        scooterList.resetList(new ArrayList<>());
+
         Station station1 = new Station(1, 8);
         Station station2 = new Station(2, 8);
         Station station3 = new Station(3, 8);
-        for(;i<=5;i++)
-            station1.addScooter(new Scooter(i,1));
-        for(;i<=10;i++)
-            station2.addScooter(new Scooter(i, 0));
-        for(;i<=15;i++)
-            station3.addScooter(new Scooter(i,0));
+        for(;i<=5;i++) {
+            Scooter scooter = new Scooter(i,0);
+            station1.addScooter(scooter);
+            scooterList.addScooter(scooter);
+        }
+        for(;i<=10;i++) {
+            Scooter scooter = new Scooter(i,0);
+            station2.addScooter(scooter);
+            scooterList.addScooter(scooter);
+        }
+
+        for(;i<=15;i++) {
+            Scooter scooter = new Scooter(i,0);
+            station3.addScooter(scooter);
+            scooterList.addScooter(scooter);
+        }
         stationList.addStation(station1);
         stationList.addStation(station2);
         stationList.addStation(station3);

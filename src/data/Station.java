@@ -55,7 +55,14 @@ public class Station {
 			return true;
 		}
 	}
-	
+
+	/*
+	需要保证原slot为空
+	 */
+	public void returnScooter(Scooter scooter, int slotID) {
+		this.slot[slotID] = scooter;
+	}
+
 	/* remove成功返回scooter，remove失败返回null */
 	public Scooter removeScooter(int slotId) {
 		Scooter scooter = this.slot[slotId];
