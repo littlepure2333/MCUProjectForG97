@@ -4,10 +4,13 @@ import views.components.GotoButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class ManagerPanel extends JPanel {
 	//next state
 	private RegisterInputPanel registerInputPanel = new RegisterInputPanel();
+	private UsagePanel usagePanel = new UsagePanel();
 
 	
 	ManagerPanel() {
@@ -20,7 +23,7 @@ class ManagerPanel extends JPanel {
 		this.setVisible(true);
 	}
 
-	class MainPanel extends JPanel {
+	class MainPanel extends JPanel implements ActionListener {
 
 		MainPanel() {
 			GotoButton registerButton = new GotoButton("Register", registerInputPanel);
@@ -35,7 +38,17 @@ class ManagerPanel extends JPanel {
 			this.add(registerButton);
 			this.add(userButton);
 			this.add(stationButton);
+
+			userButton.addActionListener(this);
 		}
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String actionCommand = e.getActionCommand();
+			if(actionCommand.equals("User Information")) {
+				usagePanel.update();
+				Windows.goToPanel(usagePanel);
+			}
+		}
 	}
 }

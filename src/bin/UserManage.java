@@ -52,6 +52,7 @@ public class UserManage {
      * @param qmNumber 填入的qm号码
      * @return true-登录成功 false-登录失败
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean login(int qmNumber) {
         if (isExist(qmNumber)) {
             AppState.setCurrentUser(UserManage.findUserByQm(qmNumber));
@@ -65,7 +66,7 @@ public class UserManage {
      * @param qmNumber 填入的qm号码
      * @return true-存在 false-不存在
      */
-    static boolean isExist(int qmNumber) {
+    private static boolean isExist(int qmNumber) {
         UserList userList = new UserList();
         for (User user:userList.getList()) {
             if (qmNumber == user.getQmNumber())
