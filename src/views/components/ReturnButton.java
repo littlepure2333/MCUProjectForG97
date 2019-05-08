@@ -1,11 +1,13 @@
-package views;
+package views.components;
+
+import views.Windows;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class ReturnButton extends JButton implements ActionListener {
-    ReturnButton(String text) {
+public class ReturnButton extends JButton implements ActionListener {
+    public ReturnButton(String text) {
         super(text);
         this.addActionListener(this);
     }

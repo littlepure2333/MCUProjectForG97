@@ -1,20 +1,16 @@
 package views;
 
-import bin.UserManage;
+import views.components.GotoButton;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 class MyAccountPanel extends JPanel {
-
-	private JTextField idText;
-	private JTextField nameText;
-	private JTextField addText;
-	private JTextField fineText;
-	private JPanel reportPanel;
+	//next state
+	private ReportPanel reportPanel = new ReportPanel();
 	
-	MyAccountPanel(JPanel reportPanel) {
+	MyAccountPanel() {
 
 		JPanel idPanel = new IdPanel();
 		JPanel namePanel = new NamePanel();
@@ -29,7 +25,6 @@ class MyAccountPanel extends JPanel {
 		this.add(addPanel);
 		this.add(finePanel);
 		this.add(buttonPanel);
-		this.reportPanel = reportPanel;
 		
 		this.setVisible(true);
 	}
@@ -37,8 +32,8 @@ class MyAccountPanel extends JPanel {
 	class IdPanel extends JPanel{
 		IdPanel(){
 			JLabel idLabel=new JLabel("ID:             ");
-			idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			idText=new JTextField(15);
+			idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			JTextField idText = new JTextField(15);
 			idText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
 		
 			this.add(idLabel);
@@ -49,8 +44,8 @@ class MyAccountPanel extends JPanel {
 	class NamePanel extends JPanel{
 		NamePanel(){
 			JLabel nameLabel=new JLabel("Name:        ");
-			nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			nameText=new JTextField(15);
+			nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			JTextField nameText = new JTextField(15);
 			nameText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
 			
 			this.add(nameLabel);
@@ -61,8 +56,8 @@ class MyAccountPanel extends JPanel {
 	class AddPanel extends JPanel{
 		AddPanel(){
 			JLabel addLabel=new JLabel("Email：      ");
-			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			addText=new JTextField(15);
+			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			JTextField addText = new JTextField(15);
 			addText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
 			
 			this.add(addLabel);
@@ -73,8 +68,8 @@ class MyAccountPanel extends JPanel {
 	class FinePanel extends JPanel {
 		FinePanel(){
 			JLabel fineLabel=new JLabel("Fine Status: ");
-			fineLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
-			fineText=new JTextField(15);
+			fineLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			JTextField fineText = new JTextField(15);
 			fineText.setFont(new Font("Times New Roman", Font.PLAIN, 30)); 
 			
 			this.add(fineLabel);

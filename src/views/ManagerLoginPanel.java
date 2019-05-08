@@ -7,13 +7,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class ManagerLoginPanel extends JPanel{
+class ManagerLoginPanel extends JPanel {
+	//next state
+	private ManagerPanel managerPanel = new ManagerPanel();
+
 	private JTextField answerText;
 	private JLabel feedbackLabel;
-	private JPanel managerPanel;
-
-	ManagerLoginPanel(JPanel managerPanel) {
-		this.managerPanel = managerPanel;
+	ManagerLoginPanel() {
 
 		JPanel myPanel = new MyPanel();
 		JPanel feedbackPanel = new FeedbackPanel();
@@ -28,7 +28,8 @@ class ManagerLoginPanel extends JPanel{
 
     
     class MyPanel extends JPanel implements ActionListener {
-    	MyPanel() {
+    	@SuppressWarnings("Duplicates")
+		MyPanel() {
     		JButton submitButton=new JButton("Submit");
         	submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 			submitButton.addActionListener(this);

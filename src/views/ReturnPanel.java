@@ -1,8 +1,9 @@
 package views;
 
-import bin.ScooterManage;
 import bin.AppState;
 import bin.StationManage;
+import views.components.EmptySlot;
+import views.components.OccupiedSlot;
 
 import javax.swing.*;
 import java.awt.*;

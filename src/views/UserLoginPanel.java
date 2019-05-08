@@ -8,12 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class UserLoginPanel extends JPanel{
+	//next state
+	private UserPanel userPanel = new UserPanel();
+
 	private JTextField answerText;
 	private JLabel feedbackLabel;
-	private JPanel borrowAndReturnPanel;
-
-	UserLoginPanel(JPanel borrowAndReturnPanel) {
-		this.borrowAndReturnPanel = borrowAndReturnPanel;
+	UserLoginPanel() {
 
 		JPanel myPanel = new MyPanel();
 		JPanel feedbackPanel = new FeedbackPanel();
@@ -28,7 +28,8 @@ class UserLoginPanel extends JPanel{
 
     
     class MyPanel extends JPanel implements ActionListener {
-    	MyPanel() {
+    	@SuppressWarnings("Duplicates")
+		MyPanel() {
     		JButton submitButton=new JButton("Submit");
         	submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 			submitButton.addActionListener(this);
@@ -59,7 +60,6 @@ class UserLoginPanel extends JPanel{
 				}
 				else {
 					//登录成功
-
 					answerText.setText("");
 					feedbackLabel.setText("Please type in your QM ID.");
 					jumpToNext();
@@ -67,14 +67,13 @@ class UserLoginPanel extends JPanel{
 			}
     	}
 
-		/**
-		 * 修改站点的mode并跳转
-		 * 临时方法 功能修改后需要删除
-		 */
+    	/*
+    	切换窗口
+    	 */
 		private void jumpToNext() {
 			Windows.frame.remove(Windows.stack.peek());
-			Windows.stack.push(borrowAndReturnPanel);
-			Windows.frame.add(borrowAndReturnPanel);
+			Windows.stack.push(userPanel);
+			Windows.frame.add(userPanel);
 			Windows.upperPanel.setVisible(true);
 
 			//重绘界面

@@ -1,9 +1,9 @@
-package views;
+package views.components;
 
 import javax.swing.*;
 import java.awt.*;
 
-class OccupiedSlot extends JPanel {
+public class OccupiedSlot extends JPanel {
     public void paintComponent(Graphics g) {
         ImageIcon image =new ImageIcon("./media/scooter.jpg");
         image.setImage(image.getImage().getScaledInstance(this.getWidth(),this.getHeight(),

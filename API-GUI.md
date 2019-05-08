@@ -5,7 +5,7 @@
 * views.FormatCheck.isName()
 * views.FormatCheck.isAddress()
 
-## views.GotoButton -- 前往下一界面的按钮
+## views.components.GotoButton -- 前往下一界面的按钮
 * GotoButton button = new GotoButton(text, nextPanel)
 
 ## 进入views.BorrowAndReturnPanel的条件

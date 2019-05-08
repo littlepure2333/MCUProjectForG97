@@ -36,6 +36,10 @@ public class User {
         return this.needToPay;
     }
 
+    public void setNeedToPay(String needToPay) {
+        this.needToPay = needToPay;
+    }
+
     /* this user take a scooter from one station */
     public void takeScooter(Scooter scooter) {
         this.scooter = scooter;

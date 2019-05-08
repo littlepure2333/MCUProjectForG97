@@ -1,6 +1,7 @@
 package views;
 
 import bin.StationManage;
+import views.components.GotoButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class StationPanel extends JPanel {
-	private JPanel userLoginPanel;
+	//next state
+	private UserLoginPanel userLoginPanel = new UserLoginPanel();
 
-	StationPanel(JPanel userLoginPanel){
-		this.userLoginPanel = userLoginPanel;
+	StationPanel(){
 
 		this.add(new JPanel());
 		this.add(new MyPanel());

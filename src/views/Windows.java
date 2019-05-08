@@ -1,6 +1,7 @@
 package views;
 
 import bin.StationManage;
+import views.components.ReturnButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,25 +9,16 @@ import java.awt.*;
 import java.util.Stack;
 
 public class Windows {
-    static final JFrame frame = new JFrame("QM scooter system");
+    public static JFrame frame = new JFrame("QM scooter system");
 
-    //panels
-    //所有界面添加到此处
-    private static RegisterInputPanel registerInputPanel = new RegisterInputPanel();
-    private static ReturnPanel returnPanel = new ReturnPanel();
-    private static BorrowPanel borrowPanel = new BorrowPanel();
-    private static UserLoginPanel userLoginPanel = new UserLoginPanel(borrowPanel);    //临时路径（需要修改）
-    private static StationPanel stationPanel = new StationPanel(userLoginPanel);
-    private static ManagerPanel managerPanel = new ManagerPanel(registerInputPanel);
-    private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel(managerPanel, stationPanel);
-    //
-
+    //第一个界面
+    private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel();
 
     //return panel - 应用于所有的界面
-    static JPanel upperPanel = new JPanel();
+    public static JPanel upperPanel = new JPanel();
 
     //stack - 实现返回键功能
-    static Stack<JPanel> stack = new Stack<>();
+    public static Stack<JPanel> stack = new Stack<>();
 
     public Windows() {
         init();
@@ -55,13 +47,13 @@ public class Windows {
 
     }
 
-    /**
-     * 刷新借/还车的界面信息
-     */
-    static void updateStationView() {
-        returnPanel.update();
-        borrowPanel.update();
-    }
+//    /**
+//     * 刷新借/还车的界面信息
+//     */
+//    static void updateStationView() {
+//        returnPanel.update();
+//        borrowPanel.update();
+//    }
 
     /**
      * 回到主页
@@ -86,13 +78,14 @@ public class Windows {
      *
      */
     static class PanelTest {
-
+        static BorrowPanel testPanel = new BorrowPanel();             //测试用Panel写在这里
         public static void main(String[] args) {
             init();
             upperPanel.setVisible(true);
+            upperPanel.add(new JLabel("单界面测试中,不要使用返回键"));
             setState();
 
-            JPanel testPanel = borrowPanel;             //测试用Panel写在这里
+
             frame.add(testPanel, BorderLayout.CENTER);
             stack.push(testPanel);
         }
@@ -104,7 +97,7 @@ public class Windows {
          */
         private static void setState() {
             StationManage.chooseStation(1);
-            updateStationView();
+            testPanel.update();
         }
     }
 
