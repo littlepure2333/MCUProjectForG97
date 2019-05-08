@@ -20,7 +20,7 @@ public class ScooterList extends DataIO {
         save(scooterList, FILE_LOCATION);
     }
 
-    public void resetList(ArrayList<Scooter> scooterList) {
+    void resetList(ArrayList<Scooter> scooterList) {
         this.scooterList = scooterList;
         save(scooterList, FILE_LOCATION);
     }

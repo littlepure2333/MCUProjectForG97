@@ -25,6 +25,7 @@ public class ScooterManage {
         Scooter scooter = station.removeScooter(AppState.getCurrentSlot());
         User user = AppState.getCurrentUser();
         user.takeScooter(scooter);
+        TransactionManage.generateTransaction("take");
 
         // 对数据进行修改后，立即更新XML
         scooterList.updateList();
@@ -38,6 +39,7 @@ public class ScooterManage {
      * 没有检查State数据是否正确，所以使用时一定确保数据正确
      */
     public static void returnScooter() {
+        TransactionManage.generateTransaction("return");
         User user = AppState.getCurrentUser();
         Scooter scooter = user.returnScooter();
 
@@ -56,7 +58,7 @@ public class ScooterManage {
      * @param scooterId 指定的单车id
      * @return 单车数据对象
      */
-    private static Scooter findScooterById(int scooterId) {
+    static Scooter findScooterById(int scooterId) {
         for (Scooter scooter : scooterList.getList()) {
             if (scooter.getId() == scooterId)
                 return scooter;

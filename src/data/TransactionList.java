@@ -28,4 +28,5 @@ public class TransactionList extends DataIO {
     public void updateList() {
         save(transactionList, FILE_LOCATION);
     }
+
 }
