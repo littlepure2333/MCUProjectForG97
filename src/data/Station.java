@@ -58,7 +58,9 @@ public class Station {
 	
 	/* remove成功返回scooter，remove失败返回null */
 	public Scooter removeScooter(int slotId) {
-		return this.slot[slotId];
+		Scooter scooter = this.slot[slotId];
+		this.slot[slotId] = null;
+		return scooter;
 	}
 
 

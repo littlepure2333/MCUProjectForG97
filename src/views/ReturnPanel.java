@@ -14,6 +14,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
     private static JPanel[] slotPanel;
     private static JLabel myLabel = new JLabel();
     private static JLabel selectLabel = new JLabel();
+    private static JButton helpButton;
     private JPanel submitPanel = new SubmitPanel();
     private JPanel subPanel;
 
@@ -21,7 +22,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         JPanel upperPanel = new UpperPanel();
         slotPanel = new JPanel[8];
         for(int i=0;i<=7;i++)
-            slotPanel[i] = new EmptySlot();
+            slotPanel[i] = new OccupiedSlot();
         subPanel = new SubPanel();
 
         this.setLayout(new GridLayout(3,1));
@@ -71,6 +72,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             selectLabel.setText("Please check other station!");
             submitPanel.setVisible(false);
         }
+        helpButton.setText("Help me pick one");
     }
 
     /**
@@ -108,7 +110,6 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
     }
 
     static class SubmitPanel extends JPanel implements ActionListener {
-        private static JButton helpButton;
         int site;
         SubmitPanel() {
             helpButton=new JButton("Help me pick a empty slot");
@@ -120,12 +121,13 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         }
 
         public void actionPerformed(ActionEvent e){
-            Thread thread = new Thread(new WaitForReturn());
             String actionCommand = e.getActionCommand();
             /*
 			提示阶段
 			 */
             if(actionCommand.equals("Help me pick a empty slot")) {
+                //创建线程
+                Thread thread = new Thread(new WaitForReturn());
                 helpButton.setText("Return");
                 //从左到右找到一个空车位
                 for(;site<=7;site++) {
@@ -135,23 +137,6 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                     }
                 }
                 thread.start();
-//                /*
-//                闪光操作（还车）
-//                 */
-//                for(int j=0;j<20;j++) {
-//                    if(j%2==0) {
-//                        setSlotViewEmptyFlash();
-//                        long y= 0x10008000L;
-//                        for(;y>=0;y--) {
-//                        }
-//                    }
-//                    else {
-//                        setSlotViewEmpty();
-//                        long y= 0x10008000L;
-//                        for(;y>=0;y--) {
-//                        }
-//                    }
-//                }
             }
             /*
 			放车阶段

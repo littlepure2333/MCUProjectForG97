@@ -1,6 +1,7 @@
 package views;
 
 import bin.AppState;
+import bin.ScooterManage;
 import bin.StationManage;
 import views.components.EmptySlot;
 import views.components.OccupiedSlot;
@@ -15,6 +16,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	private static JPanel[] slotPanel;
 	private static JLabel myLabel = new JLabel();
 	private static JLabel selectLabel = new JLabel();
+	private static JButton helpButton;
 	private JPanel submitPanel = new SubmitPanel();
 	private JPanel subPanel;
 
@@ -24,7 +26,6 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		for(int i=0;i<=7;i++)
 			slotPanel[i] = new EmptySlot();
 		subPanel = new SubPanel();
-
 		this.setLayout(new GridLayout(3,1));
 		this.add(upperPanel);
 		this.add(subPanel);
@@ -73,6 +74,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			selectLabel.setText("Please check other station!");
 			submitPanel.setVisible(false);
 		}
+		helpButton.setText("Help me pick one");
 	}
 
 	/**
@@ -112,9 +114,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	}
 	
 	static class SubmitPanel extends JPanel implements ActionListener {
-		private static JButton helpButton;
 		int site;
-		Thread thread = new Thread(new WaitForBorrow());
 		SubmitPanel() {
 			helpButton = new JButton("Help me pick one");
 			this.setLayout(new GridLayout(2, 1));
@@ -130,6 +130,8 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			提示阶段
 			 */
 			if (actionCommand.equals("Help me pick one")) {
+                //创建线程
+                Thread thread = new Thread(new WaitForBorrow());
 				helpButton.setText("Pick");
 				//从左到右找到一个车
 				for (site = 0; site <= 7; site++) {
@@ -144,7 +146,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			取车阶段
 			 */
 			if (actionCommand.equals("Pick")) {
-//				ScooterManage.takeScooter();
+				ScooterManage.takeScooter();
 				myLabel.setText("You have borrowed a scooter!\r\n");
 				selectLabel.setText("Enjoy your scoo-life!");
 				helpButton.setText("Click here to log out");
@@ -181,12 +183,17 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					if(i == 3) {
+						myLabel.setText("Time expired\r\n");
+						selectLabel.setText("Please return to previous page");
+						helpButton.setText("Time expired");
+
+						Windows.frame.validate();
+						Windows.frame.repaint();
+						break;
+					}
 				}
-				if(i == 21) {
-					myLabel.setText("Time expired\r\n");
-					selectLabel.setText("Please return to previous page");
-					helpButton.setText("Time expired");
-				}
+
 			}
 
 			static void abort() {
@@ -203,6 +210,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			JPanel slot = slotPanel[AppState.getCurrentSlot()];
 			ImageIcon image = new ImageIcon("./media/null.jpg");
 			image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
+			slot.removeAll();
 			slot.getGraphics().drawImage(image.getImage(), 0, 0, slot);
 		}
 
@@ -223,6 +231,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			JPanel slot = slotPanel[AppState.getCurrentSlot()];
 			ImageIcon image = new ImageIcon("./media/scooterflash.jpg");
 			image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
+            slot.removeAll();
 			slot.getGraphics().drawImage(image.getImage(), 0, 0, slot);
 		}
 	}

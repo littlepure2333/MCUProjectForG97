@@ -73,32 +73,6 @@ public class Windows {
         Windows.frame.repaint();
     }
 
-    /**
-     * 界面测试类修改到此处
-     *
-     */
-    static class PanelTest {
-        static BorrowPanel testPanel = new BorrowPanel();             //测试用Panel写在这里
-        public static void main(String[] args) {
-            init();
-            upperPanel.setVisible(true);
-            upperPanel.add(new JLabel("单界面测试中,不要使用返回键"));
-            setState();
 
-
-            frame.add(testPanel, BorderLayout.CENTER);
-            stack.push(testPanel);
-        }
-
-        /**
-         * 借/还页测试专用方法
-         * 1.选定站点
-         * 2.初始化视图
-         */
-        private static void setState() {
-            StationManage.chooseStation(1);
-            testPanel.update();
-        }
-    }
 
 }
