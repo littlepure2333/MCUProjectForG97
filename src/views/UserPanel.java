@@ -4,6 +4,7 @@ import views.components.GotoButton;
 
 import javax.swing.*;
 
+import bin.AppState;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,9 @@ class UserPanel extends JPanel implements PanelStateMonitor {
     private BorrowPanel borrowPanel = new BorrowPanel();
     private ReturnPanel returnPanel = new ReturnPanel();
     private MyAccountPanel myAccountPanel = new MyAccountPanel();
+    private AlreadyHaveOnePanel alreadyHaveOnePanel = new AlreadyHaveOnePanel();
+    private NotHaveOnePanel notHaveOnePanel = new NotHaveOnePanel();
+    private HaveFinePanel haveFinePanel = new HaveFinePanel();
 
     UserPanel() {
         this.setLayout(new GridLayout(3,1));
@@ -36,8 +40,8 @@ class UserPanel extends JPanel implements PanelStateMonitor {
     class MainPanel extends JPanel implements ActionListener{
 
         MainPanel(){
-            GotoButton takeButton=new GotoButton("TAKE", borrowPanel);
-            GotoButton returnButton=new GotoButton("RETURN",returnPanel);
+            JButton takeButton=new JButton("TAKE");
+            JButton returnButton=new JButton("RETURN");
             GotoButton accountButton=new GotoButton("MY ACCOUNT",myAccountPanel);
             JButton checkStationButton=new JButton("CHECK STATION");
 
@@ -59,11 +63,31 @@ class UserPanel extends JPanel implements PanelStateMonitor {
         public void actionPerformed(ActionEvent e){
             String actionCommand = e.getActionCommand();
             if (actionCommand.equals("TAKE")) {
-                borrowPanel.update();
+            		if (AppState.getCurrentUser().scooter == null) {
+            			if( AppState.getCurrentUser().needToPay.equals("true")) {
+            				Windows.goToPanel(haveFinePanel);
+            			}
+            			else {
+            				borrowPanel.update();
+            				Windows.goToPanel(borrowPanel);
+            			}
+            		}
+            		else {
+            		
+            			Windows.goToPanel(alreadyHaveOnePanel);
+            			
+            		}
             }
             if (actionCommand.equals("RETURN")) {
+            		if(AppState.getCurrentUser().scooter == null) {
+            			Windows.goToPanel(notHaveOnePanel);
+            		}
+            		else {
                 returnPanel.update();
+                Windows.goToPanel(returnPanel);
+            		}
             }
         }
+       
     }
 }
