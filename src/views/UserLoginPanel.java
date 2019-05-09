@@ -1,5 +1,6 @@
 package views;
 
+import bin.FormatCheck;
 import bin.UserManage;
 
 import javax.swing.*;

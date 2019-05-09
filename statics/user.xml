@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="9.0.4" class="java.beans.XMLDecoder">
+<java version="11.0.1" class="java.beans.XMLDecoder">
  <object class="java.util.ArrayList">
   <void method="add">
    <object class="data.User" id="User0">
@@ -29,6 +29,21 @@
      <void method="set">
       <object idref="User0"/>
       <string>false</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>scooter</string>
+     <void method="set">
+      <object idref="User0"/>
+      <object class="data.Scooter" id="Scooter0">
+       <void class="data.Scooter" method="getField">
+        <string>id</string>
+        <void method="set">
+         <object idref="Scooter0"/>
+         <int>11</int>
+        </void>
+       </void>
+      </object>
      </void>
     </void>
    </object>
@@ -61,6 +76,21 @@
      <void method="set">
       <object idref="User1"/>
       <string>false</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>scooter</string>
+     <void method="set">
+      <object idref="User1"/>
+      <object class="data.Scooter" id="Scooter1">
+       <void class="data.Scooter" method="getField">
+        <string>id</string>
+        <void method="set">
+         <object idref="Scooter1"/>
+         <int>6</int>
+        </void>
+       </void>
+      </object>
      </void>
     </void>
    </object>
@@ -156,6 +186,38 @@
      <string>needToPay</string>
      <void method="set">
       <object idref="User4"/>
+      <string>false</string>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="data.User" id="User5">
+    <void class="data.User" method="getField">
+     <string>qmNumber</string>
+     <void method="set">
+      <object idref="User5"/>
+      <int>161188623</int>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>fullName</string>
+     <void method="set">
+      <object idref="User5"/>
+      <string>swp</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>email</string>
+     <void method="set">
+      <object idref="User5"/>
+      <string>swp@qmul.ac.uk</string>
+     </void>
+    </void>
+    <void class="data.User" method="getField">
+     <string>needToPay</string>
+     <void method="set">
+      <object idref="User5"/>
       <string>false</string>
      </void>
     </void>

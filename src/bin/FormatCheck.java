@@ -1,7 +1,7 @@
-package views;
+package bin;
 
-class FormatCheck {
-    static int isID(String str){
+public class FormatCheck {
+    public static int isID(String str){
         for (int i = str.length();--i>=0;){
             if (!Character.isDigit(str.charAt(i))){
                 return 0;
@@ -14,14 +14,14 @@ class FormatCheck {
 
     }
 
-    static int isCharacter(char c) {
+    private static int isCharacter(char c) {
         if(!((c>='a' && c<='z')||(c>='A' && c<='Z')))
             return 0;
         else
             return 1;
     }
 
-    static int isName(String str) {
+    public static int isName(String str) {
         for (int i = str.length();--i>=0;){
             if ((isCharacter(str.charAt(i))==0)&&(str.charAt(i)!=' ')){
                 return 0;
@@ -33,7 +33,7 @@ class FormatCheck {
         return 1;
     }
 
-    static int isAddress(String str) {
+    public static int isAddress(String str) {
         int count1=0,count2=0;
         int j=0,k=0,l=0;
         for (int i = str.length();--i>=0;){

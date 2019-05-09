@@ -1,5 +1,7 @@
 package views;
 
+import views.components.PanelStateMonitor;
+
 import javax.swing.*;
 
 class UsagePanel extends JPanel implements PanelStateMonitor {

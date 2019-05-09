@@ -2,7 +2,7 @@ package bin;
 
 import data.Transaction;
 import data.TransactionList;
-import data.User;
+
 
 import java.util.Date;
 
@@ -18,11 +18,8 @@ public class TransactionManage {
      * 需要scooter还在用户手上
      */
     static void generateTransaction(String type) {
-        User user = AppState.getCurrentUser();
-        int qmNumber = user.getQmNumber();
-        int scooterId = user.getScooter().getId();
         Date time = new Date();
-        Transaction transaction = new Transaction(qmNumber, type, scooterId, time);
+        Transaction transaction = new Transaction(AppState.getCurrentUser().getQmNumber(), type, AppState.getCurrentUser().getScooter().getId(), time);
         transactionList.addTransaction(transaction);
     }
 

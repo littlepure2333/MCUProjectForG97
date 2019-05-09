@@ -5,6 +5,7 @@ import bin.ScooterManage;
 import bin.StationManage;
 import views.components.EmptySlot;
 import views.components.OccupiedSlot;
+import views.components.PanelStateMonitor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,14 +68,13 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		if (!checkIsEmpty()) {
 			myLabel.setText("Preparing for your scooter......\r\n");
 			selectLabel.setText("Please use the one with flashing......");
-			submitPanel.setVisible(true);
+			helpButton.setText("Help me pick one");
 		}
 		else {
 			myLabel.setText("No scooter in this station!\r\n");
 			selectLabel.setText("Please check other station!");
 			helpButton.setText("");
 		}
-		helpButton.setText("Help me pick one");
 	}
 
 	/**
@@ -151,6 +151,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 				selectLabel.setText("Enjoy your scoo-life!");
 				helpButton.setText("Click here to log out");
 				WaitForBorrow.abort();
+				setSlotViewEmpty();
 			}
 			/*
 			完成阶段

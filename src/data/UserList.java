@@ -17,7 +17,7 @@ public class UserList extends DataIO{
     }
 
     public void addUser(User user) {
-        this.userList.add(user);
+        userList.add(user);
         save(userList, FILE_LOCATION);
     }
 

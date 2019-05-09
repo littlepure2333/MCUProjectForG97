@@ -5,6 +5,7 @@ import bin.ScooterManage;
 import bin.StationManage;
 import views.components.EmptySlot;
 import views.components.OccupiedSlot;
+import views.components.PanelStateMonitor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,14 +67,13 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         if (!checkIsFull()) {
             myLabel.setText("Ready for return your scooter......\r\n");
             selectLabel.setText("Please use the one with flashing......");
-            submitPanel.setVisible(true);
+            helpButton.setText("Help me pick a empty slot");
         }
         else {
             myLabel.setText("No available slot in this station!\r\n");
             selectLabel.setText("Please check other station!");
             helpButton.setText("");
         }
-        helpButton.setText("Help me pick a empty slot");
     }
 
     /**
@@ -148,6 +148,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                 selectLabel.setText("Thank you for using!");
                 helpButton.setText("Click here to log out");
                 WaitForReturn.abort();
+                setSlotViewOccupied();
             }
             /*
 			完成阶段

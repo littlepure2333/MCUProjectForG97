@@ -5,6 +5,7 @@ import views.components.GotoButton;
 import javax.swing.*;
 
 import bin.AppState;
+import views.components.PanelStateMonitor;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -63,7 +64,7 @@ class UserPanel extends JPanel implements PanelStateMonitor {
         public void actionPerformed(ActionEvent e){
             String actionCommand = e.getActionCommand();
             if (actionCommand.equals("TAKE")) {
-            		if (AppState.getCurrentUser().scooter == null) {
+            		if (AppState.getCurrentUser().getScooter() == null) {
             			if( AppState.getCurrentUser().needToPay.equals("true")) {
             				Windows.goToPanel(haveFinePanel);
             			}
@@ -79,7 +80,7 @@ class UserPanel extends JPanel implements PanelStateMonitor {
             		}
             }
             if (actionCommand.equals("RETURN")) {
-            		if(AppState.getCurrentUser().scooter == null) {
+            		if(AppState.getCurrentUser().getScooter() == null) {
             			Windows.goToPanel(notHaveOnePanel);
             		}
             		else {

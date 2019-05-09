@@ -14,6 +14,7 @@ public class User {
         this.fullName = fullName;
         this.email = email;
         this.needToPay = "false";
+        this.scooter = null;
     }
 
     public int getQmNumber() {

@@ -63,7 +63,7 @@ public class Station {
 	/*
 	需要保证原slot为空
 	 */
-	public void returnScooter(Scooter scooter, int slotID) {
+	public void loadScooter(Scooter scooter, int slotID) {
 		this.slot[slotID] = scooter;
 	}
 
