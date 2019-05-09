@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 
-class testUser {
+class UserListTest {
     /**
      * 重置用户信息
      * 注意只在需要重新导入数据时使用

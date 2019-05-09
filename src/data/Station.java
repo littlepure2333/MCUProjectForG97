@@ -18,6 +18,10 @@ public class Station {
 	public int getId() {
 		return this.id;
 	}
+
+	public int getSlotSize() {
+		return this.slotSize;
+	}
 	
 	/* 返回station的非空slot数量 */
 	public int size() {

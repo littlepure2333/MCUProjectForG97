@@ -3,7 +3,7 @@ package data;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
-class testTransaction {
+class TransactionListTest {
 
     /**
      * 将transaction重置为初始状态（什么都没有）
