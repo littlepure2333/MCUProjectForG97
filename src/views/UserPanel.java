@@ -20,7 +20,7 @@ class UserPanel extends JPanel implements PanelStateMonitor {
     private HaveFinePanel haveFinePanel = new HaveFinePanel();
 
     UserPanel() {
-        this.setLayout(new GridLayout(3,1));
+        this.setLayout(new GridLayout(3, 1));
         this.add(new JPanel());
         this.add(new MainPanel());
         this.add(new JPanel());
@@ -41,10 +41,10 @@ class UserPanel extends JPanel implements PanelStateMonitor {
     class MainPanel extends JPanel implements ActionListener{
 
         MainPanel(){
-            JButton takeButton=new JButton("TAKE");
-            JButton returnButton=new JButton("RETURN");
-            GotoButton accountButton=new GotoButton("MY ACCOUNT",myAccountPanel);
-            JButton checkStationButton=new JButton("CHECK STATION");
+            JButton takeButton = new JButton("TAKE");
+            JButton returnButton = new JButton("RETURN");
+            GotoButton accountButton = new GotoButton("MY ACCOUNT", myAccountPanel);
+            JButton checkStationButton = new JButton("CHECK STATION");
 
             takeButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
             returnButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
@@ -61,32 +61,30 @@ class UserPanel extends JPanel implements PanelStateMonitor {
             this.add(checkStationButton);
         }
 
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
+
             String actionCommand = e.getActionCommand();
             if (actionCommand.equals("TAKE")) {
-            		if (AppState.getCurrentUser().getScooter() == null) {
-            			if( AppState.getCurrentUser().needToPay.equals("true")) {
-            				Windows.goToPanel(haveFinePanel);
-            			}
-            			else {
-            				borrowPanel.update();
-            				Windows.goToPanel(borrowPanel);
-            			}
-            		}
-            		else {
-            		
-            			Windows.goToPanel(alreadyHaveOnePanel);
-            			
-            		}
+                if (AppState.getCurrentUser().getScooter() == null) {
+                    if (AppState.getCurrentUser().needToPay.equals("true")) {
+                        Windows.goToPanel(haveFinePanel);
+                    } else {
+                        borrowPanel.update();
+                        Windows.goToPanel(borrowPanel);
+                    }
+                } else {
+
+                    Windows.goToPanel(alreadyHaveOnePanel);
+
+                }
             }
             if (actionCommand.equals("RETURN")) {
-            		if(AppState.getCurrentUser().getScooter() == null) {
-            			Windows.goToPanel(notHaveOnePanel);
-            		}
-            		else {
-                returnPanel.update();
-                Windows.goToPanel(returnPanel);
-            		}
+                if (AppState.getCurrentUser().getScooter() == null) {
+                    Windows.goToPanel(notHaveOnePanel);
+                } else {
+                    returnPanel.update();
+                    Windows.goToPanel(returnPanel);
+                }
             }
         }
        
