@@ -31,6 +31,21 @@
       <string>false</string>
      </void>
     </void>
+    <void class="data.User" method="getField">
+     <string>scooter</string>
+     <void method="set">
+      <object idref="User0"/>
+      <object class="data.Scooter" id="Scooter0">
+       <void class="data.Scooter" method="getField">
+        <string>id</string>
+        <void method="set">
+         <object idref="Scooter0"/>
+         <int>1</int>
+        </void>
+       </void>
+      </object>
+     </void>
+    </void>
    </object>
   </void>
   <void method="add">

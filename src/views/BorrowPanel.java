@@ -19,7 +19,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	private static JLabel selectLabel = new JLabel();
 	private static JButton helpButton;
 	private JPanel submitPanel = new SubmitPanel();
-	private JPanel subPanel;
+	private static JPanel subPanel;
 
 	BorrowPanel(){
 		JPanel upperPanel = new UpperPanel();
@@ -53,14 +53,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		/*
 		从后台读取slot数据并设置图片
 		 */
-		for (int i=0;i<=7;i++) {
-			if (AppState.getCurrentStation().getSlot()[i] == null)
-				slotPanel[i] = new EmptySlot();
-			else slotPanel[i] = new OccupiedSlot();
-		}
-		subPanel.removeAll();
-		for (int i=0;i<=7;i++)
-			subPanel.add(slotPanel[i]);
+		refresh();
 
 		/*
 		预判断slot整体情况
@@ -76,6 +69,17 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			helpButton.setText("");
 		}
 	}
+
+	private static void refresh() {
+        for (int i=0;i<=7;i++) {
+            if (AppState.getCurrentStation().getSlot()[i] == null)
+                slotPanel[i] = new EmptySlot();
+            else slotPanel[i] = new OccupiedSlot();
+        }
+        subPanel.removeAll();
+        for (int i=0;i<=7;i++)
+            subPanel.add(slotPanel[i]);
+    }
 
 	/**
 	 * 检查站点是否为空
@@ -150,8 +154,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 				myLabel.setText("You have borrowed a scooter!\r\n");
 				selectLabel.setText("Enjoy your scoo-life!");
 				helpButton.setText("Click here to log out");
-				WaitForBorrow.abort();
-				setSlotViewEmpty();
+                WaitForBorrow.abort();
 			}
 			/*
 			完成阶段
@@ -191,7 +194,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 						helpButton.setText("Time expired");
 
 						Windows.frame.validate();
-						Windows.frame.repaint();
+                        Windows.frame.repaint();
 						break;
 					}
 				}
@@ -200,20 +203,13 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 
 			static void abort() {
 				i = 22;
-				setSlotViewEmpty();
+                refresh();
+                Windows.frame.validate();
+                Windows.frame.repaint();
 			}
 
 		}
 
-		/**
-		 * 将目标槽位的图片修改为：null-无灯
-		 */
-		private static void setSlotViewEmpty() {
-			JPanel slot = slotPanel[AppState.getCurrentSlot()];
-			ImageIcon image = new ImageIcon("./media/null.jpg");
-			image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
-			slot.getGraphics().drawImage(image.getImage(), 0, 0, slot);
-		}
 
 		/**
 		 * 将目标槽位的图片修改为：有车-无灯
@@ -232,7 +228,6 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			JPanel slot = slotPanel[AppState.getCurrentSlot()];
 			ImageIcon image = new ImageIcon("./media/scooterflash.jpg");
 			image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
-            slot.removeAll();
 			slot.getGraphics().drawImage(image.getImage(), 0, 0, slot);
 		}
 	}

@@ -17,8 +17,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
     private static JLabel myLabel = new JLabel();
     private static JLabel selectLabel = new JLabel();
     private static JButton helpButton;
-    private JPanel submitPanel = new SubmitPanel();
-    private JPanel subPanel;
+    private static JPanel subPanel;
 
     ReturnPanel() {
         JPanel upperPanel = new UpperPanel();
@@ -30,6 +29,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         this.setLayout(new GridLayout(3,1));
         this.add(upperPanel);
         this.add(subPanel);
+        JPanel submitPanel = new SubmitPanel();
         this.add(submitPanel);
 
         this.setVisible(true);
@@ -52,15 +52,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         /*
 		从后台读取slot数据并设置图片
 		 */
-        for (int i=0;i<=7;i++) {
-            if (AppState.getCurrentStation().getSlot()[i] != null)
-                slotPanel[i] = new OccupiedSlot();
-            else slotPanel[i] = new EmptySlot();
-        }
-        subPanel.removeAll();
-        for (int i=0;i<=7;i++)
-            subPanel.add(slotPanel[i]);
-
+       refresh();
         /*
 		预判断slot整体情况
 		 */
@@ -74,6 +66,17 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             selectLabel.setText("Please check other station!");
             helpButton.setText("");
         }
+    }
+
+    private static void refresh() {
+        for (int i=0;i<=7;i++) {
+            if (AppState.getCurrentStation().getSlot()[i] != null)
+                slotPanel[i] = new OccupiedSlot();
+            else slotPanel[i] = new EmptySlot();
+        }
+        subPanel.removeAll();
+        for (int i=0;i<=7;i++)
+            subPanel.add(slotPanel[i]);
     }
 
     /**
@@ -148,7 +151,6 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                 selectLabel.setText("Thank you for using!");
                 helpButton.setText("Click here to log out");
                 WaitForReturn.abort();
-                setSlotViewOccupied();
             }
             /*
 			完成阶段
@@ -197,7 +199,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
 
             static void abort() {
                 i = 22;
-                setSlotViewOccupied();
+                refresh();
             }
         }
 
@@ -207,16 +209,6 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         private static void setSlotViewEmpty() {
             JPanel slot = slotPanel[AppState.getCurrentSlot()];
             ImageIcon image = new ImageIcon("./media/null.jpg");
-            image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
-            slot.getGraphics().drawImage(image.getImage(),0,0,slot);
-        }
-
-        /**
-         * 将目标槽位的图片修改为：有车-无灯
-         */
-        private static void setSlotViewOccupied() {
-            JPanel slot = slotPanel[AppState.getCurrentSlot()];
-            ImageIcon image = new ImageIcon("./media/scooter.jpg");
             image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
             slot.getGraphics().drawImage(image.getImage(),0,0,slot);
         }
