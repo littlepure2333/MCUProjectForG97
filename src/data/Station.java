@@ -14,7 +14,11 @@ public class Station {
 		this.slotSize = slotSize;
 		slot = new Scooter[slotSize];
 	}
-	
+
+	public Scooter[] getSlot() {
+		return slot;
+	}
+
 	public int getId() {
 		return this.id;
 	}
@@ -22,7 +26,7 @@ public class Station {
 	public int getSlotSize() {
 		return this.slotSize;
 	}
-	
+
 	/* 返回station的非空slot数量 */
 	public int size() {
 		int count = 0;

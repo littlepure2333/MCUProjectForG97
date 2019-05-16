@@ -66,7 +66,7 @@ class UserPanel extends JPanel implements PanelStateMonitor {
             String actionCommand = e.getActionCommand();
             if (actionCommand.equals("TAKE")) {
                 if (AppState.getCurrentUser().getScooter() == null) {
-                    if (AppState.getCurrentUser().needToPay.equals("true")) {
+                    if (AppState.getCurrentUser().isNeedToPay().equals("true")) {
                         Windows.goToPanel(haveFinePanel);
                     } else {
                         borrowPanel.update();

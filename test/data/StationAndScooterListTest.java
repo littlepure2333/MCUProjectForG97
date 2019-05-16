@@ -3,9 +3,9 @@ package data;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
-class StationListTest {
+class StationAndScooterListTest extends AppData {
 
 
     /**
@@ -13,13 +13,11 @@ class StationListTest {
      * （每个站点5辆车，占前五个槽位）
      */
     @Test
-    void testResetStation() {
+    void testResetStationAndScooter() {
         int i = 1;
-        StationList stationList = new StationList();
-        ScooterList scooterList = new ScooterList();
-
-        stationList.resetList(new ArrayList<>());
-        scooterList.resetList(new ArrayList<>());
+        stations = new Vector<>();
+        scooters = new Vector<>();
+        updateData();
 
         Station station1 = new Station(1, 8);
         Station station2 = new Station(2, 8);
@@ -27,22 +25,22 @@ class StationListTest {
         for(;i<=5;i++) {
             Scooter scooter = new Scooter(i,0);
             station1.addScooter(scooter);
-            scooterList.addScooter(scooter);
+            scooters.add(scooter);
         }
         for(;i<=10;i++) {
             Scooter scooter = new Scooter(i,0);
             station2.addScooter(scooter);
-            scooterList.addScooter(scooter);
+            scooters.add(scooter);
         }
-
         for(;i<=15;i++) {
             Scooter scooter = new Scooter(i,0);
             station3.addScooter(scooter);
-            scooterList.addScooter(scooter);
+            scooters.add(scooter);
         }
-        stationList.addStation(station1);
-        stationList.addStation(station2);
-        stationList.addStation(station3);
+        stations.add(station1);
+        stations.add(station2);
+        stations.add(station3);
+        updateData();
     }
 
     /**
@@ -50,10 +48,9 @@ class StationListTest {
      */
     @Test
     void testGetScooter() {
-        StationList stationList = new StationList();
-        for (Station station : stationList.getList()) {
+        for (Station station : stations) {
             if (station.getId() == 1) {
-                if (station.slot[7] == null)
+                if (station.getSlot()[7] == null)
                     System.out.println("no 7");
             }
         }

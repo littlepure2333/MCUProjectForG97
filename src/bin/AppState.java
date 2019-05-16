@@ -42,7 +42,7 @@ public class AppState {
         AppState.currentStation = currentStation;
     }
 
-    public static void setCurrentSlot(int currentSlot) {
+    static void setCurrentSlot(int currentSlot) {
         AppState.currentSlot = currentSlot;
     }
 }

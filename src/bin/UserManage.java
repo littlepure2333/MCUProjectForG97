@@ -1,15 +1,12 @@
 package bin;
 
+import data.AppData;
 import data.User;
-import data.UserList;
 
 /**
  * 用户管理操作
  */
-public class UserManage {
-    /* 静态加载userList */
-    public static UserList userList = new UserList();
-
+public class UserManage extends AppData {
 /* 注册相关函数 */
 
     /**
@@ -21,8 +18,8 @@ public class UserManage {
      */
     public static boolean registration(int qmNumber, String fullName, String email) {
         if (!isDuplicate(qmNumber, email)) {
-            UserList userList = new UserList();
-            userList.addUser(new User(qmNumber, fullName, email));
+            users.add(new User(qmNumber, fullName, email));
+            updateData();
             return true;
         }
         return false;
@@ -35,8 +32,7 @@ public class UserManage {
      * @return true-信息重复 false-不重复
      */
     static boolean isDuplicate(int qmNumber, String email) {
-        UserList userList = new UserList();
-        for (User user:userList.getList()) {
+        for (User user : users) {
             if (qmNumber == user.getQmNumber())
                 return true;
             if (email.equals(user.getEmail()))
@@ -54,39 +50,40 @@ public class UserManage {
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean login(int qmNumber) {
-        if (isExist(qmNumber)) {
-            AppState.setCurrentUser(UserManage.findUserByQm(qmNumber));
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 检查qm号是否存在与数据库中
-     * @param qmNumber 填入的qm号码
-     * @return true-存在 false-不存在
-     */
-    private static boolean isExist(int qmNumber) {
-        UserList userList = new UserList();
-        for (User user:userList.getList()) {
-            if (qmNumber == user.getQmNumber())
+        for (User user : users) {
+            if (qmNumber == user.getQmNumber()) {
+                AppState.setCurrentUser(user);
                 return true;
+            }
         }
         return false;
     }
 
-    /**
-     * 根据用户qm号返回指定的用户信息
-     * @param qmNumber 指定的qm号
-     * @return 目标用户信息
-     */
-    public static User findUserByQm(int qmNumber) {
-        for (User user:userList.getList()) {
-            if (qmNumber == user.getQmNumber())
-                return user;
-        }
-        return null;
-    }
+//    /**
+//     * 检查qm号是否存在与数据库中
+//     * @param qmNumber 填入的qm号码
+//     * @return true-存在 false-不存在
+//     */
+//    private static boolean isExist(int qmNumber) {
+//        for (User user : users) {
+//            if (qmNumber == user.getQmNumber())
+//                return true;
+//        }
+//        return false;
+//    }
+//
+//    /**
+//     * 根据用户qm号返回指定的用户信息
+//     * @param qmNumber 指定的qm号
+//     * @return 目标用户信息
+//     */
+//    private static User findUserByQm(int qmNumber) {
+//        for (User user : users) {
+//            if (qmNumber == user.getQmNumber())
+//                return user;
+//        }
+//        return null;
+//    }
 }
 
 //

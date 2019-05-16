@@ -54,7 +54,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		从后台读取slot数据并设置图片
 		 */
 		for (int i=0;i<=7;i++) {
-			if (AppState.getCurrentStation().slot[i] == null)
+			if (AppState.getCurrentStation().getSlot()[i] == null)
 				slotPanel[i] = new EmptySlot();
 			else slotPanel[i] = new OccupiedSlot();
 		}
@@ -83,7 +83,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	 */
 	private boolean checkIsEmpty() {
 		for (int i=0;i<=7;i++) {
-			if (AppState.getCurrentStation().slot[i] != null) {
+			if (AppState.getCurrentStation().getSlot()[i] != null) {
 				return false;
 			}
 		}
@@ -135,7 +135,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 				helpButton.setText("Pick");
 				//从左到右找到一个车
 				for (site = 0; site <= 7; site++) {
-					if (AppState.getCurrentStation().slot[site] != null) {
+					if (AppState.getCurrentStation().getSlot()[site] != null) {
 						StationManage.chooseFlashSlot(site);
 						break;
 					}

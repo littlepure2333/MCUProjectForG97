@@ -1,5 +1,9 @@
 package bin;
 
+/**
+ * 前端函数库
+ * 用于管理检查输入格式的函数
+ */
 public class FormatCheck {
     public static int isID(String str){
         for (int i = str.length();--i>=0;){
@@ -11,7 +15,6 @@ public class FormatCheck {
         if(str.length()!=9)
             return 0;
         return 1;
-
     }
 
     private static int isCharacter(char c) {

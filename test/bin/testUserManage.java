@@ -2,19 +2,18 @@ package bin;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
+import java.util.Vector;
+
+import data.AppData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import data.User;
-import data.UserList;
 
-class testUserManage {
+class testUserManage extends AppData {
 
 	@BeforeEach
 	void init() {
-        UserList list = new UserList();
-        ArrayList<User> userList = new ArrayList<>();
-        list.resetList(userList);
+        users = new Vector<>();
+        updateData();
 	}
 
     @Test

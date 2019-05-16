@@ -1,15 +1,11 @@
 package bin;
 
+import data.AppData;
 import data.Station;
-import data.StationList;
-
 /**
  * 站点管理操作
  */
-public class StationManage {
-    /* 静态加载 stationList */
-    public static StationList stationList = new StationList();
-
+public class StationManage extends AppData {
     /**
      * 选择当前的站点
      * @param stationId 站点id
@@ -32,7 +28,7 @@ public class StationManage {
      * @return 站点数据对象，包括其中的slot和scooter数据
      */
     private static Station findStationById(int stationId) {
-        for (Station station : stationList.getList()) {
+        for (Station station : stations) {
             if (station.getId() == stationId)
                 return station;
         }
