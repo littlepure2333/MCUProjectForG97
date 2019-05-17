@@ -77,6 +77,8 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         subPanel.removeAll();
         for (int i=0;i<=7;i++)
             subPanel.add(slotPanel[i]);
+        Windows.frame.validate();
+        Windows.frame.repaint();
     }
 
     /**
@@ -191,15 +193,14 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
 
                         Windows.frame.validate();
                         Windows.frame.repaint();
-                        break;
+                        return;
                     }
                 }
-
+                refresh();
             }
 
             static void abort() {
                 i = 22;
-                refresh();
             }
         }
 

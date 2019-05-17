@@ -15,24 +15,24 @@
      <void method="set">
       <object idref="Station0"/>
       <array class="data.Scooter" length="8">
-       <void index="1">
+       <void index="0">
         <object class="data.Scooter" id="Scooter0">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
            <object idref="Scooter0"/>
-           <int>2</int>
+           <int>3</int>
           </void>
          </void>
         </object>
        </void>
-       <void index="2">
+       <void index="1">
         <object class="data.Scooter" id="Scooter1">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
            <object idref="Scooter1"/>
-           <int>3</int>
+           <int>11</int>
           </void>
          </void>
         </object>
@@ -89,45 +89,56 @@
      <void method="set">
       <object idref="Station1"/>
       <array class="data.Scooter" length="8">
-       <void index="1">
+       <void index="0">
         <object class="data.Scooter" id="Scooter5">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
            <object idref="Scooter5"/>
+           <int>2</int>
+          </void>
+         </void>
+        </object>
+       </void>
+       <void index="1">
+        <object class="data.Scooter" id="Scooter6">
+         <void class="data.Scooter" method="getField">
+          <string>id</string>
+          <void method="set">
+           <object idref="Scooter6"/>
            <int>7</int>
           </void>
          </void>
         </object>
        </void>
        <void index="2">
-        <object class="data.Scooter" id="Scooter6">
+        <object class="data.Scooter" id="Scooter7">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
-           <object idref="Scooter6"/>
+           <object idref="Scooter7"/>
            <int>8</int>
           </void>
          </void>
         </object>
        </void>
        <void index="3">
-        <object class="data.Scooter" id="Scooter7">
+        <object class="data.Scooter" id="Scooter8">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
-           <object idref="Scooter7"/>
+           <object idref="Scooter8"/>
            <int>9</int>
           </void>
          </void>
         </object>
        </void>
        <void index="4">
-        <object class="data.Scooter" id="Scooter8">
+        <object class="data.Scooter" id="Scooter9">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
-           <object idref="Scooter8"/>
+           <object idref="Scooter9"/>
            <int>10</int>
           </void>
          </void>
@@ -153,55 +164,55 @@
       <object idref="Station2"/>
       <array class="data.Scooter" length="8">
        <void index="0">
-        <object class="data.Scooter" id="Scooter9">
-         <void class="data.Scooter" method="getField">
-          <string>id</string>
-          <void method="set">
-           <object idref="Scooter9"/>
-           <int>11</int>
-          </void>
-         </void>
-        </object>
-       </void>
-       <void index="1">
         <object class="data.Scooter" id="Scooter10">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
            <object idref="Scooter10"/>
+           <int>1</int>
+          </void>
+         </void>
+        </object>
+       </void>
+       <void index="1">
+        <object class="data.Scooter" id="Scooter11">
+         <void class="data.Scooter" method="getField">
+          <string>id</string>
+          <void method="set">
+           <object idref="Scooter11"/>
            <int>12</int>
           </void>
          </void>
         </object>
        </void>
        <void index="2">
-        <object class="data.Scooter" id="Scooter11">
+        <object class="data.Scooter" id="Scooter12">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
-           <object idref="Scooter11"/>
+           <object idref="Scooter12"/>
            <int>13</int>
           </void>
          </void>
         </object>
        </void>
        <void index="3">
-        <object class="data.Scooter" id="Scooter12">
+        <object class="data.Scooter" id="Scooter13">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
-           <object idref="Scooter12"/>
+           <object idref="Scooter13"/>
            <int>14</int>
           </void>
          </void>
         </object>
        </void>
        <void index="4">
-        <object class="data.Scooter" id="Scooter13">
+        <object class="data.Scooter" id="Scooter14">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
-           <object idref="Scooter13"/>
+           <object idref="Scooter14"/>
            <int>15</int>
           </void>
          </void>

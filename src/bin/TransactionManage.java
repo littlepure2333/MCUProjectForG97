@@ -27,5 +27,12 @@ public class TransactionManage extends AppData {
         return false;
     }
 
-
+    /**
+     * （未实现）输出所有的transaction
+     */
+    public static void outputAllTransactions() {
+        for (int i = 0; i < transactions.size(); i++) {
+            System.out.println(transactions.get(i).toString());
+        }
+    }
 }
