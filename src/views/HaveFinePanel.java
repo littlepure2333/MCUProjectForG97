@@ -6,7 +6,7 @@ import views.components.ReturnButton;
 import javax.swing.*;
 import java.awt.*;
 
-public class HaveFinePanel extends JPanel{
+class HaveFinePanel extends JPanel{
 	
 	HaveFinePanel() {
 

@@ -20,7 +20,7 @@ class PanelTest {
 
     private static JFrame frame = new JFrame("QM scooter system");
 
-    private static BorrowPanel testPanel = new BorrowPanel();             //测试用Panel写在这里
+    private static UserInformationPanel testPanel = new UserInformationPanel();             //测试用Panel写在这里
     public static void main(String[] args) {
         init();
         upperPanel.setVisible(true);
@@ -30,6 +30,7 @@ class PanelTest {
 
         frame.add(testPanel, BorderLayout.CENTER);
         stack.push(testPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     /**
@@ -38,7 +39,6 @@ class PanelTest {
      * 2.初始化视图
      */
     private static void setState() {
-        StationManage.chooseStation(1);
         testPanel.update();
     }
 

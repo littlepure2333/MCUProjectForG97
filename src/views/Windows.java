@@ -23,6 +23,8 @@ public class Windows {
         init();
         frame.add(identityChoosePanel, BorderLayout.CENTER);
         stack.push(identityChoosePanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
     /**

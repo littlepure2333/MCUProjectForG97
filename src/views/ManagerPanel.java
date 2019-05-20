@@ -10,7 +10,8 @@ import java.awt.event.ActionListener;
 class ManagerPanel extends JPanel {
 	//next state
 	private RegisterInputPanel registerInputPanel = new RegisterInputPanel();
-	private UsagePanel usagePanel = new UsagePanel();
+	private StationInformationPanel stationInformationPanel = new StationInformationPanel();
+	private UserInformationPanel userInformationPanel = new UserInformationPanel();
 
 	
 	ManagerPanel() {
@@ -45,9 +46,13 @@ class ManagerPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String actionCommand = e.getActionCommand();
-			if(actionCommand.equals("User Information")) {
-				usagePanel.update();
-				Windows.goToPanel(usagePanel);
+			if (actionCommand.equals("User Information")) {
+				userInformationPanel.update();
+				Windows.goToPanel(userInformationPanel);
+			}
+			if (actionCommand.equals("Station Information")) {
+				stationInformationPanel.update();
+				Windows.goToPanel(stationInformationPanel);
 			}
 		}
 	}

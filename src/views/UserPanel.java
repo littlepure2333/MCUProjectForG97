@@ -29,11 +29,6 @@ class UserPanel extends JPanel implements PanelStateMonitor {
     }
 
     @Override
-    public void stateChanged() {
-
-    }
-
-    @Override
     public void update() {
 
     }

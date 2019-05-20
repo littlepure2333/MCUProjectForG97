@@ -1,12 +1,11 @@
 package views;
 
-import views.IdentityChoosePanel.MainPanel;
 import views.components.ReturnButton;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AlreadyHaveOnePanel extends JPanel{
+class AlreadyHaveOnePanel extends JPanel{
 	
 	AlreadyHaveOnePanel() {
 

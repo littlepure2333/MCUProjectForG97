@@ -35,11 +35,6 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         this.setVisible(true);
     }
 
-
-    @Override
-    public void stateChanged() {
-
-    }
     /**
      * 界面后台信息的改动
      * 直接影响界面内槽位的显示
