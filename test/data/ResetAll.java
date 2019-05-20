@@ -1,12 +1,25 @@
 package data;
 
-
 import org.junit.jupiter.api.Test;
 
 import java.util.Vector;
 
-class StationAndScooterListTest extends AppData {
+class ResetAll extends AppData {
+    @Test
+    void resetAll() {
+        testResetTransaction();
+        testResetStationAndScooter();
+        testResetUserData();
+    }
 
+    /**
+     * 将transaction重置为初始状态（什么都没有）
+     */
+    @Test
+    void testResetTransaction() {
+        transactions = new Vector<>();
+        updateData();
+    }
 
     /**
      * 初始化站点信息
@@ -44,15 +57,19 @@ class StationAndScooterListTest extends AppData {
     }
 
     /**
-     * 测试是否能读取车的信息
+     * 重置用户信息
+     * 注意只在需要重新导入数据时使用
+     * 需要同时重置站点信息
      */
     @Test
-    void testGetScooter() {
-        for (Station station : stations) {
-            if (station.getId() == 1) {
-                if (station.getSlot()[7] == null)
-                    System.out.println("no 7");
-            }
-        }
+    void testResetUserData() {
+        users = new Vector<>();
+        users.add(new User(123456789,"first","aaa@qmul.ac.uk"));
+        users.add(new User(111111111,"second","bbb@qmul.ac.uk"));
+        users.add(new User(222222222,"third","ccc@qmul.ac.uk"));
+        users.add(new User(333333333,"second","ddd@qmul.ac.uk"));
+        users.add(new User(444444444,"second","eee@qmul.ac.uk"));
+        updateData();
+
     }
 }
