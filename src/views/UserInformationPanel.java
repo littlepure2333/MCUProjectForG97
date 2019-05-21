@@ -4,14 +4,12 @@ import views.components.PanelStateMonitor;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
-
 import java.awt.*;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 class UserInformationPanel extends JPanel implements PanelStateMonitor {
-
 	/**
 	 * Create the panel.
 	 */
@@ -24,15 +22,15 @@ class UserInformationPanel extends JPanel implements PanelStateMonitor {
 	@Override
 	public void update() {
 		this.removeAll();
-		String[] columnNames = {"Name","Take Time","Take Station","Return Time","Return Station"};
-		Object[][] data={ {"1","2","3","4","4"},
-				{"1","2","3","4","4"},
-				{"1","2","3","4","4"},
-				{"1","2","3","4","4"},
-				{"1","2","3","4","4"},
-				{"1","2","3","4","4"},
-				{"1","2","3","4","4"},
-				{"1","2","3","4","4"}};
+		String[] columnNames = {"Name", "Take Time", "Take Station", "Return Time", "Return Station"};
+		Object[][] data = {{"1", "2", "3", "4", "4"},
+				{"1", "2", "3", "4", "4"},
+				{"1", "2", "3", "4", "4"},
+				{"1", "2", "3", "4", "4"},
+				{"1", "2", "3", "4", "4"},
+				{"1", "2", "3", "4", "4"},
+				{"1", "2", "3", "4", "4"},
+				{"1", "2", "3", "4", "4"}};
 		JTable table = new JTable(data, columnNames);
 		table.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		table.setBounds(10, 263, 310, -300);

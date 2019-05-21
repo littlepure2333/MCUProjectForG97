@@ -9,22 +9,15 @@ import java.util.Stack;
 
 public class Windows {
     public static JFrame frame = new JFrame("QM scooter system");
-
-    //第一个界面
-    private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel();
-
-    //return panel - 应用于所有的界面
     public static JPanel upperPanel = new JPanel();
-
-    //stack - 实现返回键功能
     public static Stack<JPanel> stack = new Stack<>();
+    private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel();
 
     public Windows() {
         init();
         frame.add(identityChoosePanel, BorderLayout.CENTER);
         stack.push(identityChoosePanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     /**
@@ -48,14 +41,6 @@ public class Windows {
         frame.add(upperPanel, BorderLayout.NORTH);
 
     }
-
-//    /**
-//     * 刷新借/还车的界面信息
-//     */
-//    static void updateStationView() {
-//        returnPanel.update();
-//        borrowPanel.update();
-//    }
 
     /**
      * 回到主页

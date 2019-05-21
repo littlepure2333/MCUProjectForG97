@@ -9,9 +9,10 @@ public class Transaction {
     public int scooterId;
     public Date time;
 
-    public Transaction() { }
+    public Transaction() {
+    }
 
-    public Transaction(int qmNumber, String type,int scooterId, Date time) {
+    public Transaction(int qmNumber, String type, int scooterId, Date time) {
         this.qmNumber = qmNumber;
         this.type = type;
         this.scooterId = scooterId;

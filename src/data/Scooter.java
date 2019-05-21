@@ -12,7 +12,7 @@ public class Scooter {
 		this.id = id;
 		this.used = used;
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}

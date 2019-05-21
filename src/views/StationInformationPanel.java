@@ -16,12 +16,11 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
 
 public class StationInformationPanel extends JPanel implements PanelStateMonitor {
-
 	/**
 	 * Create the panel.
 	 */
 	StationInformationPanel() {
-		this.setLayout(new GridLayout(2,1));
+		this.setLayout(new GridLayout(2, 1));
 	}
 
 	/**
@@ -29,10 +28,10 @@ public class StationInformationPanel extends JPanel implements PanelStateMonitor
 	 */
 	@Override
 	public void update() {
-		String[] columnNames = {"Station","Occupied","Unoccupied","Total"};
-		Object[][] data={ {"A","1","2","3"},
-				{"B","1","2","3"},
-				{"C","1","2","3"},};
+		String[] columnNames = {"Station", "Occupied", "Unoccupied", "Total"};
+		Object[][] data = {{"A", "1", "2", "3"},
+				{"B", "1", "2", "3"},
+				{"C", "1", "2", "3"},};
 		JTable table = new JTable(data, columnNames);
 		table.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		table.setBounds(10, 263, 310, -300);
@@ -41,9 +40,9 @@ public class StationInformationPanel extends JPanel implements PanelStateMonitor
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		table.setPreferredScrollableViewportSize(new Dimension(5000, 5000));
 
-		JLabel lblNewLabel = new JLabel("8 scooters in use.",JLabel.CENTER);
+		JLabel lblNewLabel = new JLabel("8 scooters in use.", JLabel.CENTER);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-		add(scrollPane,BorderLayout.CENTER);
+		add(scrollPane, BorderLayout.CENTER);
 		add(lblNewLabel);
 	}
 }

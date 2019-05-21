@@ -7,7 +7,8 @@ public class User {
     public String needToPay;
     public Scooter scooter;
 
-    public User() { }
+    public User() {
+    }
 
     public User(int qmNumber, String fullName, String email) {
         this.qmNumber = qmNumber;

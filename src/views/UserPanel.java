@@ -1,15 +1,13 @@
 package views;
 
-import views.components.GotoButton;
-
-import javax.swing.*;
-
 import bin.AppState;
+import views.components.GotoButton;
 import views.components.PanelStateMonitor;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 class UserPanel extends JPanel implements PanelStateMonitor {
     private BorrowPanel borrowPanel = new BorrowPanel();
@@ -33,9 +31,8 @@ class UserPanel extends JPanel implements PanelStateMonitor {
 
     }
 
-    class MainPanel extends JPanel implements ActionListener{
-
-        MainPanel(){
+    class MainPanel extends JPanel implements ActionListener {
+        MainPanel() {
             JButton takeButton = new JButton("TAKE");
             JButton returnButton = new JButton("RETURN");
             GotoButton accountButton = new GotoButton("MY ACCOUNT", myAccountPanel);
@@ -49,7 +46,7 @@ class UserPanel extends JPanel implements PanelStateMonitor {
             takeButton.addActionListener(this);
             returnButton.addActionListener(this);
 
-            this.setLayout(new GridLayout(1,3));
+            this.setLayout(new GridLayout(1, 3));
             this.add(takeButton);
             this.add(returnButton);
             this.add(accountButton);
@@ -57,7 +54,6 @@ class UserPanel extends JPanel implements PanelStateMonitor {
         }
 
         public void actionPerformed(ActionEvent e) {
-
             String actionCommand = e.getActionCommand();
             if (actionCommand.equals("TAKE")) {
                 if (AppState.getCurrentUser().getScooter() == null) {
@@ -68,9 +64,7 @@ class UserPanel extends JPanel implements PanelStateMonitor {
                         Windows.goToPanel(borrowPanel);
                     }
                 } else {
-
                     Windows.goToPanel(alreadyHaveOnePanel);
-
                 }
             }
             if (actionCommand.equals("RETURN")) {
@@ -82,6 +76,5 @@ class UserPanel extends JPanel implements PanelStateMonitor {
                 }
             }
         }
-       
     }
 }

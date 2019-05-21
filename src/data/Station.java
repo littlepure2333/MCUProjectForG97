@@ -30,30 +30,29 @@ public class Station {
 	/* 返回station的非空slot数量 */
 	public int size() {
 		int count = 0;
-		for(int i = 0; i < this.slotSize; i++) {
-			if(slot[i] != null) {
+		for (int i = 0; i < this.slotSize; i++) {
+			if (slot[i] != null) {
 				count++;
 			}
 		}
 		return count;
 	}
-	
+
 	/* 判断station是否slot全占满了 */
 	public boolean isFull() {
 		return this.size() == this.slotSize;
 	}
-	
+
 	/* 判断station是否slot全为空 */
 	public boolean isEmpty() {
 		return this.size() == 0;
 	}
-	
+
 	/* 添加成功返回true， 添加失败返回false */
 	public boolean addScooter(Scooter item) {
 		if (this.isFull()) {
 			return false;
-		}
-		else {
+		} else {
 			for (int i = 0; i < this.slotSize; i++) {
 				if (slot[i] == null) {
 					slot[i] = item;

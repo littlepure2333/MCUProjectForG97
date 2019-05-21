@@ -8,15 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class ManagerPanel extends JPanel {
-	//next state
 	private RegisterInputPanel registerInputPanel = new RegisterInputPanel();
 	private StationInformationPanel stationInformationPanel = new StationInformationPanel();
 	private UserInformationPanel userInformationPanel = new UserInformationPanel();
 
-	
 	ManagerPanel() {
-
-		this.setLayout(new GridLayout(3,1));
+		this.setLayout(new GridLayout(3, 1));
 		this.add(new JPanel());
 		this.add(new MainPanel());
 		this.add(new JPanel());
@@ -25,7 +22,6 @@ class ManagerPanel extends JPanel {
 	}
 
 	class MainPanel extends JPanel implements ActionListener {
-
 		MainPanel() {
 			GotoButton registerButton = new GotoButton("Register", registerInputPanel);
 			JButton userButton = new JButton("User Information");

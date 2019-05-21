@@ -9,7 +9,6 @@ import java.util.Stack;
 
 /**
  * 界面测试类修改到此处
- *
  */
 class PanelTest {
     //return panel - 应用于所有的界面
@@ -21,6 +20,7 @@ class PanelTest {
     private static JFrame frame = new JFrame("QM scooter system");
 
     private static UserInformationPanel testPanel = new UserInformationPanel();             //测试用Panel写在这里
+
     public static void main(String[] args) {
         init();
         upperPanel.setVisible(true);

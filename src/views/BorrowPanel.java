@@ -21,17 +21,17 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	private JPanel submitPanel = new SubmitPanel();
 	private static JPanel subPanel;
 
-	BorrowPanel(){
+	BorrowPanel() {
 		JPanel upperPanel = new UpperPanel();
 		slotPanel = new JPanel[8];
-		for(int i=0;i<=7;i++)
+		for (int i = 0; i <= 7; i++)
 			slotPanel[i] = new EmptySlot();
 		subPanel = new SubPanel();
-		this.setLayout(new GridLayout(3,1));
+		this.setLayout(new GridLayout(3, 1));
 		this.add(upperPanel);
 		this.add(subPanel);
 		this.add(submitPanel);
-		
+
 		this.setVisible(true);
 	}
 
@@ -56,8 +56,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			myLabel.setText("Preparing for your scooter......\r\n");
 			selectLabel.setText("Please use the one with flashing......");
 			helpButton.setText("Help me pick one");
-		}
-		else {
+		} else {
 			myLabel.setText("No scooter in this station!\r\n");
 			selectLabel.setText("Please check other station!");
 			helpButton.setText("");
@@ -65,24 +64,25 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	}
 
 	private static void refresh() {
-        for (int i=0;i<=7;i++) {
-            if (AppState.getCurrentStation().getSlot()[i] == null)
-                slotPanel[i] = new EmptySlot();
-            else slotPanel[i] = new OccupiedSlot();
-        }
-        subPanel.removeAll();
-        for (int i=0;i<=7;i++)
-            subPanel.add(slotPanel[i]);
+		for (int i = 0; i <= 7; i++) {
+			if (AppState.getCurrentStation().getSlot()[i] == null)
+				slotPanel[i] = new EmptySlot();
+			else slotPanel[i] = new OccupiedSlot();
+		}
+		subPanel.removeAll();
+		for (int i = 0; i <= 7; i++)
+			subPanel.add(slotPanel[i]);
 		Windows.frame.validate();
 		Windows.frame.repaint();
-    }
+	}
 
 	/**
 	 * 检查站点是否为空
+	 *
 	 * @return true-空，false-非空
 	 */
 	private boolean checkIsEmpty() {
-		for (int i=0;i<=7;i++) {
+		for (int i = 0; i <= 7; i++) {
 			if (AppState.getCurrentStation().getSlot()[i] != null) {
 				return false;
 			}
@@ -91,30 +91,31 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	}
 
 
-	class UpperPanel extends JPanel{
+	class UpperPanel extends JPanel {
 		UpperPanel() {
 			myLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 			selectLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
-			this.setLayout(new GridLayout(3,1));
+			this.setLayout(new GridLayout(3, 1));
 			this.add(myLabel);
 			this.add(selectLabel);
 
 		}
 	}
 
-	
-	class SubPanel extends JPanel{
-		SubPanel() {
-			this.setLayout(new GridLayout(1,8));
 
-			for (int i=0;i<=7;i++)
+	class SubPanel extends JPanel {
+		SubPanel() {
+			this.setLayout(new GridLayout(1, 8));
+
+			for (int i = 0; i <= 7; i++)
 				this.add(slotPanel[i]);
 		}
 	}
-	
+
 	static class SubmitPanel extends JPanel implements ActionListener {
 		int site;
+
 		SubmitPanel() {
 			helpButton = new JButton("Help me pick one");
 			this.setLayout(new GridLayout(2, 1));
@@ -130,8 +131,8 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			提示阶段
 			 */
 			if (actionCommand.equals("Help me pick one")) {
-                //创建线程
-                Thread thread = new Thread(new WaitForBorrow());
+				//创建线程
+				Thread thread = new Thread(new WaitForBorrow());
 				helpButton.setText("Pick");
 				//从左到右找到一个车
 				for (site = 0; site <= 7; site++) {
@@ -150,7 +151,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 				myLabel.setText("You have borrowed a scooter!\r\n");
 				selectLabel.setText("Enjoy your scoo-life!");
 				helpButton.setText("Click here to log out");
-                WaitForBorrow.abort();
+				WaitForBorrow.abort();
 			}
 			/*
 			完成阶段
@@ -168,6 +169,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		 */
 		static class WaitForBorrow implements Runnable {
 			private static int i;
+
 			@SuppressWarnings("Duplicates")
 			@Override
 			public void run() {
@@ -184,23 +186,22 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if(i == 3) {
+					if (i == 3) {
 						myLabel.setText("Time expired\r\n");
 						selectLabel.setText("Please return to previous page");
 						helpButton.setText("Time expired");
 
 						Windows.frame.validate();
-                        Windows.frame.repaint();
+						Windows.frame.repaint();
 						return;
 					}
 				}
-                refresh();
+				refresh();
 			}
 
 			static void abort() {
 				i = 22;
 			}
-
 		}
 
 

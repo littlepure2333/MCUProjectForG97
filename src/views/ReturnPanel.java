@@ -22,11 +22,11 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
     ReturnPanel() {
         JPanel upperPanel = new UpperPanel();
         slotPanel = new JPanel[8];
-        for(int i=0;i<=7;i++)
+        for (int i = 0; i <= 7; i++)
             slotPanel[i] = new OccupiedSlot();
         subPanel = new SubPanel();
 
-        this.setLayout(new GridLayout(3,1));
+        this.setLayout(new GridLayout(3, 1));
         this.add(upperPanel);
         this.add(subPanel);
         JPanel submitPanel = new SubmitPanel();
@@ -47,7 +47,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         /*
 		从后台读取slot数据并设置图片
 		 */
-       refresh();
+        refresh();
         /*
 		预判断slot整体情况
 		 */
@@ -55,8 +55,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             myLabel.setText("Ready for return your scooter......\r\n");
             selectLabel.setText("Please use the one with flashing......");
             helpButton.setText("Help me pick a empty slot");
-        }
-        else {
+        } else {
             myLabel.setText("No available slot in this station!\r\n");
             selectLabel.setText("Please check other station!");
             helpButton.setText("");
@@ -64,13 +63,13 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
     }
 
     private static void refresh() {
-        for (int i=0;i<=7;i++) {
+        for (int i = 0; i <= 7; i++) {
             if (AppState.getCurrentStation().getSlot()[i] != null)
                 slotPanel[i] = new OccupiedSlot();
             else slotPanel[i] = new EmptySlot();
         }
         subPanel.removeAll();
-        for (int i=0;i<=7;i++)
+        for (int i = 0; i <= 7; i++)
             subPanel.add(slotPanel[i]);
         Windows.frame.validate();
         Windows.frame.repaint();
@@ -78,10 +77,11 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
 
     /**
      * 检查站点是否为满
+     *
      * @return true-全满，false-有空位
      */
     private boolean checkIsFull() {
-        for (int i=0;i<=7;i++) {
+        for (int i = 0; i <= 7; i++) {
             if (AppState.getCurrentStation().getSlot()[i] == null) {
                 return false;
             }
@@ -89,50 +89,51 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         return true;
     }
 
-    class UpperPanel extends JPanel{
+    class UpperPanel extends JPanel {
         UpperPanel() {
             myLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
             selectLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
-            this.setLayout(new GridLayout(3,1));
+            this.setLayout(new GridLayout(3, 1));
             this.add(myLabel);
             this.add(selectLabel);
 
         }
     }
 
-    class SubPanel extends JPanel{
+    class SubPanel extends JPanel {
         SubPanel() {
-            this.setLayout(new GridLayout(1,8));
+            this.setLayout(new GridLayout(1, 8));
 
-            for (int i=0;i<=7;i++)
+            for (int i = 0; i <= 7; i++)
                 this.add(slotPanel[i]);
         }
     }
 
     static class SubmitPanel extends JPanel implements ActionListener {
         int site;
+
         SubmitPanel() {
-            helpButton=new JButton("Help me pick a empty slot");
-            this.setLayout(new GridLayout(2,1));
+            helpButton = new JButton("Help me pick a empty slot");
+            this.setLayout(new GridLayout(2, 1));
             helpButton.setFont(new Font("Times New Roman", Font.PLAIN, 40));
             this.add(new JLabel(""));
             this.add(helpButton);
             helpButton.addActionListener(this);
         }
 
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             String actionCommand = e.getActionCommand();
             /*
 			提示阶段
 			 */
-            if(actionCommand.equals("Help me pick a empty slot")) {
+            if (actionCommand.equals("Help me pick a empty slot")) {
                 //创建线程
                 Thread thread = new Thread(new WaitForReturn());
                 helpButton.setText("Return");
                 //从左到右找到一个空车位
-                for(site = 0; site <= 7;site++) {
-                    if(AppState.getCurrentStation().getSlot()[site] == null) {
+                for (site = 0; site <= 7; site++) {
+                    if (AppState.getCurrentStation().getSlot()[site] == null) {
                         StationManage.chooseFlashSlot(site);
                         break;
                     }
@@ -142,7 +143,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             /*
 			放车阶段
 			 */
-            if(actionCommand.equals("Return")) {
+            if (actionCommand.equals("Return")) {
                 ScooterManage.returnScooter();
                 myLabel.setText("You have returned your scooter!\r\n");
                 selectLabel.setText("Thank you for using!");
@@ -152,7 +153,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             /*
 			完成阶段
 			 */
-            if(actionCommand.equals("Click here to log out")) {
+            if (actionCommand.equals("Click here to log out")) {
                 Windows.backToMenu();
             }
             /*
@@ -165,6 +166,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
          */
         static class WaitForReturn implements Runnable {
             private static int i;
+
             @SuppressWarnings("Duplicates")
             @Override
             public void run() {
@@ -181,7 +183,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if(i == 3) {
+                    if (i == 3) {
                         myLabel.setText("Time expired\r\n");
                         selectLabel.setText("Please return to previous page");
                         helpButton.setText("Time expired");
@@ -206,7 +208,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             JPanel slot = slotPanel[AppState.getCurrentSlot()];
             ImageIcon image = new ImageIcon("./media/null.jpg");
             image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
-            slot.getGraphics().drawImage(image.getImage(),0,0,slot);
+            slot.getGraphics().drawImage(image.getImage(), 0, 0, slot);
         }
 
         /**
@@ -216,7 +218,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             JPanel slot = slotPanel[AppState.getCurrentSlot()];
             ImageIcon image = new ImageIcon("./media/nullflash.jpg");
             image.setImage(image.getImage().getScaledInstance(slot.getWidth(), slot.getHeight(), Image.SCALE_AREA_AVERAGING));
-            slot.getGraphics().drawImage(image.getImage(),0,0,slot);
+            slot.getGraphics().drawImage(image.getImage(), 0, 0, slot);
         }
     }
 }
