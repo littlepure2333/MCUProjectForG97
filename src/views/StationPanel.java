@@ -46,15 +46,12 @@ class StationPanel extends JPanel {
 			switch (actionCommand) {
 				case "Station A":
 					StationManage.chooseStation(1);
-					System.out.println("station chose: A");
 					break;
 				case "Station B":
 					StationManage.chooseStation(2);
-					System.out.println("station chose: B");
 					break;
 				case "Station C":
 					StationManage.chooseStation(3);
-					System.out.println("station chose: C");
 					break;
 			}
 		}

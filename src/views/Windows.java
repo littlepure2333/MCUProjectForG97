@@ -49,7 +49,7 @@ public class Windows {
      */
     static void backToMenu() {
         Windows.frame.remove(Windows.stack.peek());
-        Windows.stack.empty();
+        Windows.stack = new Stack<>();
 
         Windows.frame.add(identityChoosePanel);
         Windows.stack.push(identityChoosePanel);
