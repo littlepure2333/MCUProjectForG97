@@ -3,6 +3,7 @@ package bin;
 import data.AppData;
 import data.Transaction;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -22,15 +23,21 @@ public class TransactionManage extends AppData {
 
     /**
      * （未实现）根据transaction检查当前用户是否超时
+     * 先判断单次使用是否超时
      */
     public static boolean checkIfExpired() {
+        ArrayList<Transaction> usageList = new ArrayList<>();
+        for (Transaction transaction: transactions) {
+            if (transaction.getQmNumber() == AppState.getCurrentUser().getQmNumber())
+                usageList.add(transaction);
+        }
         return false;
     }
 
     /**
      * （未实现）输出所有的transaction
      */
-    public static void outputAllTransactions() {
+    public static void allTransactions() {
         for (int i = 0; i < transactions.size(); i++) {
             System.out.println(transactions.get(i).toString());
         }

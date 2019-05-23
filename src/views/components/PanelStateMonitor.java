@@ -5,7 +5,7 @@ package views.components;
  */
 public interface PanelStateMonitor {
     /**
-     * Load the data and refresh the view
+     * For entering the stateful panel, load the data and refresh the panel
      */
     void update();
 }

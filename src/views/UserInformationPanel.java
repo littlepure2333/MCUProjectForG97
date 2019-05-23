@@ -23,7 +23,7 @@ class UserInformationPanel extends JPanel implements PanelStateMonitor {
 	public void update() {
 		this.removeAll();
 		String[] columnNames = {"Name", "Take Time", "Take Station", "Return Time", "Return Station"};
-		Object[][] data = {{"1", "2", "3", "4", "4"},
+		String[][] data = {{"1", "2", "3", "4", "4"},
 				{"1", "2", "3", "4", "4"},
 				{"1", "2", "3", "4", "4"},
 				{"1", "2", "3", "4", "4"},

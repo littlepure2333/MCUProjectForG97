@@ -170,10 +170,14 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		static class WaitForBorrow implements Runnable {
 			private static int i;
 
-			@SuppressWarnings("Duplicates")
 			@Override
 			public void run() {
-				for (i = 0; i < 20; i++) {
+				waitForSec(5);
+			}
+
+			@SuppressWarnings("Duplicates")
+			private void waitForSec(int sec) {
+				for (i = 0; i < 100; i++) {
 					setSlotViewOccupied();
 					try {
 						Thread.sleep(500);
@@ -186,7 +190,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if (i == 3) {
+					if (i == (sec-1)) {
 						myLabel.setText("Time expired\r\n");
 						selectLabel.setText("Please return to previous page");
 						helpButton.setText("Time expired");
@@ -200,7 +204,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 			}
 
 			static void abort() {
-				i = 22;
+				i = 100;
 			}
 		}
 

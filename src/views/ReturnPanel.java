@@ -150,9 +150,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                 helpButton.setText("Click here to log out");
                 WaitForReturn.abort();
             }
-            /*
-			完成阶段
-			 */
+            // complete
             if (actionCommand.equals("Click here to log out")) {
                 Windows.backToMenu();
             }
@@ -167,10 +165,14 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
         static class WaitForReturn implements Runnable {
             private static int i;
 
-            @SuppressWarnings("Duplicates")
             @Override
             public void run() {
-                for (i = 0; i < 20; i++) {
+                waitForSec(5);
+            }
+
+            @SuppressWarnings("Duplicates")
+            private void waitForSec(int sec) {
+                for (i = 0; i < 100; i++) {
                     setSlotViewEmpty();
                     try {
                         Thread.sleep(500);
@@ -183,7 +185,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (i == 3) {
+                    if (i == (sec-1)) {
                         myLabel.setText("Time expired\r\n");
                         selectLabel.setText("Please return to previous page");
                         helpButton.setText("Time expired");
@@ -197,7 +199,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
             }
 
             static void abort() {
-                i = 22;
+                i = 100;
             }
         }
 

@@ -1,6 +1,7 @@
 package bin;
 
 import data.Station;
+import data.Transaction;
 import data.User;
 
 /**
@@ -21,6 +22,10 @@ public class AppState {
      * 目前正在闪烁的slot编号，从0开始编号，可用于借车时，也可用于还车时
      */
     private static int currentSlot;
+    /**
+     * the transaction currently used for checking if time expired
+     */
+    private static Transaction currentTransaction;
 
     public static User getCurrentUser() {
         return currentUser;
@@ -44,5 +49,13 @@ public class AppState {
 
     static void setCurrentSlot(int currentSlot) {
         AppState.currentSlot = currentSlot;
+    }
+
+    public static Transaction getCurrentTransaction() {
+        return currentTransaction;
+    }
+
+    public static void setCurrentTransaction(Transaction currentTransaction) {
+        AppState.currentTransaction = currentTransaction;
     }
 }
