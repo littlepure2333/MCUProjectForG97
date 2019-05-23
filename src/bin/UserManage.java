@@ -61,4 +61,31 @@ public class UserManage extends AppData {
         }
         return false;
     }
+
+    public static void payTheFine() {
+        AppState.getCurrentUser().setNeedToPay("false");
+        updateData();
+    }
+
+    public static String getCurrentUserId() {
+        return Integer.toString(AppState.getCurrentUser().getQmNumber());
+    }
+
+    public static String getCurrentUserName() {
+        return AppState.getCurrentUser().getFullName();
+    }
+
+    public static String getCurrentUserEmail() {
+        return AppState.getCurrentUser().getEmail();
+    }
+
+    public static String getCurrentUserFineState() {
+        if (AppState.getCurrentUser().isNeedToPay() == "true") {
+            return "Be fined";
+        }
+        else {
+            return "Not be fined";
+        }
+    }
+
 }

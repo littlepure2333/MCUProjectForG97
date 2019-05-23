@@ -37,10 +37,12 @@ public class TransactionManage extends AppData {
     public static int checkIfExpired() {
         if (!ifSingleTimeExpired()) {
             AppState.getCurrentUser().setNeedToPay("true");
+            updateData();
             return SINGLE_EXPIRED;
         }
         if (!ifTotalExpired()) {
             AppState.getCurrentUser().setNeedToPay("true");
+            updateData();
             return TOTAL_EXPIRED;
         }
         return NOT_EXPIRED;

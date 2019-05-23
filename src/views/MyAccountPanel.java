@@ -1,5 +1,6 @@
 package views;
 
+import bin.UserManage;
 import views.components.GotoButton;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 
 class MyAccountPanel extends JPanel {
 	private ReportPanel reportPanel = new ReportPanel();
+	JLabel fineText;
 
 	MyAccountPanel() {
 		JPanel idPanel = new IdPanel();
@@ -32,7 +34,7 @@ class MyAccountPanel extends JPanel {
 		IdPanel() {
 			JLabel idLabel = new JLabel("ID:             ");
 			idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JTextField idText = new JTextField(15);
+			JLabel idText = new JLabel(UserManage.getCurrentUserId());
 			idText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
 			this.add(idLabel);
@@ -44,7 +46,7 @@ class MyAccountPanel extends JPanel {
 		NamePanel() {
 			JLabel nameLabel = new JLabel("Name:        ");
 			nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JTextField nameText = new JTextField(15);
+			JLabel nameText = new JLabel(UserManage.getCurrentUserName());
 			nameText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
 			this.add(nameLabel);
@@ -56,7 +58,7 @@ class MyAccountPanel extends JPanel {
 		AddPanel() {
 			JLabel addLabel = new JLabel("Email：      ");
 			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JTextField addText = new JTextField(15);
+			JLabel addText = new JLabel(UserManage.getCurrentUserEmail());
 			addText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
 			this.add(addLabel);
@@ -68,7 +70,7 @@ class MyAccountPanel extends JPanel {
 		FinePanel() {
 			JLabel fineLabel = new JLabel("Fine Status: ");
 			fineLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JTextField fineText = new JTextField(15);
+			fineText = new JLabel(UserManage.getCurrentUserFineState());
 			fineText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
 			this.add(fineLabel);
@@ -91,6 +93,10 @@ class MyAccountPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			String actionCommand = e.getActionCommand();
+			if (actionCommand.equals("Pay My Fine")) {
+				UserManage.payTheFine();
+				fineText.setText(UserManage.getCurrentUserFineState());
+			}
 		}
 	}
 
