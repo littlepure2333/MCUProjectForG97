@@ -3,6 +3,8 @@ package views;
 import bin.AppState;
 import bin.ScooterManage;
 import bin.StationManage;
+import bin.TransactionManage;
+import data.Transaction;
 import views.components.EmptySlot;
 import views.components.OccupiedSlot;
 import views.components.PanelStateMonitor;
@@ -140,23 +142,29 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
                 }
                 thread.start();
             }
-            /*
-			放车阶段
-			 */
+            //return the scooter
             if (actionCommand.equals("Return")) {
                 ScooterManage.returnScooter();
                 myLabel.setText("You have returned your scooter!\r\n");
-                selectLabel.setText("Thank you for using!");
                 helpButton.setText("Click here to log out");
                 WaitForReturn.abort();
+                switch (TransactionManage.checkIfExpired()) {
+                    case 0:
+                        selectLabel.setText("Thank you for using!");
+                        break;
+                    case 1:
+                        selectLabel.setText("You have expired the usage time! (30min per using)");
+                        break;
+                    case 2:
+                        selectLabel.setText("You have expired the usage time! (2h per day)");
+                        break;
+                }
             }
-            // complete
+            //complete the return
             if (actionCommand.equals("Click here to log out")) {
                 Windows.backToMenu();
             }
-            /*
-			超时阶段：不会做任何事情
-			 */
+            //return time expired
         }
 
         /*
