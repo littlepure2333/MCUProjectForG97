@@ -40,7 +40,7 @@ public class TransactionManage extends AppData {
             return SINGLE_EXPIRED;
         }
         if (!ifTotalExpired()) {
-            AppState.getCurrentUser().setNeedToPay("false");
+            AppState.getCurrentUser().setNeedToPay("true");
             return TOTAL_EXPIRED;
         }
         return NOT_EXPIRED;
