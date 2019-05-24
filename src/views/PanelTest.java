@@ -1,6 +1,6 @@
 package views;
 
-import bin.StationManage;
+import data.AppData;
 import views.components.ReturnButton;
 
 import javax.swing.*;
@@ -19,9 +19,10 @@ class PanelTest {
 
     private static JFrame frame = new JFrame("QM scooter system");
 
-    private static UserInformationPanel testPanel = new UserInformationPanel();             //测试用Panel写在这里
+    private static StationInformationPanel testPanel = new StationInformationPanel();             //测试用Panel写在这里
 
     public static void main(String[] args) {
+        AppData appData = new AppData();
         init();
         upperPanel.setVisible(true);
         upperPanel.add(new JLabel("单界面测试中,不要使用返回键"));

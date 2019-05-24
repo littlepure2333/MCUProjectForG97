@@ -2,15 +2,19 @@ package views;
 
 import bin.UserManage;
 import views.components.GotoButton;
+import views.components.PanelStateMonitor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class MyAccountPanel extends JPanel {
+class MyAccountPanel extends JPanel implements PanelStateMonitor {
 	private ReportPanel reportPanel = new ReportPanel();
-	JLabel fineText;
+	private JLabel fineText = new JLabel();
+	private JLabel idText = new JLabel();
+	private JLabel nameText = new JLabel();
+	private JLabel addText = new JLabel();
 
 	MyAccountPanel() {
 		JPanel idPanel = new IdPanel();
@@ -30,11 +34,18 @@ class MyAccountPanel extends JPanel {
 		this.setVisible(true);
 	}
 
+	@Override
+	public void update() {
+		fineText.setText(UserManage.getCurrentUserFineState());
+		idText.setText(UserManage.getCurrentUserId());
+		nameText.setText(UserManage.getCurrentUserName());
+		addText.setText(UserManage.getCurrentUserEmail());
+	}
+
 	class IdPanel extends JPanel {
 		IdPanel() {
 			JLabel idLabel = new JLabel("ID:             ");
 			idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JLabel idText = new JLabel(UserManage.getCurrentUserId());
 			idText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
 			this.add(idLabel);
@@ -46,7 +57,6 @@ class MyAccountPanel extends JPanel {
 		NamePanel() {
 			JLabel nameLabel = new JLabel("Name:        ");
 			nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JLabel nameText = new JLabel(UserManage.getCurrentUserName());
 			nameText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
 			this.add(nameLabel);
@@ -58,7 +68,6 @@ class MyAccountPanel extends JPanel {
 		AddPanel() {
 			JLabel addLabel = new JLabel("Email：      ");
 			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JLabel addText = new JLabel(UserManage.getCurrentUserEmail());
 			addText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
 			this.add(addLabel);
@@ -70,7 +79,6 @@ class MyAccountPanel extends JPanel {
 		FinePanel() {
 			JLabel fineLabel = new JLabel("Fine Status: ");
 			fineLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			fineText = new JLabel(UserManage.getCurrentUserFineState());
 			fineText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
 			this.add(fineLabel);

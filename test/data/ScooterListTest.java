@@ -12,7 +12,7 @@ class ScooterListTest extends AppData {
     @Test
     void testGetScooter() {
         for (Station station : stations) {
-            if (station.getId() == 1) {
+            if (station.getName().equals("A")) {
                 if (station.getSlot()[7] == null)
                     System.out.println("no 7");
             }

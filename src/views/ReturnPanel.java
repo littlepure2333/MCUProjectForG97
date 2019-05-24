@@ -4,7 +4,6 @@ import bin.AppState;
 import bin.ScooterManage;
 import bin.StationManage;
 import bin.TransactionManage;
-import data.Transaction;
 import views.components.EmptySlot;
 import views.components.OccupiedSlot;
 import views.components.PanelStateMonitor;

@@ -1,7 +1,8 @@
 package data;
 
+
 public class Station {
-	public int id;
+	public String name;
 	public Scooter[] slot;
 	private int slotSize;
 
@@ -9,8 +10,8 @@ public class Station {
 
 	}
 
-	public Station(int id, int slotSize) {
-		this.id = id;
+	public Station(String name, int slotSize) {
+		this.name = name;
 		this.slotSize = slotSize;
 		slot = new Scooter[slotSize];
 	}
@@ -19,8 +20,8 @@ public class Station {
 		return slot;
 	}
 
-	public int getId() {
-		return this.id;
+	public String getName() {
+		return name;
 	}
 
 	public int getSlotSize() {
@@ -79,5 +80,10 @@ public class Station {
 		return scooter;
 	}
 
+	@Override
+	public String toString() {
+		System.out.println(name + " " + size() + " " + (this.slotSize - size()) + " " + this.slotSize);
+		return name + " " + size() + " " + (this.slotSize - size()) + " " + this.slotSize;
+	}
 
 }

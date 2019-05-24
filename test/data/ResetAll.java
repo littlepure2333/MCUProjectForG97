@@ -32,9 +32,9 @@ class ResetAll extends AppData {
         scooters = new Vector<>();
         updateData();
 
-        Station station1 = new Station(1, 8);
-        Station station2 = new Station(2, 8);
-        Station station3 = new Station(3, 8);
+        Station station1 = new Station("A", 8);
+        Station station2 = new Station("B", 8);
+        Station station3 = new Station("C", 8);
         for(;i<=5;i++) {
             Scooter scooter = new Scooter(i,0);
             station1.addScooter(scooter);

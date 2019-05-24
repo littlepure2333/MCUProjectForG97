@@ -1,7 +1,6 @@
 package views;
 
 import bin.AppState;
-import views.components.GotoButton;
 import views.components.PanelStateMonitor;
 
 import java.awt.*;
@@ -35,7 +34,7 @@ class UserPanel extends JPanel implements PanelStateMonitor {
         MainPanel() {
             JButton takeButton = new JButton("TAKE");
             JButton returnButton = new JButton("RETURN");
-            GotoButton accountButton = new GotoButton("MY ACCOUNT", myAccountPanel);
+            JButton accountButton = new JButton("MY ACCOUNT");
             JButton checkStationButton = new JButton("CHECK STATION");
 
             takeButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
@@ -45,6 +44,7 @@ class UserPanel extends JPanel implements PanelStateMonitor {
 
             takeButton.addActionListener(this);
             returnButton.addActionListener(this);
+            accountButton.addActionListener(this);
 
             this.setLayout(new GridLayout(1, 3));
             this.add(takeButton);
@@ -74,6 +74,11 @@ class UserPanel extends JPanel implements PanelStateMonitor {
                     returnPanel.update();
                     Windows.goToPanel(returnPanel);
                 }
+            }
+            if (actionCommand.equals("MY ACCOUNT")) {
+                System.out.println("my accojngsdfa");
+                myAccountPanel.update();
+                Windows.goToPanel(myAccountPanel);
             }
         }
     }

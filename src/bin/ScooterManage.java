@@ -17,7 +17,7 @@ public class ScooterManage extends AppData {
                 .takeScooter(AppState.getCurrentStation()
                         .removeScooter(AppState.getCurrentSlot()));
         TransactionManage.generateTransaction("take");
-        // 对数据进行修改后，立即更新XML
+        findScooterById(AppState.getCurrentUser().getScooter().getId()).setUsed(1);
         updateData();
     }
 
@@ -31,8 +31,9 @@ public class ScooterManage extends AppData {
         int slotId = AppState.getCurrentSlot();
         AppState.getCurrentStation()
                 .loadScooter(AppState.getCurrentUser()
-                        .returnScooter(), slotId);
-        // 对数据进行更改后，立即更新XML
+                                .returnScooter(),
+                        slotId);
+        findScooterById(AppState.getCurrentStation().getSlot()[AppState.getCurrentSlot()].getId()).setUsed(0);
         updateData();
     }
 
@@ -42,7 +43,7 @@ public class ScooterManage extends AppData {
      * @param scooterId 指定的单车id
      * @return 单车数据对象
      */
-    static Scooter findScooterById(int scooterId) {
+    private static Scooter findScooterById(int scooterId) {
         for (Scooter scooter : scooters) {
             if (scooter.getId() == scooterId)
                 return scooter;

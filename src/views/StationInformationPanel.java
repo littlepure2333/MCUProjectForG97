@@ -1,5 +1,6 @@
 package views;
 
+import bin.StationManage;
 import views.components.PanelStateMonitor;
 
 import javax.swing.JPanel;
@@ -29,9 +30,7 @@ public class StationInformationPanel extends JPanel implements PanelStateMonitor
 	@Override
 	public void update() {
 		String[] columnNames = {"Station", "Occupied", "Unoccupied", "Total"};
-		Object[][] data = {{"A", "1", "2", "3"},
-				{"B", "1", "2", "3"},
-				{"C", "1", "2", "3"},};
+		String[][] data = StationManage.outputAllStations();
 		JTable table = new JTable(data, columnNames);
 		table.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		table.setBounds(10, 263, 310, -300);
