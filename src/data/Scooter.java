@@ -1,8 +1,11 @@
 package data;
 
+/**
+ * Entity class used to present scooters
+ */
 public class Scooter {
 	public int id;
-	public int used; // 1为已被用，0为未被用
+	public int used; // 1 - in use, 0 - not in use
 
 	public Scooter() {
 

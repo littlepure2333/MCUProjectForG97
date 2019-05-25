@@ -3,6 +3,10 @@ package data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Entity class used to present transactions
+ * Transaction is used to record who did what in where at when
+ */
 public class Transaction {
     public int qmNumber;
     public String name;
@@ -44,6 +48,10 @@ public class Transaction {
         return time + " " + qmNumber +" "+ name + " " + type + " " + scooterId + " " + stationName;
     }
 
+    /**
+     * get the actual date
+     * @return the actual date
+     */
     public String getActualDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         return dateFormat.format(getTime());

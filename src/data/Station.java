@@ -1,6 +1,8 @@
 package data;
 
-
+/**
+ * Entity class used to present stations
+ */
 public class Station {
 	public String name;
 	public Scooter[] slot;
@@ -28,7 +30,10 @@ public class Station {
 		return this.slotSize;
 	}
 
-	/* 返回station的非空slot数量 */
+	/**
+	 * Get the number of unoccupied slots
+	 * @return the number of unoccupied slots
+	 */
 	private int size() {
 		int count = 0;
 		for (int i = 0; i < this.slotSize; i++) {
@@ -39,15 +44,21 @@ public class Station {
 		return count;
 	}
 
-	/*
-	需要保证原slot为空
+	/**
+	 * load a scooter to an unoccupied slot
+	 * @param scooter the scooter
+	 * @param slotID the slot ID
 	 */
 	public void loadScooter(Scooter scooter, int slotID) {
 		scooter.setUsed(0);
 		this.slot[slotID] = scooter;
 	}
 
-	/* remove成功返回scooter，remove失败返回null */
+	/**
+	 * remove a scooter from a slot
+	 * @param slotId the slot id
+	 * @return the scooter
+	 */
 	public Scooter removeScooter(int slotId) {
 		Scooter scooter = this.slot[slotId];
 		scooter.setUsed(1);
@@ -60,14 +71,19 @@ public class Station {
 		return name + " " + size() + " " + (this.slotSize - size()) + " " + this.slotSize;
 	}
 
-	//测试专用
-	/* 判断station是否slot全占满了 */
+	/**
+	 * (For test) Check if the station is full.
+	 * @return full or not
+	 */
 	private boolean isFull() {
 		return this.size() == this.slotSize;
 	}
 
-	//测试专用
-	/* 添加成功返回true， 添加失败返回false */
+	/**
+	 * (For test) add a scooter to a slot
+	 * @param item the scooter
+	 * @return add success or failure
+	 */
 	boolean addScooter(Scooter item) {
 		if (this.isFull()) {
 			return false;

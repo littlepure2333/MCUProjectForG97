@@ -6,13 +6,13 @@ import java.io.*;
 import java.util.Vector;
 
 /**
- * Entity Class
- * 程序开始时初始化，读取文件中的数据
- * 类中所有的list和更新文件的方法updateData()供所有的manage类访问
+ * Entity class used to store all data.
+ * Initialize when the program start, read data from local files.
+ * All lists and methods in this class is provided to all manage classes
  */
 public class AppData {
     /*
-    缓冲区
+    Buffer section
      */
     protected static Vector<User> users;
     protected static Vector<Station> stations;
@@ -20,7 +20,7 @@ public class AppData {
     protected static Vector<Transaction> transactions;
 
     /*
-    文件地址
+    Local file address
      */
     private static final String USER_DIR = "./statics/users.xml";
     private static final String STATION_DIR = "./statics/stations.xml";
@@ -28,7 +28,7 @@ public class AppData {
     private static final String TRANSACTION_DIR = "./statics/transactions.xml";
 
     /**
-     * 初始化读取数据
+     * Initialize to read data from local files
      */
     @SuppressWarnings("unchecked")
     public AppData() {
@@ -39,8 +39,8 @@ public class AppData {
     }
 
     /**
-     * 将所有程序中的数据更新到文件中
-     * 如果在关键操作后没有使用该方法，下次启动程序就会缺失数据
+     * Update all data to local files.
+     * Must be called after changing something, unless data will not be saved in local files
      */
     protected static void updateData() {
         save(users, USER_DIR);
@@ -51,11 +51,11 @@ public class AppData {
 
 
     /**
-     * 将指定数据集合保存在指定文件中，保证静态文件和程序数据的同步
-     *
-     * @param data     将要存入文件的数据
-     * @param location 文件地址
-     * @param <E>      指定数据集合
+     * Save the specified data to the specified file.
+     * To ensure the data in static files is as same as the running program data
+     * @param data     the data want to save
+     * @param location the file address
+     * @param <E>      data set type
      */
     private static <E extends Vector> void save(E data, String location) {
         try {
@@ -70,9 +70,9 @@ public class AppData {
 
     /**
      * 从指定文件地址中提取数据并转换成数组
-     *
-     * @param location 文件地址
-     * @return 从文件读取出的数组
+     * Read data from specified file
+     * @param location the file address
+     * @return the data set read from local file
      */
     private Vector<?> read(String location) {
         try {

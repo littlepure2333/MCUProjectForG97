@@ -1,10 +1,13 @@
 package data;
 
+/**
+ * Entity class used to present users
+ */
 public class User {
     public int qmNumber;
     public String fullName;
     public String email;
-    public String needToPay;
+    public String needToPay; // "true" - need to pay a fine, "false" - no fine
     public Scooter scooter;
 
     public User() {
@@ -42,12 +45,18 @@ public class User {
         this.needToPay = needToPay;
     }
 
-    /* this user take a scooter from one station */
+    /**
+     * the user take a scooter from a station
+     * @param scooter the scooter
+     */
     public void takeScooter(Scooter scooter) {
         this.scooter = scooter;
     }
 
-    /* this user return the scooter to one station */
+    /**
+     * the user return a scooter to a station
+     * @return the scooter
+     */
     public Scooter returnScooter() {
         Scooter scooter = this.scooter;
         this.scooter = null;
