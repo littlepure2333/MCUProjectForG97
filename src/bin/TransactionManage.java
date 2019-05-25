@@ -40,7 +40,15 @@ public class TransactionManage extends AppData {
      */
     static void generateTransaction(String type) {
         Date time = new Date();
-        Transaction transaction = new Transaction(AppState.getCurrentUser().getQmNumber(), type, AppState.getCurrentUser().getScooter().getId(), time);
+        Transaction transaction =
+                new Transaction(
+                        AppState.getCurrentUser().getQmNumber(),
+                        AppState.getCurrentUser().getFullName(),
+                        type,
+                        AppState.getCurrentStation().getName(),
+                        AppState.getCurrentUser().getScooter().getId(),
+                        time
+                );
         transactions.add(transaction);
         if (transaction.getType().equals("return"))
             AppState.setCurrentTransaction(transaction);
@@ -121,13 +129,22 @@ public class TransactionManage extends AppData {
     }
 
     /**
-     * (not implemented)
      * Output all transactions
+     * @return All transaction information to be displayed on the interface
      */
-    public static void getAllTransactions() {
+    public static String[][] getAllTransactions() {
+        ArrayList<String[]> column = new ArrayList<>();
+        int rowSize = 0;
         for (Transaction transaction : transactions) {
-            System.out.println(transaction.toString());
+            String[] row = transaction.toString().split(" ");
+            column.add(row);
+            rowSize = row.length;
         }
+        String[][] allTransactions = new String[column.size()][rowSize];
+        for (int i = 0; i < column.size(); i++) {
+            allTransactions[i] = column.get(i);
+        }
+        return allTransactions;
     }
 
 }
