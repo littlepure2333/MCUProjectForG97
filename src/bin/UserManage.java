@@ -80,7 +80,7 @@ public class UserManage extends AppData {
     }
 
     public static String getCurrentUserFineState() {
-        if (AppState.getCurrentUser().isNeedToPay() == "true") {
+        if (AppState.getCurrentUser().isNeedToPay().equals("true")) {
             return "Be fined";
         }
         else {

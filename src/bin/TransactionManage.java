@@ -8,18 +8,35 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * 事务管理操作
+ * Control Class
+ *
  */
 public class TransactionManage extends AppData {
     // how long should the user return the scooter at most (in seconds)
-    private static final long SINGLE_TIME = 10;
+    /**
+     * the single use time of a user (in seconds)
+     */
+    private static final int SINGLE_TIME = 10;
+    /**
+     * the total use time of a user (in seconds)
+     */
+    private static final int TOTAL_TIME = 30;
+    /**
+     * the value transmit to the interface which means the user's usage did not expired
+     */
     private static final int NOT_EXPIRED = 0;
+    /**
+     * the value transmit to the interface which means the user's usage got a single expired
+     */
     private static final int SINGLE_EXPIRED = 1;
+    /**
+     * the value transmit to the interface which means the user's usage got a total expired
+     */
     private static final int TOTAL_EXPIRED = 2;
 
     /**
-     * 根据现有的用户，scooter，当前时间生成一条transaction
-     * 需要scooter还在用户手上
+     * Generate a transaction based on current user, scooter and time
+     * The transaction can only created when the user is holding the scooter
      */
     static void generateTransaction(String type) {
         Date time = new Date();
@@ -31,16 +48,16 @@ public class TransactionManage extends AppData {
     }
 
     /**
-     * 根据transaction检查当前用户是否超时
-     * 先判断单次使用是否超时
+     * Check if the user's usage has expired by analyzing it's transactions
+     * @return 0: not expired, 1: single usage expired, 2: total usage expired
      */
     public static int checkIfExpired() {
-        if (!ifSingleTimeExpired()) {
+        if (ifSingleTimeExpired()) {
             AppState.getCurrentUser().setNeedToPay("true");
             updateData();
             return SINGLE_EXPIRED;
         }
-        if (!ifTotalExpired()) {
+        if (ifTotalExpired()) {
             AppState.getCurrentUser().setNeedToPay("true");
             updateData();
             return TOTAL_EXPIRED;
@@ -49,42 +66,31 @@ public class TransactionManage extends AppData {
     }
 
     /**
-     * （未实现）输出所有的transaction
+     * Check if the used have got a single time expiry
+     * @return true: single time expired, false: not single time expired
      */
-    public static void allTransactions() {
-        for (int i = 0; i < transactions.size(); i++) {
-            System.out.println(transactions.get(i).toString());
-        }
-    }
-
     private static boolean ifSingleTimeExpired() {
         ArrayList<Transaction> usageList = findTransactionsByUser();
-        Transaction lastTakeTransaction = usageList.get(usageList.size() - 1);
+        Transaction lastTakeTransaction = usageList.get(usageList.size() - 2);
         Date lastTakeTime = lastTakeTransaction.time;
-        // Calculate how long does the user return the scooter this time (in minutes)
-        long singleTime = (AppState.getCurrentTransaction().time.getTime() - lastTakeTime.getTime())/1000;
-        return singleTime <= SINGLE_TIME;
+        long singleTime = (AppState.getCurrentTransaction().time.getTime() - lastTakeTime.getTime()) / 1000;
+        return singleTime > SINGLE_TIME;
     }
 
-    private static ArrayList<Transaction> findTransactionsByUser() {
-        ArrayList<Transaction> usageList = new ArrayList<>();
-        for (Transaction transaction: transactions) {
-            if (transaction.getQmNumber() == AppState.getCurrentUser().getQmNumber())
-                usageList.add(transaction);
-        }
-        return usageList;
-    }
-
+    /**
+     * Check if the used have got a total time expiry
+     * @return true: total time expired, false: not total time expired
+     */
     private static boolean ifTotalExpired() {
         ArrayList<Transaction> usageList = findTransactionsByUser();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         long totalDiff = 0;
         Transaction takeTransaction = null;
 
-        for (Transaction transaction: usageList) {
+        for (Transaction transaction : usageList) {
             if (dateFormat.format(transaction.getTime()).equals(dateFormat.format(new Date()))) {
                 if (transaction.getType().equals("return"))
-                    return false;
+                    return true;
                 else {
                     if (transaction.getType().equals("take")) {
                         takeTransaction = transaction;
@@ -92,14 +98,36 @@ public class TransactionManage extends AppData {
                     }
                     if (transaction.getType().equals("return")) {
                         assert takeTransaction != null;
-                        long diff = (transaction.getTime().getTime() - takeTransaction.getTime().getTime())/1000;
+                        long diff = (transaction.getTime().getTime() - takeTransaction.getTime().getTime()) / 1000;
                         totalDiff += diff;
                     }
                 }
             }
         }
-        return totalDiff > 30;
+        return totalDiff > TOTAL_TIME;
     }
 
+    /**
+     * Output all transactions of the current user
+     * @return All the transactions of the current user, ordered by transaction time
+     */
+    private static ArrayList<Transaction> findTransactionsByUser() {
+        ArrayList<Transaction> usageList = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            if (transaction.getQmNumber() == AppState.getCurrentUser().getQmNumber())
+                usageList.add(transaction);
+        }
+        return usageList;
+    }
+
+    /**
+     * (not implemented)
+     * Output all transactions
+     */
+    public static void getAllTransactions() {
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction.toString());
+        }
+    }
 
 }

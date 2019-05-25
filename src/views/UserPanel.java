@@ -35,12 +35,10 @@ class UserPanel extends JPanel implements PanelStateMonitor {
             JButton takeButton = new JButton("TAKE");
             JButton returnButton = new JButton("RETURN");
             JButton accountButton = new JButton("MY ACCOUNT");
-            JButton checkStationButton = new JButton("CHECK STATION");
 
             takeButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
             returnButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
             accountButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-            checkStationButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
             takeButton.addActionListener(this);
             returnButton.addActionListener(this);
@@ -50,7 +48,6 @@ class UserPanel extends JPanel implements PanelStateMonitor {
             this.add(takeButton);
             this.add(returnButton);
             this.add(accountButton);
-            this.add(checkStationButton);
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -76,7 +73,6 @@ class UserPanel extends JPanel implements PanelStateMonitor {
                 }
             }
             if (actionCommand.equals("MY ACCOUNT")) {
-                System.out.println("my accojngsdfa");
                 myAccountPanel.update();
                 Windows.goToPanel(myAccountPanel);
             }

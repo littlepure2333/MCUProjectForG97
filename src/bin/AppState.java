@@ -39,6 +39,10 @@ public class AppState {
         return currentSlot;
     }
 
+    public static Transaction getCurrentTransaction() {
+        return currentTransaction;
+    }
+
     static void setCurrentUser(User currentUser) {
         AppState.currentUser = currentUser;
     }
@@ -51,11 +55,7 @@ public class AppState {
         AppState.currentSlot = currentSlot;
     }
 
-    public static Transaction getCurrentTransaction() {
-        return currentTransaction;
-    }
-
-    public static void setCurrentTransaction(Transaction currentTransaction) {
+    static void setCurrentTransaction(Transaction currentTransaction) {
         AppState.currentTransaction = currentTransaction;
     }
 }
