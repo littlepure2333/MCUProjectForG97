@@ -1,10 +1,16 @@
 package bin;
 
 /**
- * 前端函数库
- * 用于管理检查输入格式的函数
+ * Control Class
+ * Check all kinds of input format.
+ * Used for front GUI
  */
 public class FormatCheck {
+    /**
+     * Check if input is an ID
+     * @param str input
+     * @return yes or not
+     */
     public static int isID(String str) {
         for (int i = str.length(); --i >= 0; ) {
             if (!Character.isDigit(str.charAt(i))) {
@@ -16,6 +22,11 @@ public class FormatCheck {
         return 1;
     }
 
+    /**
+     * Check ifinput is a character
+     * @param c input
+     * @return yes or not
+     */
     private static int isCharacter(char c) {
         if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')))
             return 0;
@@ -23,6 +34,11 @@ public class FormatCheck {
             return 1;
     }
 
+    /**
+     * Check if input is a name
+     * @param str input
+     * @return yes or not
+     */
     public static int isName(String str) {
         for (int i = str.length(); --i >= 0; ) {
             if ((isCharacter(str.charAt(i)) == 0) && (str.charAt(i) != ' ')) {
@@ -34,6 +50,11 @@ public class FormatCheck {
         return 1;
     }
 
+    /**
+     * Check if input is an email address
+     * @param str input
+     * @return yes or not
+     */
     public static int isAddress(String str) {
         int count1 = 0, count2 = 0;
         int j = 0, k = 0, l = 0;
@@ -50,12 +71,10 @@ public class FormatCheck {
                 l = i;
             }
         }
-        //System.out.println(" "+j+k+l);
         if ((count1 != 1 || count2 != 2)) {
             return 0;
         } else if (!((j < l) && (l < k)))
             return 0;
-        //������򣺱�����xxx@qmul.ac.uk;xxx���������֡���ĸ���»��ߣ���һλ��������ĸ
         for (int i = j; --i >= 0; ) {
             if ((isCharacter(str.charAt(i)) == 0) && (!Character.isDigit(str.charAt(i))) && (str.charAt(i) != '_')) {
                 return 0;

@@ -39,6 +39,10 @@ public class StationManage extends AppData {
         return null;
     }
 
+    /**
+     * Output all stations for displaying on the interface.
+     * @return All station information to be displayed on the interface
+     */
     public static String[][] outputAllStations() {
         ArrayList<String[]> column = new ArrayList<>();
         int rowSize = 0;

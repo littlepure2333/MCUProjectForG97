@@ -151,6 +151,10 @@ public class TransactionManage extends AppData {
         return allTransactions;
     }
 
+    /**
+     * Output all transactions of the specific user for displaying on the interface.
+     * @return All transaction information of the specific user
+     */
     public static String[][] getUserTransactions(int id) {
         ArrayList<String[]> column = new ArrayList<>();
         int rowSize = 0;

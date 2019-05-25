@@ -10,8 +10,7 @@ import data.User;
 public class UserManage extends AppData {
 
     /**
-     * 用户注册实现
-     *
+     * Register a new user
      * @param qmNumber QM number input by user
      * @param fullName full name input by user
      * @param email    email input by user
@@ -27,11 +26,10 @@ public class UserManage extends AppData {
     }
 
     /**
-     * 检查qm号和邮箱是否与数据库信息重复
-     *
-     * @param qmNumber 填入的qm号码
-     * @param email    填入的email地址
-     * @return true-信息重复 false-不重复
+     * Check if QM number and email address are duplicate with the database information
+     * @param qmNumber the QM number
+     * @param email    the email address
+     * @return true - duplicate, false - not duplicate
      */
     static boolean isDuplicate(int qmNumber, String email) {
         for (User user : users) {
@@ -43,13 +41,10 @@ public class UserManage extends AppData {
         return false;
     }
 
-    /* 登陆相关函数 */
-
     /**
-     * 用户登录实现
-     *
-     * @param qmNumber 填入的qm号码
-     * @return true-登录成功 false-登录失败
+     * User log in
+     * @param qmNumber the QM number
+     * @return true - log in success, false - log in failure
      */
     public static boolean login(int qmNumber) {
         for (User user : users) {
@@ -61,6 +56,9 @@ public class UserManage extends AppData {
         return false;
     }
 
+    /**
+     * Pay the fine
+     */
     public static void payTheFine() {
         AppState.getCurrentUser().setNeedToPay("false");
         updateData();
