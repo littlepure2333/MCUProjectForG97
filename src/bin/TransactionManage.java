@@ -151,4 +151,24 @@ public class TransactionManage extends AppData {
         return allTransactions;
     }
 
+    public static String[][] getUserTransactions(int id) {
+        ArrayList<String[]> column = new ArrayList<>();
+        int rowSize = 0;
+        for (Transaction transaction : transactions) {
+            String[] row = transaction.toString().split(" ");
+            System.out.println(Integer.parseInt(row[1]));
+            System.out.println(id);
+            if (Integer.parseInt(row[1]) == id) {
+                column.add(row);
+                System.out.println("1");
+            }
+            rowSize = row.length;
+        }
+        String[][] userTransactions = new String[column.size()][rowSize];
+        for (int i = 0; i < column.size(); i++) {
+            userTransactions[i] = column.get(i);
+        }
+        return userTransactions;
+    }
+
 }

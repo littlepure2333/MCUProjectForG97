@@ -1,4 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="11.0.2" class="java.beans.XMLDecoder">
- <object class="java.util.Vector"/>
+<java version="1.8.0_211" class="java.beans.XMLDecoder">
+ <object class="java.util.Vector">
+  <void method="add">
+   <object class="data.Transaction" id="Transaction0">
+    <void class="data.Transaction" method="getField">
+     <string>qmNumber</string>
+     <void method="set">
+      <object idref="Transaction0"/>
+      <int>111111111</int>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>name</string>
+     <void method="set">
+      <object idref="Transaction0"/>
+      <string>second</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>type</string>
+     <void method="set">
+      <object idref="Transaction0"/>
+      <string>take</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>stationName</string>
+     <void method="set">
+      <object idref="Transaction0"/>
+      <string>A</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>scooterId</string>
+     <void method="set">
+      <object idref="Transaction0"/>
+      <int>1</int>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>time</string>
+     <void method="set">
+      <object idref="Transaction0"/>
+      <object class="java.util.Date">
+       <long>1558771225181</long>
+      </object>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="data.Transaction" id="Transaction1">
+    <void class="data.Transaction" method="getField">
+     <string>qmNumber</string>
+     <void method="set">
+      <object idref="Transaction1"/>
+      <int>111111111</int>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>name</string>
+     <void method="set">
+      <object idref="Transaction1"/>
+      <string>second</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>type</string>
+     <void method="set">
+      <object idref="Transaction1"/>
+      <string>return</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>stationName</string>
+     <void method="set">
+      <object idref="Transaction1"/>
+      <string>B</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>scooterId</string>
+     <void method="set">
+      <object idref="Transaction1"/>
+      <int>1</int>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>time</string>
+     <void method="set">
+      <object idref="Transaction1"/>
+      <object class="java.util.Date">
+       <long>1558771245507</long>
+      </object>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="data.Transaction" id="Transaction2">
+    <void class="data.Transaction" method="getField">
+     <string>qmNumber</string>
+     <void method="set">
+      <object idref="Transaction2"/>
+      <int>123456789</int>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>name</string>
+     <void method="set">
+      <object idref="Transaction2"/>
+      <string>first</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>type</string>
+     <void method="set">
+      <object idref="Transaction2"/>
+      <string>take</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>stationName</string>
+     <void method="set">
+      <object idref="Transaction2"/>
+      <string>C</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>scooterId</string>
+     <void method="set">
+      <object idref="Transaction2"/>
+      <int>11</int>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>time</string>
+     <void method="set">
+      <object idref="Transaction2"/>
+      <object class="java.util.Date">
+       <long>1558778800202</long>
+      </object>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="data.Transaction" id="Transaction3">
+    <void class="data.Transaction" method="getField">
+     <string>qmNumber</string>
+     <void method="set">
+      <object idref="Transaction3"/>
+      <int>123456789</int>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>name</string>
+     <void method="set">
+      <object idref="Transaction3"/>
+      <string>first</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>type</string>
+     <void method="set">
+      <object idref="Transaction3"/>
+      <string>return</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>stationName</string>
+     <void method="set">
+      <object idref="Transaction3"/>
+      <string>C</string>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>scooterId</string>
+     <void method="set">
+      <object idref="Transaction3"/>
+      <int>11</int>
+     </void>
+    </void>
+    <void class="data.Transaction" method="getField">
+     <string>time</string>
+     <void method="set">
+      <object idref="Transaction3"/>
+      <object class="java.util.Date">
+       <long>1558778812104</long>
+      </object>
+     </void>
+    </void>
+   </object>
+  </void>
+ </object>
 </java>

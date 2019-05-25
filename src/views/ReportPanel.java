@@ -1,27 +1,23 @@
 package views;
 
-import bin.UserManage;
+import bin.AppState;
+import bin.TransactionManage;
+import views.components.PanelStateMonitor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-class ReportPanel extends JPanel {
+class ReportPanel extends JPanel implements PanelStateMonitor {
+
+	private UsagePanel usagePanel = new UsagePanel();
+	private JLabel greetingLabel = new JLabel();
+
 	ReportPanel() {
 		JPanel emailPanel = new EmailPanel();
-		JPanel taketimePanel = new TaketimePanel();
-		JPanel takestationPanel = new TakestationPanel();
-		JPanel returntimePanel = new ReturntimePanel();
-		JPanel returnstationPanel = new ReturnstationPanel();
 
-		this.setLayout(new GridLayout(7, 1));
-		this.add(new JPanel());
-		this.add(emailPanel);
-		this.add(taketimePanel);
-		this.add(takestationPanel);
-		this.add(returntimePanel);
-		this.add(returnstationPanel);
+		this.setLayout(new BorderLayout());
+		this.add(emailPanel, BorderLayout.NORTH);
+		this.add(usagePanel, BorderLayout.CENTER);
 
 		this.setVisible(true);
 	}
@@ -29,66 +25,37 @@ class ReportPanel extends JPanel {
 
 	class EmailPanel extends JPanel {
 		EmailPanel() {
-			JLabel emailLabel1 = new JLabel("Dear Mr/Mrs:");
-			emailLabel1.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-
-			JTextField emailText = new JTextField(5);
-			emailText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-
-			JLabel emailLabel = new JLabel("    Here is your scooter weekly usage report.Thank you for supporting us.If you have any questions,please contact us by 9348-3527. ");
-			emailLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-
-			this.add(emailLabel1);
-			this.add(emailLabel);
-			this.add(emailText);
+			greetingLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+			this.add(greetingLabel);
 		}
 	}
 
-	class TaketimePanel extends JPanel {
-		TaketimePanel() {
-			JLabel taketimeLabel = new JLabel("Take time");
-			taketimeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JTextField taketimeText = new JTextField(15);
-			taketimeText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+	class UsagePanel extends JPanel {
+		UsagePanel() {
 
-			this.add(taketimeLabel);
-			this.add(taketimeText);
 		}
 	}
 
-	class TakestationPanel extends JPanel {
-		TakestationPanel() {
-			JLabel takeStationLabel = new JLabel("Take Station");
-			takeStationLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JTextField takestationText = new JTextField(15);
-			takestationText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+	@Override
+	public void update() {
+		greetingLabel.setText("<html><body>Dear Mr/Mrs: " +
+				AppState.getCurrentUser().getFullName()+ "<br><br>" +
+				"Here is your scooter weekly usage report. Thank you for supporting us.<br>" +
+				"If you have any questions,please contact us by 9348-3527.<br></body></html>");
 
-			this.add(takeStationLabel);
-			this.add(takestationText);
-		}
+		usagePanel.removeAll();
+		String[] columnNames = {"Time", "Qm number", "Name", "Type", "ScooterID", "StationName"};
+		String[][] data = TransactionManage.getUserTransactions(AppState.getCurrentUser().getQmNumber());
+
+		JTable table = new JTable(data, columnNames);
+		table.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		table.setBounds(10, 263, 300, -200);
+		table.setPreferredScrollableViewportSize(new Dimension(1000, 500));
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		usagePanel.add(scrollPane);
+
 	}
 
-	class ReturntimePanel extends JPanel {
-		ReturntimePanel() {
-			JLabel returntimeLabel = new JLabel("Return time");
-			returntimeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JTextField returntimeText = new JTextField(15);
-			returntimeText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-
-			this.add(returntimeLabel);
-			this.add(returntimeText);
-		}
-	}
-
-	class ReturnstationPanel extends JPanel {
-		ReturnstationPanel() {
-			JLabel returnStationLabel = new JLabel("Return Station");
-			returnStationLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-			JTextField returnstationText = new JTextField(15);
-			returnstationText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-
-			this.add(returnStationLabel);
-			this.add(returnstationText);
-		}
-	}
 }

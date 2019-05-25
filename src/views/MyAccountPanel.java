@@ -2,7 +2,6 @@ package views;
 
 import bin.AppState;
 import bin.UserManage;
-import views.components.GotoButton;
 import views.components.PanelStateMonitor;
 
 import javax.swing.*;
@@ -67,7 +66,7 @@ class MyAccountPanel extends JPanel implements PanelStateMonitor {
 
 	class AddPanel extends JPanel {
 		AddPanel() {
-			JLabel addLabel = new JLabel("Email：      ");
+			JLabel addLabel = new JLabel("Email:      ");
 			addLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 			addText.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
@@ -91,7 +90,7 @@ class MyAccountPanel extends JPanel implements PanelStateMonitor {
 		ButtonPanel() {
 			JButton payButton = new JButton("Pay My Fine");
 			payButton.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-			GotoButton reportButton = new GotoButton("Check Report", reportPanel);
+			JButton reportButton = new JButton("Check Report");
 			reportButton.setFont(new Font("Times New Roman", Font.PLAIN, 50));
 
 			this.add(payButton);
@@ -105,7 +104,11 @@ class MyAccountPanel extends JPanel implements PanelStateMonitor {
 			if (actionCommand.equals("Pay My Fine")) {
 				UserManage.payTheFine();
 				fineText.setText(AppState.getCurrentUser().isNeedToPay().equals("true") ? "Be fined" : "Not be fined");
+			}if (actionCommand.equals("Check Report")) {
+				reportPanel.update();
+				Windows.goToPanel(reportPanel);
 			}
+
 		}
 	}
 
