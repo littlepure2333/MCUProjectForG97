@@ -6,9 +6,18 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boundary Class.
+ * A button that go to another panel once clicked
+ */
 public class GotoButton extends JButton implements ActionListener {
     private JPanel nextPanel;
 
+    /**
+     * Generate a GOTO button
+     * @param text the button content text
+     * @param nextPanel the panel want to go to
+     */
     public GotoButton(String text, JPanel nextPanel) {
         super(text);
         this.nextPanel = nextPanel;

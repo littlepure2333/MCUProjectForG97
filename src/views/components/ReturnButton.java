@@ -6,7 +6,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boundary Class.
+ * A button that go to another panel once clicked
+ */
 public class ReturnButton extends JButton implements ActionListener {
+    /**
+     * Generate a RETURN button
+     * @param text the button content text
+     */
     public ReturnButton(String text) {
         super(text);
         this.addActionListener(this);
