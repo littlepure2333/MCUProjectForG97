@@ -38,6 +38,20 @@ public class ScooterManage extends AppData {
     }
 
     /**
+     * Check that how many scooters are in used state
+     * @return the number of scooters being used
+     */
+    public static int getUsedCount() {
+        int count = 0;
+        for (Scooter scooter : scooters) {
+            if (scooter.getUsed() == 1) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
      * 根据单车id返回指定的单车数据
      *
      * @param scooterId 指定的单车id
@@ -50,5 +64,4 @@ public class ScooterManage extends AppData {
         }
         return null;
     }
-
 }

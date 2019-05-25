@@ -91,24 +91,28 @@ public class TransactionManage extends AppData {
      */
     private static boolean ifTotalExpired() {
         ArrayList<Transaction> usageList = findTransactionsByUser();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
         long totalDiff = 0;
         Transaction takeTransaction = null;
 
+        //if a "take" not on today and the next "return" is today
+        for (int i = 0; i < usageList.size(); i ++) {
+            if (!usageList.get(i).getActualDate().equals(today)&& usageList.get(i+1).getActualDate().equals(today)) {
+                long diff = (usageList.get(i+1).getTime().getTime() - usageList.get(i).getTime().getTime());
+                totalDiff += diff;
+            }
+        }
+        //normal condition
         for (Transaction transaction : usageList) {
-            if (dateFormat.format(transaction.getTime()).equals(dateFormat.format(new Date()))) {
-                if (transaction.getType().equals("return"))
-                    return true;
-                else {
-                    if (transaction.getType().equals("take")) {
-                        takeTransaction = transaction;
-                        continue;
-                    }
-                    if (transaction.getType().equals("return")) {
-                        assert takeTransaction != null;
-                        long diff = (transaction.getTime().getTime() - takeTransaction.getTime().getTime()) / 1000;
-                        totalDiff += diff;
-                    }
+            if (transaction.getActualDate().equals(today)) {
+                if (transaction.getType().equals("take")) {
+                    takeTransaction = transaction;
+                    continue;
+                }
+                if (transaction.getType().equals("return")) {
+                    assert takeTransaction != null;
+                    long diff = (transaction.getTime().getTime() - takeTransaction.getTime().getTime()) / 1000;
+                    totalDiff += diff;
                 }
             }
         }

@@ -1,20 +1,12 @@
 package views;
 
+import bin.ScooterManage;
 import bin.StationManage;
 import views.components.PanelStateMonitor;
 
-import javax.swing.JPanel;
-import javax.swing.JTable;
+import javax.swing.*;
+import java.awt.*;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JLabel;
 
 public class StationInformationPanel extends JPanel implements PanelStateMonitor {
 	/**
@@ -29,9 +21,11 @@ public class StationInformationPanel extends JPanel implements PanelStateMonitor
 	 */
 	@Override
 	public void update() {
-		String[] columnNames = {"Station", "Occupied", "Unoccupied", "Total"};
+		this.removeAll();
+		String[] columnNames = {"Station", "Occupied", "Unoccupied", "Total Slots"};
 		String[][] data = StationManage.outputAllStations();
 		JTable table = new JTable(data, columnNames);
+
 		table.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		table.setBounds(10, 263, 310, -300);
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -39,8 +33,11 @@ public class StationInformationPanel extends JPanel implements PanelStateMonitor
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		table.setPreferredScrollableViewportSize(new Dimension(5000, 5000));
 
-		JLabel lblNewLabel = new JLabel("8 scooters in use.", JLabel.CENTER);
+		JLabel lblNewLabel = new JLabel("In use: " + ScooterManage.getUsedCount() +
+				((ScooterManage.getUsedCount()==1||ScooterManage.getUsedCount()==0)?" scooter":" scooters")
+				, JLabel.CENTER);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+
 		add(scrollPane, BorderLayout.CENTER);
 		add(lblNewLabel);
 	}

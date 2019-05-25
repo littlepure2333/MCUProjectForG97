@@ -39,9 +39,13 @@ public class Transaction {
 
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String time = dateFormat.format(this.time);
-        System.out.println(time);
         return time + " " + name + " " + type + " " + scooterId + " " + stationName;
+    }
+
+    public String getActualDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        return dateFormat.format(getTime());
     }
 }

@@ -36,7 +36,9 @@ class ManagerPanel extends JPanel {
 			this.add(userButton);
 			this.add(stationButton);
 
+			registerButton.addActionListener(this);
 			userButton.addActionListener(this);
+			stationButton.addActionListener(this);
 		}
 
 		@Override
