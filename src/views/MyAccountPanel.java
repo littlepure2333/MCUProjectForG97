@@ -1,5 +1,6 @@
 package views;
 
+import bin.AppState;
 import bin.UserManage;
 import views.components.GotoButton;
 import views.components.PanelStateMonitor;
@@ -36,10 +37,10 @@ class MyAccountPanel extends JPanel implements PanelStateMonitor {
 
 	@Override
 	public void update() {
-		fineText.setText(UserManage.getCurrentUserFineState());
-		idText.setText(UserManage.getCurrentUserId());
-		nameText.setText(UserManage.getCurrentUserName());
-		addText.setText(UserManage.getCurrentUserEmail());
+		fineText.setText(AppState.getCurrentUser().isNeedToPay().equals("true") ? "Be fined" : "Not be fined");
+		idText.setText(String.valueOf(AppState.getCurrentUser().getQmNumber()));
+		nameText.setText(AppState.getCurrentUser().getFullName());
+		addText.setText(AppState.getCurrentUser().getEmail());
 	}
 
 	class IdPanel extends JPanel {
@@ -103,7 +104,7 @@ class MyAccountPanel extends JPanel implements PanelStateMonitor {
 			String actionCommand = e.getActionCommand();
 			if (actionCommand.equals("Pay My Fine")) {
 				UserManage.payTheFine();
-				fineText.setText(UserManage.getCurrentUserFineState());
+				fineText.setText(AppState.getCurrentUser().isNeedToPay().equals("true") ? "Be fined" : "Not be fined");
 			}
 		}
 	}

@@ -41,7 +41,7 @@ public class Transaction {
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String time = dateFormat.format(this.time);
-        return time + " " + name + " " + type + " " + scooterId + " " + stationName;
+        return time + " " + qmNumber +" "+ name + " " + type + " " + scooterId + " " + stationName;
     }
 
     public String getActualDate() {

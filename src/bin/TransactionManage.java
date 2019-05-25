@@ -9,16 +9,16 @@ import java.util.Date;
 
 /**
  * Control Class
+ * Manage the generation, text output, quires and analysis of transactions.
  *
  */
 public class TransactionManage extends AppData {
-    // how long should the user return the scooter at most (in seconds)
     /**
-     * the single use time of a user (in seconds)
+     * the single maximum use time of a user (in seconds)
      */
     private static final int SINGLE_TIME = 10;
     /**
-     * the total use time of a user (in seconds)
+     * the total maximum use time of a user (in seconds)
      */
     private static final int TOTAL_TIME = 30;
     /**
@@ -75,6 +75,7 @@ public class TransactionManage extends AppData {
 
     /**
      * Check if the used have got a single time expiry
+     * The maximum single usage time is based on the const SINGLE_EXPIRED.
      * @return true: single time expired, false: not single time expired
      */
     private static boolean ifSingleTimeExpired() {
@@ -86,7 +87,8 @@ public class TransactionManage extends AppData {
     }
 
     /**
-     * Check if the used have got a total time expiry
+     * Check if the used have got a total time expiry.
+     * The maximum total usage time is based on the const TOTAL_EXPIRED.
      * @return true: total time expired, false: not total time expired
      */
     private static boolean ifTotalExpired() {
@@ -95,14 +97,12 @@ public class TransactionManage extends AppData {
         long totalDiff = 0;
         Transaction takeTransaction = null;
 
-        //if a "take" not on today and the next "return" is today
         for (int i = 0; i < usageList.size(); i ++) {
             if (!usageList.get(i).getActualDate().equals(today)&& usageList.get(i+1).getActualDate().equals(today)) {
                 long diff = (usageList.get(i+1).getTime().getTime() - usageList.get(i).getTime().getTime());
                 totalDiff += diff;
             }
         }
-        //normal condition
         for (Transaction transaction : usageList) {
             if (transaction.getActualDate().equals(today)) {
                 if (transaction.getType().equals("take")) {
@@ -120,7 +120,7 @@ public class TransactionManage extends AppData {
     }
 
     /**
-     * Output all transactions of the current user
+     * Output all transactions of the current usera
      * @return All the transactions of the current user, ordered by transaction time
      */
     private static ArrayList<Transaction> findTransactionsByUser() {
@@ -133,7 +133,7 @@ public class TransactionManage extends AppData {
     }
 
     /**
-     * Output all transactions
+     * Output all transactions for displaying on the interface.
      * @return All transaction information to be displayed on the interface
      */
     public static String[][] getAllTransactions() {

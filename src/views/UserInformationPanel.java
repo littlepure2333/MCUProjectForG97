@@ -6,7 +6,7 @@ import views.components.PanelStateMonitor;
 import javax.swing.*;
 import java.awt.*;
 
-class UserInformationPanel extends JPanel implements PanelStateMonitor {
+class 	UserInformationPanel extends JPanel implements PanelStateMonitor {
 	/**
 	 * Create the panel.
 	 */
@@ -19,7 +19,7 @@ class UserInformationPanel extends JPanel implements PanelStateMonitor {
 	@Override
 	public void update() {
 		this.removeAll();
-		String[] columnNames = {"Time", "Name", "Type", "ScooterID", "StationName"};
+		String[] columnNames = {"Time", "UserId", "Name", "Type", "ScooterID", "StationName"};
 		String[][] data = TransactionManage.getAllTransactions();
 		JTable table = new JTable(data, columnNames);
 

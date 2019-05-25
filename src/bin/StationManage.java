@@ -6,12 +6,12 @@ import data.Station;
 import java.util.ArrayList;
 
 /**
- * 站点管理操作
+ * Control Class
+ * Manage the transmission, text output and queries
  */
 public class StationManage extends AppData {
     /**
-     * 选择当前的站点
-     *
+     * Set the station as the current station, then save it into the program state.
      * @param stationName name of the station
      */
     public static void chooseStation(String stationName) {
@@ -19,19 +19,17 @@ public class StationManage extends AppData {
     }
 
     /**
-     * 选择当前站点闪烁的slot编号
-     *
-     * @param slotId 目标slot编号
+     * Choose which slot of the current station will start to flash
+     * @param slotId the chosen slot
      */
     public static void chooseFlashSlot(int slotId) {
         AppState.setCurrentSlot(slotId);
     }
 
     /**
-     * 根据站点id返回指定的站点数据
-     *
-     * @param stationName 指定的站点name (A B C)
-     * @return 站点数据对象，包括其中的slot和scooter数据
+     * Acquire the information of the station by its name
+     * @param stationName name of the station
+     * @return the information of the station including scooters in it
      */
     private static Station findStationByName(String stationName) {
         for (Station station : stations) {

@@ -4,27 +4,26 @@ import data.AppData;
 import data.Scooter;
 
 /**
- * 单车管理操作
+ * Control Class
+ * Manage the transmission, statistics and quires of scooter data.
  */
 public class ScooterManage extends AppData {
     /**
-     * 直接从State里面获取当前用户，当前站点，当前车槽
-     * 进行借车操作，车从station拿出来，放到user里
-     * 没有检查State数据是否正确，所以使用时一定确保数据正确
+     * Acquire current user, station and slot from the state directly,
+     * remove the scooter from the slot, then let the user holds it.
      */
     public static void takeScooter() {
-        AppState.getCurrentUser()
-                .takeScooter(AppState.getCurrentStation()
-                        .removeScooter(AppState.getCurrentSlot()));
+        AppState.getCurrentUser().takeScooter(
+                        AppState.getCurrentStation()
+                                .removeScooter(AppState.getCurrentSlot()));
         TransactionManage.generateTransaction("take");
         findScooterById(AppState.getCurrentUser().getScooter().getId()).setUsed(1);
         updateData();
     }
 
     /**
-     * 直接从State里面获取当前用户，当前站点，当前车槽
-     * 进行还车操作，车从user拿出来，放到station里
-     * 没有检查State数据是否正确，所以使用时一定确保数据正确
+     * Acquire current user, station and slot from the state directly,
+     * remove the scooter from the user, then let the slot holds that scooter.
      */
     public static void returnScooter() {
         TransactionManage.generateTransaction("return");
@@ -52,10 +51,9 @@ public class ScooterManage extends AppData {
     }
 
     /**
-     * 根据单车id返回指定的单车数据
-     *
-     * @param scooterId 指定的单车id
-     * @return 单车数据对象
+     * Find the information of a scooter by its id
+     * @param scooterId scooter id
+     * @return the information of the scooter
      */
     private static Scooter findScooterById(int scooterId) {
         for (Scooter scooter : scooters) {
