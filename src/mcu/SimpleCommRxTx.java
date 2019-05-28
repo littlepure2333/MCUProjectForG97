@@ -81,7 +81,7 @@ public class SimpleCommRxTx {
     static boolean init(String COMPort) {
         try {
             // TODO: identify the COM port from Windows' control panel
-            portId = CommPortIdentifier.getPortIdentifier("COM3");
+            portId = CommPortIdentifier.getPortIdentifier(COMPort);
 
             com = portId.open("MCS51COM", 2000);
             ser = (SerialPort)com;

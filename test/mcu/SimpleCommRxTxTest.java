@@ -11,10 +11,11 @@ class SimpleCommRxTxTest {
 
     @Test
     void test() {
-        SimpleCommRxTx.init("COM3");
+        SimpleCommRxTx.init("COM8");
         SimpleCommRxTx.wait(1000);
-        byte[] data = null;
-        data[0] = SimpleCommRxTx.KEY_RECEIVE_ID;
+        byte[] data = new byte[2];
+        data[0] = 'a';
+        data[1] = '2';
         SimpleCommRxTx.send(data);
         SimpleCommRxTx.setListener(new SerialPortEventListener() {
             @Override
