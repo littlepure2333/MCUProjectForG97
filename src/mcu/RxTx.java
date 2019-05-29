@@ -95,8 +95,8 @@ public class RxTx {
                 public void serialEvent(SerialPortEvent serialPortEvent) {
                     if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                         byte[] data = RxTx.receive();
-                        Communication.setReceiveBuff(data);
-                        Communication.setReceiveBuffIsChecked(false);
+                        //Communication.setReceiveBuff(data);
+                        //Communication.setReceiveBuffIsChecked(false);
                         System.out.println("Receive data length: " + data.length);
                         System.out.println("Receive data content: " + new String(data));
                     }

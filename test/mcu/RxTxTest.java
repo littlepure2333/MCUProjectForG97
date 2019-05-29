@@ -8,9 +8,9 @@ class RxTxTest {
 
     @Test
     void test() {
-        RxTx.init("COM3");
+        RxTx.init("COM8");
         RxTx.wait(1000);
-        byte[] data = null;
+        byte[] data = new byte[1];
         data[0] = RxTx.KEY_RECEIVE_ID;
         RxTx.send(data);
         //while(true);
