@@ -6,7 +6,9 @@ public class Communication {
     /**
      * Data received from mcu
      */
-    private static byte[] RECEIVE_BUFF;
+    private static int RECEIVE_BUFF_LENGTH = 20;
+    private static int RECEIVE_BUFF_INDEX = 0;
+    private static byte[] RECEIVE_BUFF = new byte[RECEIVE_BUFF_LENGTH];
     /**
      * A flag to denote if the receive buffer is check by java program
      */
@@ -15,9 +17,23 @@ public class Communication {
     public static final int IS_NOT_QM_NUMBER = -1;
     public static final int BROKEN_QM_NUMBER = -2;
 
+    public static final byte DISPLAY1 = 0x01; // Please type in your QM ID
+
 
     public static void setReceiveBuff(byte[] data) {
         RECEIVE_BUFF = data;
+    }
+
+    public static void addReceiveBuff(byte[] data) {
+        if (RECEIVE_BUFF_INDEX != 0) {
+            if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX - 1] == RxTx.DATA_END) {
+                RECEIVE_BUFF_INDEX = 0;
+            }
+        }
+        for (int i = 0; i < data.length; i++) {
+            RECEIVE_BUFF[RECEIVE_BUFF_INDEX] = data[i];
+            RECEIVE_BUFF_INDEX++;
+        }
     }
 
     public static byte[] getReceiveBuff() {
@@ -38,9 +54,10 @@ public class Communication {
      * @return success or not
      */
     public static boolean sendStationSlots() {
-        byte[] data = new byte[2];
+        byte[] data = new byte[3];
         data[0] = RxTx.LED_SEND_INIT;
         data[1] = Info.getSlots();
+        data[2] = RxTx.DATA_END;
         return RxTx.send(data);
     }
 
@@ -50,9 +67,10 @@ public class Communication {
      * @return success or not
      */
     public static boolean sendStationFlashSlot(int i) {
-        byte[] data = new byte[2];
+        byte[] data = new byte[3];
         data[0] = RxTx.LED_SEND_FLASH;
         data[1] = Info.getFlashSlot(i);
+        data[2] = RxTx.DATA_END;
         return RxTx.send(data);
     }
 
@@ -62,12 +80,13 @@ public class Communication {
      * or -1 if receive content is not QM number,
      * or -2 if the data is incomplete
      */
-    public static int receiveQMNumber() {
+    public static int receiveQmNumber() {
         // Check if receive data type is ID
         if (RECEIVE_BUFF[0] == RxTx.KEY_RECEIVE_ID) {
             // Check if the data is incomplete
-            if (RECEIVE_BUFF.length == 10) {
+            if (RECEIVE_BUFF[10] == RxTx.DATA_END) {
                 int QMNumber = 0;
+                //byte[] qm = Arrays.copyOfRange(RECEIVE_BUFF, 1,9);
                 for (int i = 1; i <= 9; i++) {
                     // Check if the byte is valid
                     if (RECEIVE_BUFF[i] != 0x00 && RECEIVE_BUFF[i] != 0xFF) {
@@ -92,7 +111,13 @@ public class Communication {
         }
     }
 
-
+    public static boolean sendLCDInformation(byte information) {
+        byte[] data = new byte[3];
+        data[0] = RxTx.LCD_SEND_DISPLAY;
+        data[1] = information;
+        data[2] = RxTx.DATA_END;
+        return RxTx.send(data);
+    }
 
 
 }

@@ -25,6 +25,7 @@ public class RxTx {
     public static final byte KEY_RECEIVE_NO = 0x32;
     public static final byte KEY_RECEIVE_TAKE = 0x33;
     public static final byte KEY_RECEIVE_RETURN = 0x34;
+    public static final byte DATA_END = 0x7F;
 
 //    public static void main(String[] args) {
 //        try {
@@ -95,7 +96,7 @@ public class RxTx {
                 public void serialEvent(SerialPortEvent serialPortEvent) {
                     if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                         byte[] data = RxTx.receive();
-                        Communication.setReceiveBuff(data);
+                        Communication.addReceiveBuff(data);
                         Communication.setReceiveBuffIsChecked(false);
                         System.out.println("Receive data length: " + data.length);
                         System.out.println("Receive data content: " + new String(data));
@@ -196,6 +197,10 @@ public class RxTx {
         }
         System.out.println("System available port list："+systemPorts);
         return systemPorts;
+    }
+
+    public static int getUnsignedByte (int data){      //将data字节型数据转换为0~255 (0xFF 即BYTE)。
+        return data&0x0FF;
     }
 
 

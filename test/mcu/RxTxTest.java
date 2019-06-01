@@ -20,4 +20,11 @@ class RxTxTest {
     void getSystemPort() {
         RxTx.getSystemPort();
     }
+
+    @Test
+    void testGetUnsignedByte() {
+        int data = 0xFE;
+        System.out.println(data);
+        System.out.println(RxTx.getUnsignedByte(data));
+    }
 }
