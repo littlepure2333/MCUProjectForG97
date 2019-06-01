@@ -1,8 +1,11 @@
 package mcu;
 
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
+
 import static java.lang.Math.pow;
 
-public class Communication {
+public class Communication extends RxTx{
     /**
      * listener
      */
@@ -11,22 +14,38 @@ public class Communication {
     /**
      * Data received from mcu
      */
-    private static final int RECEIVE_BUFF_LENGTH = 20;
-    private static int RECEIVE_BUFF_INDEX = 0;
-    private static byte[] RECEIVE_BUFF = new byte[RECEIVE_BUFF_LENGTH];
+    private  final int RECEIVE_BUFF_LENGTH = 20;
+    private  int RECEIVE_BUFF_INDEX = 0;
+    private  byte[] RECEIVE_BUFF = new byte[RECEIVE_BUFF_LENGTH];
     /**
      * A flag to denote if the receive buffer is check by java program
      */
     private static boolean RECEIVE_BUFF_IS_CHECKED;
 
-    public static final int IS_NOT_QM_NUMBER = -1;
-    public static final int BROKEN_QM_NUMBER = -2;
+    public  final int IS_NOT_QM_NUMBER = -1;
+    public  final int BROKEN_QM_NUMBER = -2;
 
-    public static final byte DISPLAY1 = 0x01; // Please type in your QM ID
-    public static final byte DISPLAY2 = 0x02; // Must be 9 digits
-    public static final byte DISPLAY3 = 0x03; // ID does not exist
-    public static final byte DISPLAY4 = 0x04; // Take press 1
-    public static final byte DISPLAY5 = 0x05; // Return press 2
+    public  final byte DISPLAY1 = 0x01; // Please type in your QM ID
+    public  final byte DISPLAY2 = 0x02; // Must be 9 digits
+    public  final byte DISPLAY3 = 0x03; // ID does not exist
+    public  final byte DISPLAY4 = 0x04; // Take press 1
+    public  final byte DISPLAY5 = 0x05; // Return press 2
+
+    public Communication(String COMPort) {
+        super(COMPort);
+        this.setListener(new SerialPortEventListener() {
+            @Override
+            public void serialEvent(SerialPortEvent serialPortEvent) {
+                if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+                    byte[] data = receive();
+                    communication.addReceiveBuff(data);
+                    communication.setReceiveBuffIsChecked(false);
+                    System.out.println("Receive data length: " + data.length);
+                    System.out.println("Receive data content: " + new String(data));
+                }
+            }
+        });
+    }
 
 
     public void registerListener(CommunicationListener communicationListener) {
@@ -36,13 +55,13 @@ public class Communication {
 
 
 
-    public static void setReceiveBuff(byte[] data) {
+    public void setReceiveBuff(byte[] data) {
         RECEIVE_BUFF = data;
     }
 
     public void addReceiveBuff(byte[] data) {
         if (RECEIVE_BUFF_INDEX != 0) {
-            if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX - 1] == RxTx.DATA_END) {
+            if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX - 1] == this.DATA_END) {
                 RECEIVE_BUFF_INDEX = 0;
             }
         }
@@ -50,7 +69,7 @@ public class Communication {
             RECEIVE_BUFF[RECEIVE_BUFF_INDEX] = data[i];
             RECEIVE_BUFF_INDEX++;
         }
-        if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX -1] == RxTx.DATA_END) {
+        if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX -1] == this.DATA_END) {
             checkType();
         }
     }
@@ -66,20 +85,18 @@ public class Communication {
                 this.listener.doReceiveQmNumber(event);
             }
 
-
-
         }
     }
 
-    public static byte[] getReceiveBuff() {
+    public byte[] getReceiveBuff() {
         return RECEIVE_BUFF;
     }
 
-    public static void setReceiveBuffIsChecked(boolean flag) {
+    public void setReceiveBuffIsChecked(boolean flag) {
         RECEIVE_BUFF_IS_CHECKED = flag;
     }
 
-    public static boolean getReceiveBuffIsChecked() {
+    public boolean getReceiveBuffIsChecked() {
         return RECEIVE_BUFF_IS_CHECKED;
     }
 
@@ -88,9 +105,9 @@ public class Communication {
      * Send station initial slots information to mcu
      * @return success or not
      */
-    public static boolean sendStationSlots() {
+    public  boolean sendStationSlots() {
         byte[] data = Info.getSlots();
-        return RxTx.send(data);
+        return send(data);
     }
 
     /**
@@ -98,12 +115,12 @@ public class Communication {
      * @param i slot number, index from 0
      * @return success or not
      */
-    public static boolean sendStationFlashSlot(int i) {
+    public  boolean sendStationFlashSlot(int i) {
         byte[] data = new byte[3];
-        data[0] = RxTx.LED_SEND_FLASH;
+        data[0] = LED_SEND_FLASH;
         data[1] = Info.getFlashSlot(i);
-        data[2] = RxTx.DATA_END;
-        return RxTx.send(data);
+        data[2] = DATA_END;
+        return send(data);
     }
 
     /**
@@ -114,9 +131,9 @@ public class Communication {
      */
     public int receiveQmNumber() {
         // Check if receive data type is ID
-        if (RECEIVE_BUFF[0] == RxTx.KEY_RECEIVE_ID) {
+        if (RECEIVE_BUFF[0] == KEY_RECEIVE_ID) {
             // Check if the data is incomplete
-            if (RECEIVE_BUFF[10] == RxTx.DATA_END) {
+            if (RECEIVE_BUFF[10] == DATA_END) {
                 int QMNumber = 0;
                 //byte[] qm = Arrays.copyOfRange(RECEIVE_BUFF, 1,9);
                 for (int i = 1; i <= 9; i++) {
@@ -143,12 +160,12 @@ public class Communication {
         }
     }
 
-    public static boolean sendLCDInformation(byte information) {
+    public boolean sendLCDInformation(byte information) {
         byte[] data = new byte[3];
-        data[0] = RxTx.LCD_SEND_DISPLAY;
+        data[0] = LCD_SEND_DISPLAY;
         data[1] = information;
-        data[2] = RxTx.DATA_END;
-        return RxTx.send(data);
+        data[2] = DATA_END;
+        return send(data);
     }
 
 

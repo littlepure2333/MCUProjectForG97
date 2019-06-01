@@ -10,8 +10,9 @@ public class Info {
      * @return a byte that represents slots
      */
     public static byte[] getSlots() { // have tested
+        RxTx rxTx = new RxTx("COM3");
         byte[] slots = new byte[10];
-        slots[0] = RxTx.LED_SEND_INIT;
+        slots[0] = rxTx.LED_SEND_INIT;
         for (int i = 0; i <= 7; i++) {
             if (AppState.getCurrentStation().getSlot()[7-i] != null) {
 //            if (station[7-i] != null) {
@@ -21,7 +22,7 @@ public class Info {
                 slots[i+1] = 0x00;
             }
         }
-        slots[9] = RxTx.DATA_END;
+        slots[9] = rxTx.DATA_END;
         System.out.println(slots);
         return slots;
     }

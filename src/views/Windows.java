@@ -1,5 +1,6 @@
 package views;
 
+import mcu.RxTx;
 import views.components.ReturnButton;
 
 import javax.swing.*;
@@ -11,10 +12,14 @@ public class Windows {
     public static JFrame frame = new JFrame("QM scooter system");
     public static JPanel upperPanel = new JPanel();
     public static Stack<JPanel> stack = new Stack<>();
-    private static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel();
+    static {
+        stack.push(new JPanel());
+    }
+    public static IdentityChoosePanel identityChoosePanel = new IdentityChoosePanel();
 
     public Windows() {
         init();
+        stack.pop();
         frame.add(identityChoosePanel, BorderLayout.CENTER);
         stack.push(identityChoosePanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -11,23 +11,23 @@ import gnu.io.*;
  * Link 2: http://fizzed.com/oss/rxtx-for-java
  */
 public class RxTx {
-    static CommPortIdentifier portId;
-    static CommPort com;
-    static SerialPort ser;
-    static OutputStream comOut;
-    static InputStream comIn;
+     CommPortIdentifier portId;
+     CommPort com;
+     SerialPort ser;
+     OutputStream comOut;
+     InputStream comIn;
 
-    public static final byte LED_SEND_INIT = 0x10;
-    public static final byte LED_SEND_FLASH = 0x11;
-    public static final byte LCD_SEND_DISPLAY = 0x20;
-    public static final byte KEY_RECEIVE_ID = 0x30;
-    public static final byte KEY_RECEIVE_YES = 0x31;
-    public static final byte KEY_RECEIVE_NO = 0x32;
-    public static final byte KEY_RECEIVE_TAKE = 0x33;
-    public static final byte KEY_RECEIVE_RETURN = 0x34;
-    public static final byte DATA_END = 0x7F;
+    public  final byte LED_SEND_INIT = 0x10;
+    public  final byte LED_SEND_FLASH = 0x11;
+    public  final byte LCD_SEND_DISPLAY = 0x20;
+    public  final byte KEY_RECEIVE_ID = 0x30;
+    public  final byte KEY_RECEIVE_YES = 0x31;
+    public  final byte KEY_RECEIVE_NO = 0x32;
+    public  final byte KEY_RECEIVE_TAKE = 0x33;
+    public  final byte KEY_RECEIVE_RETURN = 0x34;
+    public  final byte DATA_END = 0x7F;
 
-    public static Communication communication = new Communication();
+    public Communication communication;
 
 //    public static void main(String[] args) {
 //        try {
@@ -76,12 +76,16 @@ public class RxTx {
 //        ser.close();
 //    }
 
+    public RxTx(String COMPort) {
+        init(COMPort);
+    }
+
     /**
      * Initial the port
      * @param COMPort the port
      * @return success or not
      */
-    public static boolean init(String COMPort) {
+    public boolean init(String COMPort) {
         try {
             // TODO: identify the COM port from Windows' control panel
             portId = CommPortIdentifier.getPortIdentifier(COMPort);
@@ -93,18 +97,18 @@ public class RxTx {
                     SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
             // Add serial listener to the port,
             // all receive information save in Communication.RECEIVE_BUFF
-            RxTx.setListener(new SerialPortEventListener() {
-                @Override
-                public void serialEvent(SerialPortEvent serialPortEvent) {
-                    if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-                        byte[] data = RxTx.receive();
-                        communication.addReceiveBuff(data);
-                        Communication.setReceiveBuffIsChecked(false);
-                        System.out.println("Receive data length: " + data.length);
-                        System.out.println("Receive data content: " + new String(data));
-                    }
-                }
-            });
+//            this.setListener(new SerialPortEventListener() {
+//                @Override
+//                public void serialEvent(SerialPortEvent serialPortEvent) {
+//                    if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+//                        byte[] data = receive();
+//                        communication.addReceiveBuff(data);
+//                        Communication.setReceiveBuffIsChecked(false);
+//                        System.out.println("Receive data length: " + data.length);
+//                        System.out.println("Receive data content: " + new String(data));
+//                    }
+//                }
+//            });
             return true;
         } catch (Exception e){
             e.printStackTrace(System.out);
@@ -117,7 +121,7 @@ public class RxTx {
      * @param millisecond wait time (millisecond)
      * @return success or not
      */
-    public static boolean wait(int millisecond) {
+    public boolean wait(int millisecond) {
         try {
             Thread.sleep(millisecond);
             return true;
@@ -131,7 +135,7 @@ public class RxTx {
      * @param data the data
      * @return success or not
      */
-    public static boolean send(byte[] data) {
+    public  boolean send(byte[] data) {
         try {
             comOut = ser.getOutputStream();
             comOut.write(data);
@@ -147,7 +151,7 @@ public class RxTx {
      * Receive the data
      * @return the data
      */
-    public static byte[] receive() {
+    public  byte[] receive() {
         byte[] data = null;
         try {
             comIn = ser.getInputStream();
@@ -167,7 +171,7 @@ public class RxTx {
     /**
      * Close the port
      */
-    public static void close() {
+    public void close() {
         ser.close();
     }
 
@@ -175,7 +179,7 @@ public class RxTx {
      * Set a listener to the port
      * @param listener
      */
-    public static void setListener(SerialPortEventListener listener) {
+    public  void setListener(SerialPortEventListener listener) {
         try {
             ser.addEventListener(listener);
         } catch (TooManyListenersException e) {
@@ -189,7 +193,7 @@ public class RxTx {
      * Get available port names of the system
      * @return port names
      */
-    public static List<String> getSystemPort(){
+    public  List<String> getSystemPort(){
         List<String> systemPorts = new ArrayList<>();
         //获得系统可用的端口
         Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
@@ -201,7 +205,7 @@ public class RxTx {
         return systemPorts;
     }
 
-    public static int getUnsignedByte (int data){      //将data字节型数据转换为0~255 (0xFF 即BYTE)。
+    public int getUnsignedByte (int data){      //将data字节型数据转换为0~255 (0xFF 即BYTE)。
         return data&0x0FF;
     }
 
