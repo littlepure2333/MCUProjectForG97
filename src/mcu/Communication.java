@@ -23,6 +23,10 @@ public class Communication {
     public static final int BROKEN_QM_NUMBER = -2;
 
     public static final byte DISPLAY1 = 0x01; // Please type in your QM ID
+    public static final byte DISPLAY2 = 0x02; // Must be 9 digits
+    public static final byte DISPLAY3 = 0x03; // ID does not exist
+    public static final byte DISPLAY4 = 0x04; // Take press 1
+    public static final byte DISPLAY5 = 0x05; // Return press 2
 
 
     public void registerListener(CommunicationListener communicationListener) {
