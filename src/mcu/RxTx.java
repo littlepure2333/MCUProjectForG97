@@ -27,6 +27,8 @@ public class RxTx {
     public static final byte KEY_RECEIVE_RETURN = 0x34;
     public static final byte DATA_END = 0x7F;
 
+    public static Communication communication = new Communication();
+
 //    public static void main(String[] args) {
 //        try {
 //			// TODO: identify the COM port from Windows' control panel
@@ -96,7 +98,7 @@ public class RxTx {
                 public void serialEvent(SerialPortEvent serialPortEvent) {
                     if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                         byte[] data = RxTx.receive();
-                        Communication.addReceiveBuff(data);
+                        communication.addReceiveBuff(data);
                         Communication.setReceiveBuffIsChecked(false);
                         System.out.println("Receive data length: " + data.length);
                         System.out.println("Receive data content: " + new String(data));

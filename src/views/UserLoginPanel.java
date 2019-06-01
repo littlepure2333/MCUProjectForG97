@@ -2,6 +2,9 @@ package views;
 
 import bin.FormatCheck;
 import bin.UserManage;
+import mcu.CommunicationEvent;
+import mcu.CommunicationListener;
+import mcu.RxTx;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +28,30 @@ class UserLoginPanel extends JPanel {
 		this.add(new JPanel());
 
 		this.setVisible(true);
+//。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+		RxTx.communication.registerListener(new CommunicationListener() {
+			@Override
+			public void doReceiveQmNumber(CommunicationEvent event) {
+				answerText.setText(Integer.toString(RxTx.communication.receiveQmNumber()));
+			}
+		});
+
+		byte[] data = new byte[5];
+		data[0] = RxTx.KEY_RECEIVE_ID;
+		data[1] = 0x01;
+		data[2] = 0x02;
+		data[3] = 0x03;
+		data[4] = 0x04;
+		RxTx.communication.addReceiveBuff(data);
+		data = new byte[6];
+		data[0] = 0x05;
+		data[1] = 0x06;
+		data[2] = 0x07;
+		data[3] = 0x08;
+		data[4] = 0x09;
+		data[5] = RxTx.DATA_END;
+		RxTx.communication.addReceiveBuff(data);
+//。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
 	}
 
 

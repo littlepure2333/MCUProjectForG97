@@ -6,17 +6,22 @@ import static java.lang.Math.pow;
 
 public class Info {
     /**
-     * Get the station slots, which indicated as 8 binary numbers
-     * i.e. 01100000 means [empty][scooter][scooter][empty][empty][empty][empty][empty]
+     * Get the station slots, which indicated as 8 byte array
      * @return a byte that represents slots
      */
-    public static byte getSlots() {
-        byte slots = 0;
+    public static byte[] getSlots() { // have tested
+        byte[] slots = new byte[10];
+        slots[0] = RxTx.LED_SEND_INIT;
         for (int i = 0; i <= 7; i++) {
             if (AppState.getCurrentStation().getSlot()[7-i] != null) {
-                slots += (byte)pow(2, i);
+//            if (station[7-i] != null) {
+                slots[i+1] = (byte)pow(2, i);
+            }
+            else {
+                slots[i+1] = 0x00;
             }
         }
+        slots[9] = RxTx.DATA_END;
         System.out.println(slots);
         return slots;
     }
