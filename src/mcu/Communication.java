@@ -58,9 +58,16 @@ public class Communication {
     public void checkType() {
         if(listener != null) {
             CommunicationEvent event = new CommunicationEvent(this);
-            if (receiveQmNumber() > 0) {
+            int qmNumber = receiveQmNumber();
+            if (qmNumber == BROKEN_QM_NUMBER) {
+                this.listener.doBrokenQmNumber(event);
+            }
+            else if (qmNumber > 0) {
                 this.listener.doReceiveQmNumber(event);
             }
+
+
+
         }
     }
 
@@ -114,7 +121,7 @@ public class Communication {
                 //byte[] qm = Arrays.copyOfRange(RECEIVE_BUFF, 1,9);
                 for (int i = 1; i <= 9; i++) {
                     // Check if the byte is valid
-                    if (RECEIVE_BUFF[i] != 0x00 && RECEIVE_BUFF[i] != 0xFF) {
+                    if (RECEIVE_BUFF[i] != 0x00 && (int)RECEIVE_BUFF[i] != 0xFF) {
                         // Check if the byte is 0
                         if(RECEIVE_BUFF[i] != 0x0A) {
                             //876543210

@@ -34,6 +34,11 @@ class UserLoginPanel extends JPanel {
 			public void doReceiveQmNumber(CommunicationEvent event) {
 				answerText.setText(Integer.toString(RxTx.communication.receiveQmNumber()));
 			}
+
+			@Override
+			public void doBrokenQmNumber(CommunicationEvent event) {
+				System.out.println("Must be 9 digits");
+			}
 		});
 
 		byte[] data = new byte[5];
@@ -43,13 +48,13 @@ class UserLoginPanel extends JPanel {
 		data[3] = 0x03;
 		data[4] = 0x04;
 		RxTx.communication.addReceiveBuff(data);
-		data = new byte[6];
+		data = new byte[5];
 		data[0] = 0x05;
 		data[1] = 0x06;
 		data[2] = 0x07;
 		data[3] = 0x08;
-		data[4] = 0x09;
-		data[5] = RxTx.DATA_END;
+//		data[4] = 0x09;
+		data[4] = RxTx.DATA_END;
 		RxTx.communication.addReceiveBuff(data);
 //。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
 	}
