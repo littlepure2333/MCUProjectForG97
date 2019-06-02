@@ -18,22 +18,24 @@
     LCD_CHOOSE_ACT      EQU 0x17 ; LCD display 'Take/Return? 1/0'
     LCD_ID_NOT_EXIST    EQU 0x18 ; LCD display 'ID doesnot exist'
     LCD_ID_INVALID      EQU 0x19 ; LCD display 'Invaild ID!'
-    LCD_READY_TAKE      EQU 0x20
-    LCD_EMPTY           EQU 0x21
-    LCD_TAKE_DONE       EQU 0x22
-    LCD_READY_RET       EQU 0x23
-    LCD_FULL            EQU 0x24
-    LCD_RET_DONE        EQU 0x25
-    LCD_EXP             EQU 0x26
-    LCD_PAID            EQU 0x27
-    DATA_END            EQU 0x7F 
+    LCD_READY_TAKE      EQU 0x20 ; LCD display 'Press ok> take'
+    LCD_EMPTY           EQU 0x21 ; LCD display 'Station is empty'
+    LCD_TAKE_DONE       EQU 0x22 ; LCD display 'Scooter taken'
+    LCD_READY_RET       EQU 0x23 ; LCD display 'Press ok> return'
+    LCD_FULL            EQU 0x24 ; LCD display 'Station is full'
+    LCD_RET_DONE        EQU 0x25 ; LCD display 'Scooter returned'
+    LCD_EXP             EQU 0x26 ; LCD display 'Time expired'
+    LCD_PAID            EQU 0x27 ; LCD display 'Pay the payment!'
+    DATA_END            EQU 0x7F ; LCD display
+
 ;   这里放别的数据类型
-;........ 1.3 LCD相关参数.................................................
+;........ 1.3 port相关参数.................................................
     RS EQU P1.5
     RW EQU P1.6
     EN EQU P1.7
-    LCM_DATA EQU P0    ;lcd data port
-    
+    LCM_DATA EQU P0    	; lcd data port
+    BUZZ_PORT EQU P3.7	; buzz port
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;                   中断设置                                        ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -45,12 +47,13 @@
     ORG 000BH       ; Timer 0 中断程序入口
     RETI            ; 中断返回
     ORG 0013H       ; External 1 中断入口
+    ACALL LED_SEND_CLOSE_FUNC
     RETI            ; 中断返回
     ORG 001BH       ; Timer 1 中断程序入口
     RETI            ; 中断返回
     ORG 0023H       ; Serial port 中断程序入口
     RETI            ; 中断返回
-    ORG 002BH       ; Timer 2 中断程序入口    
+    ORG 002BH       ; Timer 2 中断程序入口
     RETI            ; 中断返回
 
 
@@ -61,7 +64,8 @@
 MAIN:
     MOV SP, #1FH    ; 设置堆栈指针
     ACALL UART_INIT ; 初始化串行通信
-    
+    ;ACALL LCD_INIT
+
 LOOP:
     ACALL UART_READ ; 接受数据块
     MOV A, RDFA     ; 接收数据块的第一个字节，代表数据类型
@@ -69,51 +73,66 @@ LOOP:
 CHECK1:
     CJNE A, #LED_SEND_INIT, CHECK2  ; 判断该执行LED_SEND_INIT_FUNC吗
     ACALL LED_SEND_INIT_FUNC    ;
+    SJMP LOOP
 CHECK2:
     CJNE A,#LED_SEND_FLASH, CHECK3  ; 判断该执行LED_SEND_FLASH_FUNC吗
     ACALL LED_SEND_FLASH_FUNC   ;
+    SJMP LOOP
 CHECK3:
     CJNE A,#KEYBOARD_INIT,CHECK4; To check if it should go to the function KEYBOARD_INIT
     ACALL KEYBOARD
+    SJMP LOOP
 CHECK4:
     CJNE A,#LCD_INIT,CHECK5; To check if it should go to the function LCD_INIT
     ACALL LCD_INIT
+    SJMP LOOP
 CHECK5:
     CJNE A,#LCD_HELLO,CHECK6; To check if it should go to the function LCD_HELLO
     ACALL LCD_HELLO
+    SJMP LOOP
 CHECK6:
     CJNE A,#LCD_CHOOSE_ACT,CHECK7; To check if it should go to the function YES_INIT
     ACALL LCD_CHOOSE_ACT
+    SJMP LOOP
 CHECK7:
     CJNE A,#LCD_ID_NOT_EXIST,CHECK8; To check if it should go to the function YES_INIT
     ACALL LCD_ID_NOT_EXIST
+    SJMP LOOP
 CHECK8:
     CJNE A,#LCD_ID_INVALID,CHECK9; To check if it should go to the function YES_INIT
     ACALL LCD_ID_INVALID
+    SJMP LOOP
 CHECK9:
     CJNE A,#LCD_READY_TAKE,CHECK10; To check if it should go to the function YES_INIT
     ACALL LCD_READY_TAKE
+    SJMP LOOP
 CHECK10:
     CJNE A,#LCD_EMPTY,CHECK11; To check if it should go to the function YES_INIT
     ACALL LCD_EMPTY
+    SJMP LOOP
 CHECK11:
     CJNE A,#LCD_TAKE_DONE,CHECK12; To check if it should go to the function YES_INIT
     ACALL LCD_TAKE_DONE
+    SJMP LOOP
 CHECK12:
     CJNE A,#LCD_READY_RET,CHECK13; To check if it should go to the function YES_INIT
     ACALL LCD_READY_RET
+    SJMP LOOP
 CHECK13:
     CJNE A,#LCD_FULL,CHECK14; To check if it should go to the function YES_INIT
     ACALL LCD_FULL
+    SJMP LOOP
 CHECK14:
     CJNE A,#LCD_RET_DONE,CHECK15; To check if it should go to the function YES_INIT
     ACALL LCD_RET_DONE
+    SJMP LOOP
 CHECK15:
     CJNE A,#LCD_EXP,CHECK16; To check if it should go to the function YES_INIT
-    ACALL LCD_EXP    
+    ACALL LCD_EXP
+    SJMP LOOP
 CHECK16:
     CJNE A,#LCD_PAID,LAST; To check if it should go to the function YES_INIT
-    ACALL LCD_PAID    
+    ACALL LCD_PAID
 
 ;   这里可以插入别的子程序
 
@@ -125,16 +144,16 @@ LAST:    SJMP LOOP       ; 循环
 
 ;===================串行端口相关函数==================================
 
-UART_INIT: ; 
-    MOV TMOD, #20h      ; set timer 1 to auto-reload 
-    MOV TH1, #0FDh      ; set 9600 baud(@11.0592MHz) 
+UART_INIT: ;
+    MOV TMOD, #20h      ; set timer 1 to auto-reload
+    MOV TH1, #0FDh      ; set 9600 baud(@11.0592MHz)
     SETB TR1            ; start timer 1
     MOV SCON, #50h      ; set 8-bit data and Mode 1
     RET
 ;...................................................................
-UART_READ: 
+UART_READ:
     MOV R0, #RDFA       ; 设置MCU接收的数据块首地址
-    RECEIVE:  
+    RECEIVE:
         JNB RI, $       ; 等待接收完一字节
         MOV A, SBUF     ; 接受一字节数据
         CLR RI
@@ -152,15 +171,15 @@ UART_SEND:
 ;=================蜂鸣提示音函数======================================
 
 BUZZ:
-	CPL P1.1            ; start buzz
+	CPL BUZZ_PORT            ; start buzz
 	ACALL DELAY1        ; wait for a while
-	CPL P1.1            ; stop buzz
+	CPL BUZZ_PORT            ; stop buzz
 	RET
 
 ;=================DELAY函数==========================================
-DELAY: 
+DELAY:
     MOV R4,#1
-    THERE: 
+    THERE:
         MOV R5,#255;2
         HERE:
             MOV R6,#255;2
@@ -169,17 +188,17 @@ DELAY:
     DJNZ R4,THERE
     RET
 
-DELAY1: 
-    MOV R6, #45
-    ERE: 
+DELAY1:
+    MOV R6, #60
+    ERE:
         MOV R5,#255;2
         DJNZ R5,$
     DJNZ R6, ERE
     RET
 
-DELAY2: 
+DELAY2:
     MOV R4,#4
-    THERE2: 
+    THERE2:
         MOV R5,#255;2
         HERE2:
             MOV R6,#255;2
@@ -199,74 +218,93 @@ LED_SEND_INIT_FUNC:
     MOV R1, #0FEh   ;col 11111110
     MOV P1, R1      ;select col
     MOV R5, #00h    ;This register is used to save the sum
-    INTEGRATE:
-        INC R0      ;Save the address of data
-        MOV A, @R0  ;move data to A
-        CJNE A,#7Fh, DISPLAYADD   ;If not the end, execute add and receive again
-    MOV A, R5       ;If it is the end, do not add and directly diplay the sum in the register
-    MOV P0, A       ;
+INTEGRATE:
+    INC R0  ;Save the address of data
+    MOV A, @R0     ;move data to A
+    CJNE A,#7Fh, DISPLAYADD   ;If not the end, execute add and receive again
+    MOV A, R5        ;If it is the end, do not add and directly diplay the sum in the register
+    MOV P0, A      ;
+
     RET
 
 DISPLAYADD:
     ADD A, R5
     MOV R5, A
-    LJMP INTEGRATE
+    AJMP INTEGRATE
 
-;...................................................................
-
+;.......................................................
 LED_SEND_FLASH_FUNC:
-    MOV R0, #RDFA   ;Save the address of data-1
     MOV R1, #0FEh   ;col 11111110
     MOV P1, R1      ;select col
+    MOV R3, #10   ;Times of flash
+    MOV R7, P0    ;Save the current slot status
+    MOV R0, #RDFA   ;Save the address of data-1
     INC R0  ;Save the address of data
-    MOV R3, #20   ;WAIT
-    MOV R7, P0
     MOV A, @R0     ;move data to A
-    MOV R2, A
-    MOV A, R7
+    MOV R2, A      ;Save which slot to flash to R2
+    MOV A, R7	   ;Move the initial slot status back to A
+    SETB IT1      ;Make INT1 edge-trig
+    SETB EX1      ;Enable scternal INT1
+    SETB EA       ;Enable global interrupt
 FLASH:
     SUBB A, R2
     MOV P0, A      ;send LED bits
     ACALL DELAY2
-    ADD A, R2    ;TURN OFF LED 
+    ADD A, R2    ;TURN OFF LED
     MOV P0, A      ;set LED to be off
     ACALL DELAY2
     DJNZ R3, FLASH
+    ;CJNE R3, #0, FLASH
+    MOV P0, #00h
+    RET
+
+LED_SEND_CLOSE_FUNC:
+    PUSH ACC
+    MOV A, #30h
+    ACALL UART_SEND
+    MOV A, #01h
+    ACALL UART_SEND
+    MOV A, #7Fh
+    ACALL UART_SEND
+    MOV R3, #1
+    POP ACC
+    ACALL DELAY1
+
     RET
 
 ;================LCD相关函数============================================
 
 ; lcd strings
 TAB_LCD_HELLO:      DB 'Input your id:'
-TAB_LCD_CHOOSE:     DB 'Take/Return? 1/0'
+TAB_LCD_CHOOSE:     DB 'Take/Return? 1/2'
 TAB_LCD_NOT_EXIST:  DB 'ID doesnot exist'
-TAB_LCD_INVALID:    DB 'Invaild ID!' 
-TAB_LCD_READY_TAKE  DB 'Press ok> take'
-TAB_LCD_EMPTY       DB 'Station is empty'
-TAB_LCD_TAKE_DONE   DB 'Scooter taken'
-TAB_LCD_READY_RET   DB 'Press ok> return'
-TAB_LCD_FULL        DB 'Station is full'
-TAB_LCD_RET_DONE    DB 'Scooter returned'
-TAB_LCD_EXP         DB 'Time expired'
-TAB_LCD_PAID        DB 'Pay the payment!'
+TAB_LCD_INVALID:    DB 'Invaild ID!'
+TAB_LCD_READY_TAKE: DB 'Press ok> take'
+TAB_LCD_EMPTY:      DB 'Station is empty'
+TAB_LCD_TAKE_DONE:  DB 'Scooter taken'
+TAB_LCD_READY_RET:  DB 'Press ok> return'
+TAB_LCD_FULL:       DB 'Station is full'
+TAB_LCD_RET_DONE:   DB 'Scooter returned'
+TAB_LCD_EXP:        DB 'Time expired'
+TAB_LCD_PAID:       DB 'Pay the payment!'
 
 LCD_HELLO:
-    MOV DPTR, #TAB_HELLO
+    MOV DPTR, #TAB_LCD_HELLO
     MOV R0, #14
     ACALL W_STR
     RET
 LCD_CHOOSE_ACT:
-    MOV DPTR, #TAB_CHOOSE_ACT
+    MOV DPTR, #TAB_LCD_CHOOSE
     MOV R0, #16
     ACALL W_STR
     RET
-LCD_ID_NOT_EXIST: 
-    MOV DPTR, #TAB_ID_NOT_EXIST
+LCD_ID_NOT_EXIST:
+    MOV DPTR, #TAB_LCD_NOT_EXIST
     MOV R0, #16
     ACALL W_STR
     RET
-LCD_ID_INVALID: 
-    MOV DPTR, #TAB_ID_INVALID
+LCD_ID_INVALID:
+    MOV DPTR, #TAB_LCD_INVALID
     MOV R0, #11
     ACALL W_STR
     RET
@@ -302,7 +340,7 @@ LCD_RET_DONE:
     RET
 LCD_EXP:
     MOV DPTR, #TAB_LCD_EXP
-    MOV RO, #12
+    MOV R0, #12
     ACALL W_STR
     RET
 LCD_PAID:
@@ -405,14 +443,14 @@ KEYBOARD: MOV KEYBOARDTEMP,#70h
 ;Clear the content in the address
 KEYBOARDINIT: MOV @R1,#0x00
               INC R1
-              DJNZ R4,KEYBOARDINIT     
+              DJNZ R4,KEYBOARDINIT
 
-;Perform the main function   
+;Perform the main function
 KEYBOARDMAIN: ACALL CHECKBUTTON;To check the button
               ACALL DELAY
               CJNE A,#0x00,KEYBOARDNEXT1;If A has no meaning, then start it again
               SJMP KEYBOARDENDLOGIN
-      
+
       KEYBOARDNEXT1: CJNE A,#0x0C,KEYBOARDNEXT2;If want to delete one bit
                      DEC KEYBOARDTEMP;To get the current position
                      MOV R0,KEYBOARDTEMP;To move the position of R0
@@ -420,17 +458,17 @@ KEYBOARDMAIN: ACALL CHECKBUTTON;To check the button
                      INC KEYBOARDTEMP;If delete too much
                      ACALL RM_DATA              ;LCD remove char
                      SJMP KEYBOARDENDLOGIN
-                     
+
       KEYBOARDCONTINUE1: MOV @R0,#0x00;Set the number want to delete to be 00h
                          SJMP KEYBOARDENDLOGIN
-                         
+
       KEYBOARDNEXT2: CJNE A,#0x0B,KEYBOARDNEXT3;If press confirm button
                      MOV R4,#9;R4 is the recording of the amount of number to be transmitted
                      MOV R1,#70h;The position of the first number
                      MOV A,#0x30;Transmit the head
                      ACALL UART_SEND
                      ACALL DELAY1
-             
+
       KEYBOARDTRANS: MOV A,@R1;Transmit the number in the position
                      ACALL UART_SEND
                      ACALL DELAY1
@@ -439,7 +477,7 @@ KEYBOARDMAIN: ACALL CHECKBUTTON;To check the button
                      MOV A,#7Fh;Transmit the tail
                      ACALL UART_SEND
                      ACALL DELAY1
-                     
+
       ;Reset all the value in the position
       MOV R4,#9
       MOV R1,#78h
@@ -450,10 +488,10 @@ KEYBOARDMAIN: ACALL CHECKBUTTON;To check the button
       MOV KEYBOARDTEMP,#70h
       RET
 
-      ;Fault tolerance    
+      ;Fault tolerance
       KEYBOARDNEXT3: CJNE A,#0xF7,KEYBOARDNEXT4
                      SJMP KEYBOARDENDLOGIN
-                     
+
       ;To send the number to LCD and store it
       KEYBOARDNEXT4: MOV R0,KEYBOARDTEMP;Store it in the temp position
                      INC KEYBOARDTEMP;Move it to the next position
@@ -470,11 +508,11 @@ KEYBOARDMAIN: ACALL CHECKBUTTON;To check the button
                         IS_0:
                         ACALL W_DATA    ; LCD write char
                         SJMP KEYBOARDENDLOGIN
-             
+
       KEYBOARDENDLOGIN: SJMP KEYBOARDMAIN
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 CHECKBUTTON: MOV DPTR,#KEYTABLE;Load the tabel
              ACALL KEY
              RET
@@ -489,14 +527,14 @@ KEY0_1: ;Key detection subroutine, equivalent to initialization
         SETB F0   ;Set F0 = 1
         MOV R3,#0F7H  ;The initial value of the line scan pointer (P2.3=0) detects the line 2.3
         MOV R1,#00H   ;The initial value of the code pointer is to look at the column
-        
+
 L2: MOV A,R3   ;Loading scan pointer
     MOV P2,A   ;Output to P2 and start scanning for a 0 line
     NOP
     MOV A,P2   ;Read in P2
-    SETB C   
+    SETB C
     MOV R5,#4   ;Check P2.7 ~ P2.4, a total of four columns
-    
+
 L3:  ;Check 4 columns
      RLC A   ;Move one digit left (P2.7~P2.4)
      JNC KEY1   ;C=0 detected means pressed
@@ -510,9 +548,9 @@ L3:  ;Check 4 columns
      RET
 
 KEY1: CLR F0   ;F0 clear 0, means the key is pressed
-      RET   
+      RET
 
-KEYTABLE:  
+KEYTABLE:
 ;To store the keyboard number
 DB      0x0C;Delete
 DB      0x0B;Confirm
@@ -534,6 +572,8 @@ DB      0x00;Not in use
 DB      0x00;Not in use
 DB      0x00;Not in use
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-END         
+END
+
+
