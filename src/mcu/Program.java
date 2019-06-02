@@ -35,6 +35,7 @@ public class Program {
             }
         }
         RxTx.send(instructions.get("lcdInit"));
+        //noinspection InfiniteLoopStatement
         while (true) {
             frame();
         }
@@ -45,8 +46,11 @@ public class Program {
         new LoginBranch();
         if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdHello"));return;}
 
+        // 2b.付钱
         if (AppState.getCurrentUser().isNeedToPay().equals("true")) {
-
+            /*TODO*/
+            new PayBranch();
+            if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdHello"));return;}
         }
 
         // 3.选借还车

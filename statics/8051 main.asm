@@ -18,6 +18,14 @@
     LCD_CHOOSE_ACT      EQU 0x17 ; LCD display 'Take/Return? 1/0'
     LCD_ID_NOT_EXIST    EQU 0x18 ; LCD display 'ID doesnot exist'
     LCD_ID_INVALID      EQU 0x19 ; LCD display 'Invaild ID!'
+    LCD_READY_TAKE      EQU 0x20
+    LCD_EMPTY           EQU 0x21
+    LCD_TAKE_DONE       EQU 0x22
+    LCD_READY_RET       EQU 0x23
+    LCD_FULL            EQU 0x24
+    LCD_RET_DONE        EQU 0x25
+    LCD_EXP             EQU 0x26
+    LCD_PAID            EQU 0x27
     DATA_END            EQU 0x7F 
 ;   这里放别的数据类型
 ;........ 1.3 LCD相关参数.................................................
@@ -80,8 +88,32 @@ CHECK7:
     CJNE A,#LCD_ID_NOT_EXIST,CHECK8; To check if it should go to the function YES_INIT
     ACALL LCD_ID_NOT_EXIST
 CHECK8:
-    CJNE A,#LCD_ID_INVALID,LAST; To check if it should go to the function YES_INIT
+    CJNE A,#LCD_ID_INVALID,CHECK9; To check if it should go to the function YES_INIT
     ACALL LCD_ID_INVALID
+CHECK9:
+    CJNE A,#LCD_READY_TAKE,CHECK10; To check if it should go to the function YES_INIT
+    ACALL LCD_READY_TAKE
+CHECK10:
+    CJNE A,#LCD_EMPTY,CHECK11; To check if it should go to the function YES_INIT
+    ACALL LCD_EMPTY
+CHECK11:
+    CJNE A,#LCD_TAKE_DONE,CHECK12; To check if it should go to the function YES_INIT
+    ACALL LCD_TAKE_DONE
+CHECK12:
+    CJNE A,#LCD_READY_RET,CHECK13; To check if it should go to the function YES_INIT
+    ACALL LCD_READY_RET
+CHECK13:
+    CJNE A,#LCD_FULL,CHECK14; To check if it should go to the function YES_INIT
+    ACALL LCD_FULL
+CHECK14:
+    CJNE A,#LCD_RET_DONE,CHECK15; To check if it should go to the function YES_INIT
+    ACALL LCD_RET_DONE
+CHECK15:
+    CJNE A,#LCD_EXP,CHECK16; To check if it should go to the function YES_INIT
+    ACALL LCD_EXP    
+CHECK16:
+    CJNE A,#LCD_PAID,LAST; To check if it should go to the function YES_INIT
+    ACALL LCD_PAID    
 
 ;   这里可以插入别的子程序
 
@@ -205,32 +237,77 @@ FLASH:
 ;================LCD相关函数============================================
 
 ; lcd strings
-TAB_HELLO:          DB 'Input your id:'
-TAB_CHOOSE_ACT:     DB 'Take/Return? 1/0'
-TAB_ID_NOT_EXIST:   DB 'ID doesnot exist'
-TAB_ID_INVALID:     DB 'Invaild ID!' 
+TAB_LCD_HELLO:      DB 'Input your id:'
+TAB_LCD_CHOOSE:     DB 'Take/Return? 1/0'
+TAB_LCD_NOT_EXIST:  DB 'ID doesnot exist'
+TAB_LCD_INVALID:    DB 'Invaild ID!' 
+TAB_LCD_READY_TAKE  DB 'Press ok> take'
+TAB_LCD_EMPTY       DB 'Station is empty'
+TAB_LCD_TAKE_DONE   DB 'Scooter taken'
+TAB_LCD_READY_RET   DB 'Press ok> return'
+TAB_LCD_FULL        DB 'Station is full'
+TAB_LCD_RET_DONE    DB 'Scooter returned'
+TAB_LCD_EXP         DB 'Time expired'
+TAB_LCD_PAID        DB 'Pay the payment!'
 
 LCD_HELLO:
     MOV DPTR, #TAB_HELLO
     MOV R0, #14
     ACALL W_STR
     RET
-
 LCD_CHOOSE_ACT:
     MOV DPTR, #TAB_CHOOSE_ACT
     MOV R0, #16
     ACALL W_STR
     RET
-
 LCD_ID_NOT_EXIST: 
     MOV DPTR, #TAB_ID_NOT_EXIST
     MOV R0, #16
     ACALL W_STR
     RET
-
 LCD_ID_INVALID: 
     MOV DPTR, #TAB_ID_INVALID
     MOV R0, #11
+    ACALL W_STR
+    RET
+LCD_READY_TAKE:
+    MOV DPTR, #TAB_LCD_READY_TAKE
+    MOV R0, #16
+    ACALL W_STR
+    RET
+LCD_EMPTY:
+    MOV DPTR, #TAB_LCD_EMPTY
+    MOV R0, #16
+    ACALL W_STR
+    RET
+LCD_TAKE_DONE:
+    MOV DPTR, #TAB_LCD_TAKE_DONE
+    MOV R0, #13
+    ACALL W_STR
+    RET
+LCD_READY_RET:
+    MOV DPTR, #TAB_LCD_READY_RET
+    MOV R0, #16
+    ACALL W_STR
+    RET
+LCD_FULL:
+    MOV DPTR, #TAB_LCD_FULL
+    MOV R0, #15
+    ACALL W_STR
+    RET
+LCD_RET_DONE:
+    MOV DPTR, #TAB_LCD_RET_DONE
+    MOV R0, #16
+    ACALL W_STR
+    RET
+LCD_EXP:
+    MOV DPTR, #TAB_LCD_EXP
+    MOV RO, #12
+    ACALL W_STR
+    RET
+LCD_PAID:
+    MOV DPTR, #TAB_LCD_PAID
+    MOV R0, #16
     ACALL W_STR
     RET
 
