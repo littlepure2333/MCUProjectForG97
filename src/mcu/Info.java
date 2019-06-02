@@ -1,6 +1,7 @@
 package mcu;
 
 import bin.AppState;
+import bin.StationManage;
 
 import static java.lang.Math.pow;
 
@@ -22,7 +23,8 @@ public class Info {
             }
         }
         slots[9] = RxTx.DATA_END;
-        System.out.println(slots);
+        for (byte slot: slots)
+            System.out.println(slot);
         return slots;
     }
 

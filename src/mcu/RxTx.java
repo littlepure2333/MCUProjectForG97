@@ -93,22 +93,26 @@ public class RxTx {
                     SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
             // Add serial listener to the port,
             // all receive information save in Communication.RECEIVE_BUFF
-            RxTx.setListener(new SerialPortEventListener() {
-                @Override
-                public void serialEvent(SerialPortEvent serialPortEvent) {
-                    if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-                        byte[] data = RxTx.receive();
-                        communication.addReceiveBuff(data);
-                        communication.setReceiveBuffIsChecked(false);
-                        System.out.println("Receive data length: " + data.length);
-                        System.out.println("Receive data content: " + new String(data));
-                    }
+            RxTx.setListener(serialPortEvent -> {
+                if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+                    byte[] data = RxTx.receive();
+                    communication.addReceiveBuff(data);
+                    communication.setReceiveBuffIsChecked(false);
+                    System.out.println("Receive data length: " + data.length);
+                    System.out.println("Receive data content: ");
+                    printData(data);
                 }
             });
             return true;
         } catch (Exception e){
             e.printStackTrace(System.out);
             return false;
+        }
+    }
+
+    private static void printData(byte[] data) {
+        for (byte datum : data) {
+            System.out.println(datum);
         }
     }
 

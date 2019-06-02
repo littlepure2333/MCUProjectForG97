@@ -8,10 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class StationPanel extends JPanel {
+public class StationPanel extends JPanel {
 	private UserLoginPanel userLoginPanel = new UserLoginPanel();
 
-	StationPanel() {
+	protected StationPanel() {
 		this.setLayout(new GridLayout(3, 1));
 		this.add(new JPanel());
 		this.add(new MyPanel());

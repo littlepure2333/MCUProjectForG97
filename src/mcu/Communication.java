@@ -17,7 +17,7 @@ public class Communication {
     /**
      * A flag to denote if the receive buffer is check by java program
      */
-    private static boolean RECEIVE_BUFF_IS_CHECKED;
+    private static boolean RECEIVE_BUFF_IS_CHECKED = true;
 
     public static final int IS_NOT_QM_NUMBER = -1;
     public static final int BROKEN_QM_NUMBER = -2;
@@ -53,9 +53,9 @@ public class Communication {
             RECEIVE_BUFF[RECEIVE_BUFF_INDEX] = data[i];
             RECEIVE_BUFF_INDEX++;
         }
-//        if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX -1] == RxTx.DATA_END) {
-//            checkType();
-//        }
+        if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX -1] == RxTx.DATA_END) {
+            setReceiveBuffIsChecked(false);
+        }
     }
 
     public void checkType() {
@@ -91,7 +91,7 @@ public class Communication {
      * Send station initial slots information to mcu
      * @return success or not
      */
-    public static boolean sendStationSlots() {
+    boolean sendStationSlots() {
         byte[] data = Info.getSlots();
         return RxTx.send(data);
     }
@@ -101,7 +101,7 @@ public class Communication {
      * @param i slot number, index from 0
      * @return success or not
      */
-    public static boolean sendStationFlashSlot(int i) {
+    boolean sendStationFlashSlot(int i) {
         byte[] data = new byte[3];
         data[0] = RxTx.LED_SEND_FLASH;
         data[1] = Info.getFlashSlot(i);
@@ -152,10 +152,10 @@ public class Communication {
      */
     public int receiveTakeOrReturn() {
         // Check if receive data type is ID
-        if (RECEIVE_BUFF[0] == RxTx.KEY_RECEIVE_TAKE) {
+        if (RECEIVE_BUFF[1] == 1 && onlyOneByte(RECEIVE_BUFF)) { //RxTx.KEY_RECEIVE_TAKE
             return TAKE_OPTION;
         }
-        else if (RECEIVE_BUFF[0] == RxTx.KEY_RECEIVE_RETURN) {
+        else if (RECEIVE_BUFF[1] == 2 && onlyOneByte(RECEIVE_BUFF)) { //RxTx.KEY_RECEIVE_RETURN
             return RETURN_OPTION;
         }
         else {
@@ -163,6 +163,13 @@ public class Communication {
         }
     }
 
+    private boolean onlyOneByte(byte[] receive) {
+        for (int i = 2; i < 10; i++) {
+            if (receive[i] != 0)
+                return false;
+        }
+        return true;
+    }
 
     public static boolean sendLCDInformation(byte information) {
         byte[] data = new byte[3];
