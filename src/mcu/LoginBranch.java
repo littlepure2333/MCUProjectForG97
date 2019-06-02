@@ -5,29 +5,25 @@ import bin.UserManage;
 import static mcu.Program.instructions;
 
 class LoginBranch {
-    private byte[] keyPadInit = instructions.get("keyBoardInit");
 
     LoginBranch() {
-        RxTx.wait(1000);
         RxTx.send(instructions.get("lcdHello"));
-        RxTx.wait(500);
-        RxTx.send(keyPadInit);
+        RxTx.send(instructions.get("keyBoardInit"));
         waitForInput();
     }
 
-    private void waitForInput() {
+
+    public void waitForInput() {
         while(true) {
             RxTx.wait(1000);
             if (!RxTx.communication.getReceiveBuffIsChecked()) {
                 RxTx.communication.setReceiveBuffIsChecked(true);
-                int result = RxTx.communication.receiveQmNumber();
                 // 当输入九位的时候
-                if (result > 0) {
+                if (RxTx.communication.receiveQmNumber() > 0) {
                     // 当账号不存在的时候
-                    if(!UserManage.login(result)) {
+                    if(!UserManage.login(RxTx.communication.receiveQmNumber())) {
                         RxTx.send(instructions.get("lcdNotExist"));
-                        RxTx.wait(500);
-                        RxTx.send(keyPadInit);
+                        RxTx.send(instructions.get("keyBoardInit"));
                         System.out.println("ID does not exist");
                     }
                     // 登陆成功
@@ -39,8 +35,7 @@ class LoginBranch {
                 // invalid account
                 else {
                     RxTx.send(instructions.get("lcdInvalid"));
-                    RxTx.wait(500);
-                    RxTx.send(keyPadInit);
+                    RxTx.send(instructions.get("keyBoardInit"));
                     System.out.println("ID Incomplete");
                 }
             }

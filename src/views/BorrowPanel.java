@@ -81,7 +81,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	 *
 	 * @return true-空，false-非空
 	 */
-	private boolean checkIsEmpty() {
+	public static boolean checkIsEmpty() {
 		for (int i = 0; i <= 7; i++) {
 			if (AppState.getCurrentStation().getSlot()[i] != null) {
 				return false;

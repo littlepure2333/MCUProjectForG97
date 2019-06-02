@@ -81,7 +81,7 @@ public class ReturnPanel extends JPanel implements PanelStateMonitor {
      *
      * @return true-全满，false-有空位
      */
-    private boolean checkIsFull() {
+    public static boolean checkIsFull() {
         for (int i = 0; i <= 7; i++) {
             if (AppState.getCurrentStation().getSlot()[i] == null) {
                 return false;

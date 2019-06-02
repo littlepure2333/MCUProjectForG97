@@ -1,10 +1,14 @@
 package mcu;
 
-public class ConfirmTakeReturnBranch {
-    private byte[] keyPadInit = {0x12, 0x7F};
+import bin.AppState;
+import bin.ScooterManage;
+
+import static mcu.Program.instructions;
+
+class ConfirmTakeReturnBranch {
+
     ConfirmTakeReturnBranch() {
-        RxTx.wait(1000);
-        RxTx.send(keyPadInit);
+        RxTx.send(instructions.get("keyBoardInit"));
         waitForInput();
     }
 
@@ -12,22 +16,49 @@ public class ConfirmTakeReturnBranch {
         while (true) {
             RxTx.wait(1000);
             if (!RxTx.communication.getReceiveBuffIsChecked()) {
+                System.out.println("get an input [6]");
                 RxTx.communication.setReceiveBuffIsChecked(true);
                 int result = RxTx.communication.receiveTakeOrReturn();
-                // if confirmed
+                // 按确认-确定要借
                 if (result == Communication.TAKE_OPTION) {
-                    System.out.println("confirm");
+                    //借车操作
+                    if (Program.takeOrReturn == 1) {
+                        System.out.println("confirm take");
+                        //take
+                        ScooterManage.takeScooter();
+                        //update station data
+                        RxTx.send(instructions.get("lcdTakeDone"));
+                    }
+                    //还车操作
+                    else {
+                        System.out.println("confirm ret");
+                        //return
+                        ScooterManage.returnScooter();
+                        //update station data
+                        RxTx.send(instructions.get("lcdReturnDone"));
+                    }
+
+                    //完成操作后先判断是否超时，再等待一段时间后回到开始
+                    if (AppState.getCurrentUser().isNeedToPay().equals("true"))
+                        RxTx.send(instructions.get("lcdUseExp"));
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     return;
-                } else {
-                    //
-                    System.out.println("else");
-                    RxTx.send(keyPadInit);
+                }
+
+                // 按？/超时-回到开始
+                else {
+                    System.out.println("give up, back");
+                    Program.resetFlag = true;
+                    return;
                 }
             }
         }
     }
 
-    private void takeOrReturnAction() {
-        
-    }
+
+
 }

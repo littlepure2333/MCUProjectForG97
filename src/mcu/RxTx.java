@@ -121,7 +121,7 @@ public class RxTx {
      * @param millisecond wait time (millisecond)
      * @return success or not
      */
-    public static boolean wait(int millisecond) {
+    static boolean wait(int millisecond) {
         try {
             Thread.sleep(millisecond);
             return true;
@@ -135,7 +135,8 @@ public class RxTx {
      * @param data the data
      * @return success or not
      */
-    public static boolean send(byte[] data) {
+    static boolean send(byte[] data) {
+        wait(500);
         try {
             comOut = ser.getOutputStream();
             comOut.write(data);

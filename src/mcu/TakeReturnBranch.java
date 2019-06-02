@@ -7,12 +7,10 @@ import static mcu.Program.instructions;
  * Exit only when the user input sth.
  */
 class TakeReturnBranch {
-    private byte[] keyBoardInit = instructions.get("keyBoardInit");
 
     TakeReturnBranch() {
-        RxTx.wait(1000);
         RxTx.send(instructions.get("lcdChooseAct"));
-        RxTx.send(keyBoardInit);
+        RxTx.send(instructions.get("keyBoardInit"));
         waitForInput();
     }
 
@@ -39,8 +37,9 @@ class TakeReturnBranch {
                         return;
                     // if not take/return
                     default:
-                        System.out.println("else");
-                        RxTx.send(keyBoardInit);
+                        System.out.println("choose error, back");
+                        Program.resetFlag = true;
+                        return;
                 }
             }
         }
