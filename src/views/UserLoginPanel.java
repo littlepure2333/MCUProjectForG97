@@ -31,47 +31,47 @@ class UserLoginPanel extends JPanel {
 
 		this.setVisible(true);
 //。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-		//RxTx initialization
-		Communication communication = new Communication("COM3");
-
-		communication.registerListener(new CommunicationListener() {
-			@Override
-			public void doReceiveQmNumber(CommunicationEvent event) {
-				answerText.setText(Integer.toString(communication.receiveQmNumber()));
-				submitButton.doClick();
-//				// if login fail
-//				if (!UserManage.login(Integer.parseInt(answerText.getText()))) {
-//					answerText.setText("");
-//					feedbackLabel.setText("You haven't registered yet!");
-//				}
-//				else { //登录成功
-//					answerText.setText("");
-//					feedbackLabel.setText("Please type in your QM ID.");
-//					Windows.goToPanel(userPanel);
-//				}
-			}
-
-			@Override
-			public void doBrokenQmNumber(CommunicationEvent event) {
-				System.out.println("Must be 9 digits");
-			}
-		});
-
-		byte[] data = new byte[5];
-		data[0] = communication.KEY_RECEIVE_ID;
-		data[1] = 0x01;
-		data[2] = 0x02;
-		data[3] = 0x03;
-		data[4] = 0x04;
-		communication.addReceiveBuff(data);
-		data = new byte[6];
-		data[0] = 0x05;
-		data[1] = 0x06;
-		data[2] = 0x07;
-		data[3] = 0x08;
-		data[4] = 0x09;
-		data[5] = communication.DATA_END;
-		communication.addReceiveBuff(data);
+//		//RxTx initialization
+//		Communication communication = new Communication("COM3");
+//
+//		communication.registerListener(new CommunicationListener() {
+//			@Override
+//			public void doReceiveQmNumber(CommunicationEvent event) {
+//				answerText.setText(Integer.toString(communication.receiveQmNumber()));
+//				submitButton.doClick();
+////				// if login fail
+////				if (!UserManage.login(Integer.parseInt(answerText.getText()))) {
+////					answerText.setText("");
+////					feedbackLabel.setText("You haven't registered yet!");
+////				}
+////				else { //登录成功
+////					answerText.setText("");
+////					feedbackLabel.setText("Please type in your QM ID.");
+////					Windows.goToPanel(userPanel);
+////				}
+//			}
+//
+//			@Override
+//			public void doBrokenQmNumber(CommunicationEvent event) {
+//				System.out.println("Must be 9 digits");
+//			}
+//		});
+//
+//		byte[] data = new byte[5];
+//		data[0] = communication.KEY_RECEIVE_ID;
+//		data[1] = 0x01;
+//		data[2] = 0x02;
+//		data[3] = 0x03;
+//		data[4] = 0x04;
+//		communication.addReceiveBuff(data);
+//		data = new byte[6];
+//		data[0] = 0x05;
+//		data[1] = 0x06;
+//		data[2] = 0x07;
+//		data[3] = 0x08;
+//		data[4] = 0x09;
+//		data[5] = communication.DATA_END;
+//		communication.addReceiveBuff(data);
 //。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
 	}
 

@@ -21,6 +21,9 @@ public class Communication {
 
     public static final int IS_NOT_QM_NUMBER = -1;
     public static final int BROKEN_QM_NUMBER = -2;
+    public static final int NOT_THIS_TYPE = -1;
+    public static final int TAKE_OPTION = 1;
+    public static final int RETURN_OPTION = 2;
 
     public static final byte DISPLAY1 = 0x01; // Please type in your QM ID
     public static final byte DISPLAY2 = 0x02; // Must be 9 digits
@@ -50,9 +53,9 @@ public class Communication {
             RECEIVE_BUFF[RECEIVE_BUFF_INDEX] = data[i];
             RECEIVE_BUFF_INDEX++;
         }
-        if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX -1] == RxTx.DATA_END) {
-            checkType();
-        }
+//        if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX -1] == RxTx.DATA_END) {
+//            checkType();
+//        }
     }
 
     public void checkType() {
@@ -142,6 +145,24 @@ public class Communication {
             return IS_NOT_QM_NUMBER;
         }
     }
+
+    /**
+     * receive take or return option
+     * @return 1 take, 2 return, -1 not this type
+     */
+    public int receiveTakeOrReturn() {
+        // Check if receive data type is ID
+        if (RECEIVE_BUFF[0] == RxTx.KEY_RECEIVE_TAKE) {
+            return TAKE_OPTION;
+        }
+        else if (RECEIVE_BUFF[0] == RxTx.KEY_RECEIVE_RETURN) {
+            return RETURN_OPTION;
+        }
+        else {
+            return NOT_THIS_TYPE;
+        }
+    }
+
 
     public static boolean sendLCDInformation(byte information) {
         byte[] data = new byte[3];

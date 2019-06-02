@@ -8,25 +8,22 @@ class RxTxTest {
 
     @Test
     void test() {
-        RxTx rxTx = new RxTx("COM3");
-        rxTx.wait(1000);
+        RxTx.wait(1000);
         byte[] data = new byte[1];
-        data[0] = rxTx.KEY_RECEIVE_ID;
-        rxTx.send(data);
+        data[0] = RxTx.KEY_RECEIVE_ID;
+        RxTx.send(data);
         //while(true);
     }
 
     @Test
     void getSystemPort() {
-        RxTx rxTx = new RxTx("COM3");
-        rxTx.getSystemPort();
+        RxTx.getSystemPort();
     }
 
     @Test
     void testGetUnsignedByte() {
-        RxTx rxTx = new RxTx("COM3");
         int data = 0xFE;
         System.out.println(data);
-        System.out.println(rxTx.getUnsignedByte(data));
+        System.out.println(RxTx.getUnsignedByte(data));
     }
 }
