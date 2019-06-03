@@ -12,13 +12,15 @@
 ;........ 1.2 数据类型常量................................................
     LED_SEND_INIT       EQU 0x10 ; To initialize LED
     LED_SEND_FLASH      EQU 0x11 ; LED flash when take scooter
-    
+    LED_RETURN_FLASH	EQU 0x28 ; LED flash when return scooter
+
     KEYBOARD_INIT       EQU 0x12 ; To initialize keyboard input
+
     LCD_INIT            EQU 0x15 ; To initialize LCD
     LCD_HELLO           EQU 0x16 ; LCD display 'Input your id:'
     LCD_CHOOSE_ACT      EQU 0x17 ; LCD display 'Take/Return? 1/0'
     LCD_ID_NOT_EXIST    EQU 0x18 ; LCD display 'ID doesnot exist'
-    LCD_ID_INVALID      EQU 0x19 ; LCD display 'Invaild ID!'
+    LCD_ID_INVALID      EQU 0x19 ; LCD display 'Invalid ID!'
     LCD_READY_TAKE      EQU 0x20 ; LCD display 'Press ok> take'
     LCD_EMPTY           EQU 0x21 ; LCD display 'Station is empty'
     LCD_TAKE_DONE       EQU 0x22 ; LCD display 'Scooter taken'
@@ -27,9 +29,7 @@
     LCD_RET_DONE        EQU 0x25 ; LCD display 'Scooter returned'
     LCD_EXP             EQU 0x26 ; LCD display 'Time expired'
     LCD_PAID            EQU 0x27 ; LCD display 'Pay the payment!'
-    
-    LED_RETURN_FLASH	EQU 0x28 ; LED flash when return scooter
-    
+
     DATA_END            EQU 0x7F ; LCD display
 
 ;   这里放别的数据类型
@@ -41,7 +41,7 @@
     BUZZ_PORT EQU P3.7	; buzz port
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;                   中断设置                                        ;
+;                   2 中断设置                                      ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     ORG 0000H
@@ -62,18 +62,17 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;                   主程序                                          ;
+;                2 主程序                                           ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ORG 100h
 MAIN:
     MOV SP, #1FH    ; 设置堆栈指针
     ACALL UART_INIT ; 初始化串行通信
-    ;ACALL LCD_INIT
-    
+
 LOOP:
-    ACALL UART_READ ; 接受数据块
+    ACALL UART_READ ; 接受数据块, 只有接收完完整的数据块才会接着往下进行
     MOV A, RDFA     ; 接收数据块的第一个字节，代表数据类型
-    ;MOV A,#13h
+
 CHECK1:
     CJNE A, #LED_SEND_INIT, CHECK2  ; 判断该执行LED_SEND_INIT_FUNC吗
     ACALL LED_SEND_INIT_FUNC    ;
@@ -138,7 +137,6 @@ CHECK16:
     CJNE A,#LCD_PAID,CHECK17; To check if it should go to the function YES_INIT
     ACALL LCD_PAID    
     AJMP LOOP
-
 CHECK17:
     CJNE A,#LED_RETURN_FLASH,LAST; To check if it should go to the function YES_INIT
     ACALL LED_RETURN_FLASH_FUNC
@@ -149,36 +147,37 @@ LAST:
     AJMP LOOP       ; 循环
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;                   工具函数                                        ;
+;                  3 工具函数                                       ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;===================串行端口相关函数==================================
+;============== 3.1 UART serial functions===========================
 
-UART_INIT: ; 
+;........ 3.1.1 Initialize UART serial interface.....................
+UART_INIT:
     MOV TMOD, #20h      ; set timer 1 to auto-reload 
     MOV TH1, #0FDh      ; set 9600 baud(@11.0592MHz) 
     SETB TR1            ; start timer 1
     MOV SCON, #50h      ; set 8-bit data and Mode 1
     RET
-;...................................................................
-UART_READ: 
-    MOV R0, #RDFA       ; 设置MCU接收的数据块首地址
+;........ 3.1.2 Receive data .........................................
+UART_READ: ; Keep receive data util the whole data block is received
+    MOV R0, #RDFA       ; Set the first address of the data block received by the MCU
     RECEIVE:  
-        JNB RI, $       ; 等待接收完一字节
-        MOV A, SBUF     ; 接受一字节数据
-        CLR RI
-        MOV @R0, A      ; 存到接收数据块区域
-        INC R0          ; 修改地址指针
-        CJNE A, #DATA_END, RECEIVE ; 判断数据块是否接收完毕
+        JNB RI, $       ; Wait for receive one byte
+        MOV A, SBUF     ; Copy buffer
+        CLR RI          ; Clear receive intr flag
+        MOV @R0, A      ; Save the byte to receive data area
+        INC R0          ; Increase save address
+        CJNE A, #DATA_END, RECEIVE ; Check if the whole data block is received
     RET
-;...................................................................
-UART_SEND:
+;........ 3.1.3 Send data ............................................
+UART_SEND: ;Input: A
     CLR TI              ; clear transmit intr flag
     MOV SBUF, A         ; put byte in SBUF
     JNB TI, $           ; wait till byte is sent
     RET                 ; leave subroutine
 
-;=================蜂鸣提示音函数======================================
+;========== 3.2 BUZZ function ======================================
 
 BUZZ:
 	CPL BUZZ_PORT            ; start buzz
@@ -186,22 +185,22 @@ BUZZ:
 	CPL BUZZ_PORT            ; stop buzz
 	RET
 
-;=================DELAY函数==========================================
-DELAY: 
+;========== 3.3 DELAY函数 ==========================================
+DELAY:
     MOV R4,#1
     THERE: 
-        MOV R5,#255;2
+        MOV R5,#255
         HERE:
-            MOV R6,#255;2
-            DJNZ R6,$ ;2*255
-        DJNZ R5,HERE;2
+            MOV R6,#255
+            DJNZ R6,$
+        DJNZ R5,HERE
     DJNZ R4,THERE
     RET
 
 DELAY1: 
     MOV R6, #60
     ERE: 
-        MOV R5,#255;2
+        MOV R5,#255
         DJNZ R5,$
     DJNZ R6, ERE
     RET
@@ -209,40 +208,40 @@ DELAY1:
 DELAY2: 
     MOV R4,#4
     THERE2: 
-        MOV R5,#255;2
+        MOV R5,#255
         HERE2:
-            MOV R6,#255;2
-            DJNZ R6,$ ;2*255
-        DJNZ R5,HERE2;2
+            MOV R6,#255
+            DJNZ R6,$
+        DJNZ R5,HERE2
     DJNZ R4,THERE2
     RET
 
 DELAY3: 
     MOV R6, #200
     RE: 
-        MOV R5,#255;2
+        MOV R5,#255
         DJNZ R5,$
     DJNZ R6, RE
     RET
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;                   功能子函数                                      ;
+;                4 SUBFUNCTIONS                                    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;====================LED相关函数=====================================
+;============== 4.1 LED functions =================================
 
+;........ 4.1.1 Display the station slots ..........................
 LED_SEND_INIT_FUNC:
     MOV R0, #RDFA   ;Save the address of data-1
     MOV R1, #0BFh   ;col 10111111
     MOV P3, R1      ;select col
     MOV R5, #00h    ;This register is used to save the sum
-INTEGRATE:
-    INC R0  ;Save the address of data
-    MOV A, @R0     ;move data to A
-    CJNE A,#7Fh, DISPLAYADD   ;If not the end, execute add and receive again
-    MOV A, R5        ;If it is the end, do not add and directly diplay the sum in the register
-    MOV P1, A      ;
-
+    INTEGRATE:
+        INC R0      ;Save the address of data
+        MOV A, @R0  ;move data to A
+        CJNE A,#7Fh, DISPLAYADD   ;If not the end, execute add and receive again
+    MOV A, R5       ;If it is the end, do not add and directly diplay the sum in the register
+    MOV P1, A       ;
     RET
     
 DISPLAYADD:
@@ -250,38 +249,36 @@ DISPLAYADD:
     MOV R5, A
     AJMP INTEGRATE
 
-;.......................................................
+;......... 4.1.2 Flash slot when take a scooter .....................
 LED_SEND_FLASH_FUNC:
-    ;MOV R1, #0BFh   ;col 10111111
     MOV P3, #0BFh   ;select col 10111111
-    MOV R3, #10   ;Times of flash
-    MOV R7, P1    ;Save the current slot status
+    MOV R3, #10     ;Times of flash
+    MOV R7, P1  ;Save the current slot status
     MOV R0, #RDFA   ;Save the address of data-1
-    INC R0  ;Save the address of data
-    MOV A, @R0     ;move data to A
-    MOV R2, A      ;Save which slot to flash to R2
-    ;MOV A, R7	   ;Move the initial slot status back to A
-    MOV R1, #1	   ;A flag to indicate if flash is end natually
-    SETB IT1      ;Make INT1 edge-trig
-    SETB EX1      ;Enable scternal INT1
-    SETB EA       ;Enable global interrupt
+    INC R0          ;Save the address of data
+    MOV A, @R0      ;move data to A
+    MOV R2, A       ;Save which slot to flash to R2
+    ;MOV A, R7      ;Move the initial slot status back to A
+    MOV R1, #1      ;A flag to indicate if flash is end natually
+    SETB IT1        ;Make INT1 edge-trig
+    SETB EX1        ;Enable scternal INT1
+    SETB EA         ;Enable global interrupt
 FLASH:
-    MOV A, R7	   ;Move the initial slot status back to A
-    CLR C	   ; ensure subb is correct
+    MOV A, R7       ;Move the initial slot status back to A
+    CLR C           ;ensure subb is correct
     SUBB A, R2
-    MOV P1, A      ;send LED bits
-    MOV R7, A	   ; Move new slot status back to R7
+    MOV P1, A       ;send LED bits
+    MOV R7, A       ;Move new slot status back to R7
     ACALL DELAY2
-    MOV A, R7	   ;Move the initial slot status back to A
-    ADD A, R2    ;TURN OFF LED
-    MOV P1, A      ;set LED to be off
-    MOV R7, A	   ; Move new slot status back to R7
+    MOV A, R7       ;Move the initial slot status back to A
+    ADD A, R2       ;TURN OFF LED
+    MOV P1, A       ;set LED to be off
+    MOV R7, A       ;Move new slot status back to R7
     ACALL DELAY2
     DJNZ R3, FLASH
-    ;CJNE R3, #0, FLASH
-    MOV P1, #00h   ; close all LED
-    CJNE R1, #1, UNNATUALLY1
-    MOV A, #30h
+    MOV P1, #00h    ;Close all LED
+    CJNE R1, #1, UNNATUALLY1    ;Check if external interrupt occurred
+    MOV A, #30h     ; If not occurred, send timeout message
     ACALL UART_SEND
     ACALL DELAY1
     MOV A, #00h
@@ -293,45 +290,7 @@ FLASH:
 UNNATUALLY1:
     RET
 
-LED_SEND_CLOSE_FUNC:
-    PUSH ACC
-    MOV A, #30h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #01h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #00h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #00h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #00h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #00h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #00h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #00h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #00h
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV A, #7Fh
-    ACALL UART_SEND
-    ACALL DELAY1
-    MOV R3, #1
-    POP ACC
-    MOV R1, #0   ; change the flag to indicate unnatually
-    ;ACALL DELAY
-
-    RET
-;....................................................................
+;............ 4.1.3 Flash slot when return a scooter .......................
 LED_RETURN_FLASH_FUNC:
     ;MOV R1, #0BFh   ;col 11111110
     MOV P3, #0BFh  ;select col 11111110
@@ -373,14 +332,53 @@ FLASH_RETURN:
     ACALL DELAY1
 UNNATUALLY2:
     RET
+;......................................................................
 
+LED_SEND_CLOSE_FUNC:
+    PUSH ACC
+    MOV A, #30h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #01h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #7Fh
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV R3, #1
+    POP ACC
+    MOV R1, #0   ; change the flag to indicate unnatually
+    ;ACALL DELAY
+
+    RET
 ;================LCD相关函数============================================
 
 ; lcd strings
 TAB_LCD_HELLO:      DB 'Input your id:'
 TAB_LCD_CHOOSE:     DB 'Take/Return? 1/2'
 TAB_LCD_NOT_EXIST:  DB 'ID doesnot exist'
-TAB_LCD_INVALID:    DB 'Invaild ID!'
+TAB_LCD_INVALID:    DB 'Invalid ID!'
 TAB_LCD_READY_TAKE: DB 'Press ok> take'
 TAB_LCD_EMPTY:      DB 'Station is empty'
 TAB_LCD_TAKE_DONE:  DB 'Scooter taken'
