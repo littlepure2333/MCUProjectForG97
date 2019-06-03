@@ -1,88 +1,53 @@
-# Project Title
+# Scooter Sharing System
 
-One Paragraph of project description goes here
+Scooter sharing system is a system of managing QM scooter rental service for members of QMUL.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+All files of scooter sharing system are placed in the folder "ScooterSystem"
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+To install this software, JRE8 must have been installed in your computer.
+
+To check if you have installed JRE8, please open the command line/terminal and enter:
+
 
 ```
-Give examples
+java -version
 ```
+In addition, the RXTX library is required to run this software.
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+(1) Enter the main folder of the software by command line/terminal:
 
-Say what the step will be
-
+Example: (If the software is in D:)
 ```
-Give the example
-```
-
-And repeat
-
-```
-until finished
+D:
+cd D:/Program
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+(2) Compile the source code by entering:
 
 ```
-Give an example
+javac Program.java
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
+(3) Run the program by entering:
 
 ```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+java Program
+``` 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Shizun Wang**&ensp; &ensp; - QM number: 161188896
+* **Weipeng Shen**&emsp;- QM number: 161188623
+* **Yufan Wang** &ensp; &emsp;- QM number: 161187888
+* **Meiyu Chen**&emsp;&emsp; - QM number: 161189332
+* **Tianqi Zhu** &emsp; &emsp; - QM number: 151007257
+* **Ruyang Liu**&emsp; &emsp; - QM number: 161187718
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 

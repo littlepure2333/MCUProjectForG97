@@ -35,9 +35,6 @@ public class Program {
             }
         }
 
-//        MainFrame mainFrame = new MainFrame();
-//        mainFrame.start();
-
         RxTx.send(instructions.get("lcdInit"));
         //noinspection InfiniteLoopStatement
         while (true) {
@@ -46,11 +43,11 @@ public class Program {
     }
 
     private static void frame() {
-        // 2.login
+        // 2. login
         new LoginBranch();
         RxTx.wait(500);
 
-        // 2b.付钱
+        // 2b. pay the payment
         if (AppState.getCurrentUser().isNeedToPay().equals("true")) {
             new PayBranch();
             if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdInit"));return;}
@@ -58,29 +55,48 @@ public class Program {
         RxTx.wait(500);
 
 
-        // 3.选借还车
+        // 3. take/return
         new TakeReturnBranch();
         if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdInit"));return;}
-
         RxTx.wait(500);
 
-        if (takeOrReturn == 1)
-            RxTx.send(instructions.get("lcdReadyToTake"));
-        else
-            RxTx.send(instructions.get("lcdReadyToReturn"));
-        RxTx.wait(500);
+        /*
+        4 .display take/return message
+        if user cannot take/return, a reply will be received, then return to the main.
+         */
+        if (takeOrReturn == 1) {
+//            if (AppState.getCurrentUser().getScooter() != null) {
+//                RxTx.send(instructions.get("lcdHave"));
+//                RxTx.wait(1500);
+//                resetFlag = true;
+//            }
+//            else
+                RxTx.send(instructions.get("lcdReadyToTake"));
+        }
+        else {
+//            if (AppState.getCurrentUser().getScooter() == null) {
+//                RxTx.send(instructions.get("lcdNotHave"));
+//                RxTx.wait(1500);
+//                resetFlag = true;
+//            }
+//            else
+                RxTx.send(instructions.get("lcdReadyToReturn"));
+        }
+        if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdInit"));return;}
 
-        // 4.给mcu发送当前的站点信息
+        // 5. send current station information to mcu
         RxTx.communication.sendStationSlots();
         System.out.println("send msg to mcu");
-
         RxTx.wait(500);
-        // 5.从左到右找到一个车,设定闪灯槽位并发送给mcu
-        // 如果没有车/满车，给出错误提示并重开
+
+        /*
+        6. find a scooter/slot
+        if empty/full remind and go to login
+         */
         findScooter();
         if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdInit"));return;}
 
-        // 6.confirm take/return
+        // 7.confirm take/return
         new ConfirmTakeReturnBranch();
     }
 
@@ -98,7 +114,7 @@ public class Program {
             //empty
             RxTx.send(instructions.get("lcdEmpty"));
             System.out.println("empty");
-            RxTx.wait(500);
+            RxTx.wait(1500);
             resetFlag = true;
         }
         //return
@@ -114,7 +130,7 @@ public class Program {
             //full
             RxTx.send(instructions.get("lcdFull"));
             System.out.println("full");
-            RxTx.wait(500);
+            RxTx.wait(1500);
             resetFlag = true;
         }
 
@@ -135,5 +151,7 @@ public class Program {
         instructions.put("lcdReturnDone",   new byte[]{0x25, 0x7F});
         instructions.put("lcdUseExp",       new byte[]{0x26, 0x7F});
         instructions.put("lcdPaid",         new byte[]{0x27, 0x7F});
+        instructions.put("lcdHave",         new byte[]{0x28, 0x7F});
+        instructions.put("lcdNotHave",      new byte[]{0x29, 0x7F});
     }
 }

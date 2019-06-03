@@ -2,6 +2,7 @@ package mcu;
 
 import bin.AppState;
 import bin.ScooterManage;
+import bin.TransactionManage;
 
 import static mcu.Program.instructions;
 
@@ -18,33 +19,35 @@ class ConfirmTakeReturnBranch {
                 System.out.println("get an input [6]");
                 RxTx.communication.setReceiveBuffIsChecked(true);
                 int result = RxTx.communication.receiveTakeOrReturn();
-                // 按确认-确定要借
+                // pressed - confirmed
                 if (result == Communication.TAKE_OPTION) {
-                    //借车操作
+                    // take
                     if (Program.takeOrReturn == 1) {
                         System.out.println("confirm take");
-                        //take
+                        // take a scooter
                         ScooterManage.takeScooter();
                         //update station data
                         RxTx.send(instructions.get("lcdTakeDone"));
                     }
-                    //还车操作
+                    // return
                     else {
                         System.out.println("confirm ret");
-                        //return
+                        // return a scooter
                         ScooterManage.returnScooter();
-                        //update station data
+                        TransactionManage.checkIfExpired();
+                        // update station data
                         RxTx.send(instructions.get("lcdReturnDone"));
+                        RxTx.wait(500);
                     }
 
-                    //完成操作后先判断是否超时，再等待一段时间后回到开始
+                    // judge if expired, then return to login
                     if (AppState.getCurrentUser().isNeedToPay().equals("true"))
                         RxTx.send(instructions.get("lcdUseExp"));
                     RxTx.wait(2000);
                     return;
                 }
 
-                // 按？/超时-回到开始
+                // expired-back to login
                 else {
                     System.out.println("give up, back");
                     return;

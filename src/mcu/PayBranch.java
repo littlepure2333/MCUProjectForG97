@@ -8,6 +8,7 @@ class PayBranch {
 
     PayBranch() {
         RxTx.send(instructions.get("lcdPaid"));
+        RxTx.send(instructions.get("keyBoardInit"));
         waitForInput();
     }
 
@@ -15,13 +16,14 @@ class PayBranch {
         while (true) {
             RxTx.wait(1000);
             if (!RxTx.communication.getReceiveBuffIsChecked()) {
-                System.out.println("get an input [PAY]");
                 RxTx.communication.setReceiveBuffIsChecked(true);
                 int result = RxTx.communication.receiveTakeOrReturn();
-                // 按确认-付款
-                if (result == Communication.TAKE_OPTION)
+                // 1 - pay
+                if (result == Communication.TAKE_OPTION) {
                     UserManage.payTheFine();
-                // 按退格-回到起点
+                    return;
+                }
+                // no or other - back to main
                 else {
                     System.out.println("not paid, back");
                     Program.resetFlag = true;

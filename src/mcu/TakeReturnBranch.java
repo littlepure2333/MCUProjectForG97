@@ -25,7 +25,7 @@ class TakeReturnBranch {
                 RxTx.communication.setReceiveBuffIsChecked(true);
                 int result = RxTx.communication.receiveTakeOrReturn();
                 switch (result) {
-                    // 如果是借车
+                    // if taking
                     case Communication.TAKE_OPTION:
                         System.out.println("take");
                         Program.takeOrReturn = 1;

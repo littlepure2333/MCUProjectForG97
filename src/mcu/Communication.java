@@ -2,11 +2,7 @@ package mcu;
 
 import static java.lang.Math.pow;
 
-public class Communication {
-    /**
-     * listener
-     */
-    private CommunicationListener listener;
+class Communication {
 
     /**
      * Data received from mcu
@@ -19,31 +15,20 @@ public class Communication {
      */
     private static boolean RECEIVE_BUFF_IS_CHECKED = true;
 
-    public static final int IS_NOT_QM_NUMBER = -1;
-    public static final int BROKEN_QM_NUMBER = -2;
-    public static final int NOT_THIS_TYPE = -1;
-    public static final int TAKE_OPTION = 1;
-    public static final int RETURN_OPTION = 2;
+    private static final int IS_NOT_QM_NUMBER = -1;
+    private static final int BROKEN_QM_NUMBER = -2;
+    private static final int NOT_THIS_TYPE = -1;
+    static final int TAKE_OPTION = 1;
+    static final int RETURN_OPTION = 2;
 
-    public static final byte DISPLAY1 = 0x01; // Please type in your QM ID
-    public static final byte DISPLAY2 = 0x02; // Must be 9 digits
-    public static final byte DISPLAY3 = 0x03; // ID does not exist
-    public static final byte DISPLAY4 = 0x04; // Take press 1
-    public static final byte DISPLAY5 = 0x05; // Return press 2
-
-
-    public void registerListener(CommunicationListener communicationListener) {
-        this.listener = communicationListener;
-    }
-
-    public void addReceiveBuff(byte[] data) {
+    void addReceiveBuff(byte[] data) {
         if (RECEIVE_BUFF_INDEX != 0) {
             if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX - 1] == RxTx.DATA_END) {
                 RECEIVE_BUFF_INDEX = 0;
             }
         }
-        for (int i = 0; i < data.length; i++) {
-            RECEIVE_BUFF[RECEIVE_BUFF_INDEX] = data[i];
+        for (byte datum : data) {
+            RECEIVE_BUFF[RECEIVE_BUFF_INDEX] = datum;
             RECEIVE_BUFF_INDEX++;
         }
         //只有收齐了数据才将其重置为unchecked
@@ -52,24 +37,7 @@ public class Communication {
         }
     }
 
-    public void checkType() {
-        if(listener != null) {
-            CommunicationEvent event = new CommunicationEvent(this);
-            int qmNumber = receiveQmNumber();
-            if (qmNumber == BROKEN_QM_NUMBER) {
-                this.listener.doBrokenQmNumber(event);
-            }
-            else if (qmNumber > 0) {
-                this.listener.doReceiveQmNumber(event);
-            }
-        }
-    }
-
-    public byte[] getReceiveBuff() {
-        return RECEIVE_BUFF;
-    }
-
-    public void setReceiveBuffIsChecked(boolean flag) {
+    void setReceiveBuffIsChecked(boolean flag) {
         RECEIVE_BUFF_IS_CHECKED = flag;
     }
 

@@ -21,10 +21,6 @@ public class RxTx {
     static final byte LED_TAKE_FLASH = 0x11;
     static final byte LED_RET_FLASH = 0x28;
     public static final byte KEY_RECEIVE_ID = 0x30;
-    public static final byte KEY_RECEIVE_YES = 0x31;
-    public static final byte KEY_RECEIVE_NO = 0x32;
-    public static final byte KEY_RECEIVE_TAKE = 0x33;
-    public static final byte KEY_RECEIVE_RETURN = 0x34;
     public static final byte DATA_END = 0x7F;
 
     public static Communication communication = new Communication();
@@ -124,12 +120,6 @@ public class RxTx {
         return data;
     }
 
-    /**
-     * Close the port
-     */
-    public static void close() {
-        ser.close();
-    }
 
     /**
      * Set a listener to the port
@@ -151,10 +141,10 @@ public class RxTx {
      */
     public static List<String> getSystemPort(){
         List<String> systemPorts = new ArrayList<>();
-        //获得系统可用的端口
+        //get an available port
         Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
         while(portList.hasMoreElements()) {
-            String portName = portList.nextElement().getName();//获得端口的名字
+            String portName = portList.nextElement().getName();//get a port name
             systemPorts.add(portName);
         }
         System.out.println("System available port list："+systemPorts);

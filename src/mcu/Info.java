@@ -13,14 +13,6 @@ public class Info {
      * Get the station slots, which indicated as 8 byte array
      * @return a byte that represents slots
      */
-    public static void main(String[] a) {
-        new AppData();
-        RxTx.init("COM3");
-        StationManage.chooseStation("A");
-        RxTx.send(new byte[]{0x10, 0x01, 0x7F});
-//        RxTx.communication.sendStationSlots();
-    }
-
     public static byte[] getSlots() { // have tested
         Vector<Byte> slotList = new Vector<>();
         slotList.add(RxTx.LED_SEND_INIT);

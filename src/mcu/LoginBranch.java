@@ -18,15 +18,15 @@ class LoginBranch {
             RxTx.wait(1000);
             if (!RxTx.communication.getReceiveBuffIsChecked()) {
                 RxTx.communication.setReceiveBuffIsChecked(true);
-                // 当输入九位的时候
+                // 9 digits
                 if (RxTx.communication.receiveQmNumber() > 0) {
-                    // 当账号不存在的时候
+                    // if not exist
                     if(!UserManage.login(RxTx.communication.receiveQmNumber())) {
                         RxTx.send(instructions.get("lcdNotExist"));
                         RxTx.send(instructions.get("keyBoardInit"));
                         System.out.println("ID does not exist");
                     }
-                    // 登陆成功
+                    // success
                     else {
                         System.out.println("Login success");
                         return;
