@@ -36,13 +36,6 @@ public class Communication {
         this.listener = communicationListener;
     }
 
-
-
-
-    public void setReceiveBuff(byte[] data) {
-        RECEIVE_BUFF = data;
-    }
-
     public void addReceiveBuff(byte[] data) {
         if (RECEIVE_BUFF_INDEX != 0) {
             if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX - 1] == RxTx.DATA_END) {
@@ -53,6 +46,7 @@ public class Communication {
             RECEIVE_BUFF[RECEIVE_BUFF_INDEX] = data[i];
             RECEIVE_BUFF_INDEX++;
         }
+        //只有收齐了数据才将其重置为unchecked
         if (RECEIVE_BUFF[RECEIVE_BUFF_INDEX -1] == RxTx.DATA_END) {
             setReceiveBuffIsChecked(false);
         }
@@ -68,9 +62,6 @@ public class Communication {
             else if (qmNumber > 0) {
                 this.listener.doReceiveQmNumber(event);
             }
-
-
-
         }
     }
 
@@ -82,31 +73,37 @@ public class Communication {
         RECEIVE_BUFF_IS_CHECKED = flag;
     }
 
-    public boolean getReceiveBuffIsChecked() {
+    boolean getReceiveBuffIsChecked() {
         return RECEIVE_BUFF_IS_CHECKED;
     }
 
 
     /**
      * Send station initial slots information to mcu
-     * @return success or not
      */
-    boolean sendStationSlots() {
+    void sendStationSlots() {
         byte[] data = Info.getSlots();
-        return RxTx.send(data);
+        RxTx.send(data);
     }
 
     /**
      * Send station flash slot information to mcu
      * @param i slot number, index from 0
-     * @return success or not
      */
-    boolean sendStationFlashSlot(int i) {
+    void sendTakeFlashSlot(int i) {
         byte[] data = new byte[3];
-        data[0] = RxTx.LED_SEND_FLASH;
+        data[0] = RxTx.LED_TAKE_FLASH;
         data[1] = Info.getFlashSlot(i);
         data[2] = RxTx.DATA_END;
-        return RxTx.send(data);
+        RxTx.send(data);
+    }
+
+    void sendReturnFlashSlot(int i) {
+        byte[] data = new byte[3];
+        data[0] = RxTx.LED_RET_FLASH;
+        data[1] = Info.getFlashSlot(i);
+        data[2] = RxTx.DATA_END;
+        RxTx.send(data);
     }
 
     /**
@@ -115,7 +112,7 @@ public class Communication {
      * or -1 if receive content is not QM number,
      * or -2 if the data is incomplete
      */
-    public int receiveQmNumber() {
+    int receiveQmNumber() {
         // Check if receive data type is ID
         if (RECEIVE_BUFF[0] == RxTx.KEY_RECEIVE_ID) {
             // Check if the data is incomplete
@@ -148,9 +145,10 @@ public class Communication {
 
     /**
      * receive take or return option
+     * only input 1: 1, only input 2: 2, else: -1
      * @return 1 take, 2 return, -1 not this type
      */
-    public int receiveTakeOrReturn() {
+    int receiveTakeOrReturn() {
         // Check if receive data type is ID
         if (RECEIVE_BUFF[1] == 1 && onlyOneByte(RECEIVE_BUFF)) { //RxTx.KEY_RECEIVE_TAKE
             return TAKE_OPTION;
@@ -164,19 +162,11 @@ public class Communication {
     }
 
     private boolean onlyOneByte(byte[] receive) {
-        for (int i = 2; i < 10; i++) {
+        for (int i = 2; i < 9; i++) {
             if (receive[i] != 0)
                 return false;
         }
         return true;
-    }
-
-    public static boolean sendLCDInformation(byte information) {
-        byte[] data = new byte[3];
-        data[0] = RxTx.LCD_SEND_DISPLAY;
-        data[1] = information;
-        data[2] = RxTx.DATA_END;
-        return RxTx.send(data);
     }
 
 

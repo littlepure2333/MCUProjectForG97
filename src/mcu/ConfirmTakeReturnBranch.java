@@ -8,7 +8,6 @@ import static mcu.Program.instructions;
 class ConfirmTakeReturnBranch {
 
     ConfirmTakeReturnBranch() {
-        RxTx.send(instructions.get("keyBoardInit"));
         waitForInput();
     }
 
@@ -41,18 +40,13 @@ class ConfirmTakeReturnBranch {
                     //完成操作后先判断是否超时，再等待一段时间后回到开始
                     if (AppState.getCurrentUser().isNeedToPay().equals("true"))
                         RxTx.send(instructions.get("lcdUseExp"));
-                    try {
-                        Thread.sleep(1500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    RxTx.wait(2000);
                     return;
                 }
 
                 // 按？/超时-回到开始
                 else {
                     System.out.println("give up, back");
-                    Program.resetFlag = true;
                     return;
                 }
             }

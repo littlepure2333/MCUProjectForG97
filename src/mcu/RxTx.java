@@ -17,9 +17,9 @@ public class RxTx {
     static OutputStream comOut;
     static InputStream comIn;
 
-    public static final byte LED_SEND_INIT = 0x10;
-    public static final byte LED_SEND_FLASH = 0x11;
-    public static final byte LCD_SEND_DISPLAY = 0x20;
+    static final byte LED_SEND_INIT = 0x10;
+    static final byte LED_TAKE_FLASH = 0x11;
+    static final byte LED_RET_FLASH = 0x28;
     public static final byte KEY_RECEIVE_ID = 0x30;
     public static final byte KEY_RECEIVE_YES = 0x31;
     public static final byte KEY_RECEIVE_NO = 0x32;
@@ -28,53 +28,6 @@ public class RxTx {
     public static final byte DATA_END = 0x7F;
 
     public static Communication communication = new Communication();
-
-//    public static void main(String[] args) {
-//        try {
-//			// TODO: identify the COM port from Windows' control panel
-//            portId = CommPortIdentifier.getPortIdentifier("COM3");
-//
-//            com = portId.open("MCS51COM", 2000);
-//            ser = (SerialPort)com;
-//			// Baud rate = 9600, Data bits = 8, 1 stop bit, Parity OFF
-//            ser.setSerialPortParams(9600, SerialPort.DATABITS_8,
-//                                    SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-//        } catch (Exception e){
-//            e.printStackTrace(System.out);
-//        }
-//
-//		/*
-//		// Wait for 1 second if 8051 needs time to initialise
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e){}
-//		*/
-//
-//        try {
-//			// Test TX: send out chars 'D', 'O', 'G', 'S'
-//            OutputStream comOut = ser.getOutputStream();
-//            comOut.write('D');
-//            comOut.write('O');
-//            comOut.write('G');
-//            comOut.write('S');
-//
-//			// Test RX: display first 4 chars received
-//            InputStream comIn = ser.getInputStream();
-//            for (int i = 0; i < 4; i++){
-//                while (comIn.available() == 0);
-//                char c = (char)comIn.read();
-//                System.out.println(c);
-//            }
-//
-//			// close the streams
-//            comIn.close();
-//            comOut.close();
-//        } catch (Exception e) {
-//            e.printStackTrace(System.out);
-//        }
-//		// close the port
-//        ser.close();
-//    }
 
     /**
      * Initial the port
@@ -97,7 +50,7 @@ public class RxTx {
                 if(serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                     byte[] data = RxTx.receive();
                     communication.addReceiveBuff(data);
-                    communication.setReceiveBuffIsChecked(false);
+//                    communication.setReceiveBuffIsChecked(false);
                     System.out.println("Receive data length: " + data.length);
                     System.out.println("Receive data content: ");
                     printData(data);
@@ -135,16 +88,18 @@ public class RxTx {
      * @param data the data
      * @return success or not
      */
-    static boolean send(byte[] data) {
+    static void send(byte[] data) {
         wait(500);
-        try {
-            comOut = ser.getOutputStream();
-            comOut.write(data);
-            comOut.close();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            return false;
+        for(Byte each: data) {
+            wait(200);
+            try {
+                comOut = ser.getOutputStream();
+                comOut.write(each);
+                comOut.close();
+                System.out.println("send: " + each);
+            } catch (Exception e) {
+                e.printStackTrace(System.out);
+            }
         }
     }
 

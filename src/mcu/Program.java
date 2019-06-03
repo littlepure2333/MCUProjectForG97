@@ -34,6 +34,10 @@ public class Program {
                 }
             }
         }
+
+//        MainFrame mainFrame = new MainFrame();
+//        mainFrame.start();
+
         RxTx.send(instructions.get("lcdInit"));
         //noinspection InfiniteLoopStatement
         while (true) {
@@ -44,27 +48,37 @@ public class Program {
     private static void frame() {
         // 2.login
         new LoginBranch();
-        if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdHello"));return;}
+        RxTx.wait(500);
 
         // 2b.付钱
         if (AppState.getCurrentUser().isNeedToPay().equals("true")) {
-            /*TODO*/
             new PayBranch();
-            if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdHello"));return;}
+            if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdInit"));return;}
         }
+        RxTx.wait(500);
+
 
         // 3.选借还车
         new TakeReturnBranch();
-        if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdHello"));return;}
+        if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdInit"));return;}
+
+        RxTx.wait(500);
+
+        if (takeOrReturn == 1)
+            RxTx.send(instructions.get("lcdReadyToTake"));
+        else
+            RxTx.send(instructions.get("lcdReadyToReturn"));
+        RxTx.wait(500);
 
         // 4.给mcu发送当前的站点信息
         RxTx.communication.sendStationSlots();
         System.out.println("send msg to mcu");
 
+        RxTx.wait(500);
         // 5.从左到右找到一个车,设定闪灯槽位并发送给mcu
         // 如果没有车/满车，给出错误提示并重开
         findScooter();
-        if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdHello"));return;}
+        if (resetFlag) {resetFlag = false;RxTx.send(instructions.get("lcdInit"));return;}
 
         // 6.confirm take/return
         new ConfirmTakeReturnBranch();
@@ -76,8 +90,7 @@ public class Program {
             for (int site = 0; site <= 7; site++) {
                 if (AppState.getCurrentStation().getSlot()[site] != null) {
                     StationManage.chooseFlashSlot(site);
-                    RxTx.communication.sendStationFlashSlot(site);
-                    RxTx.send(instructions.get("lcdReadyToTake"));
+                    RxTx.communication.sendTakeFlashSlot(site);
                     System.out.println("ready to take");
                     return;
                 }
@@ -85,11 +98,7 @@ public class Program {
             //empty
             RxTx.send(instructions.get("lcdEmpty"));
             System.out.println("empty");
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            RxTx.wait(500);
             resetFlag = true;
         }
         //return
@@ -97,8 +106,7 @@ public class Program {
             for (int site = 0; site <= 7; site++) {
                 if (AppState.getCurrentStation().getSlot()[site] == null) {
                     StationManage.chooseFlashSlot(site);
-                    RxTx.communication.sendStationFlashSlot(site);
-                    RxTx.send(instructions.get("lcdReadyToReturn"));
+                    RxTx.communication.sendReturnFlashSlot(site);
                     System.out.println("ready to return");
                     return;
                 }
@@ -106,11 +114,7 @@ public class Program {
             //full
             RxTx.send(instructions.get("lcdFull"));
             System.out.println("full");
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            RxTx.wait(500);
             resetFlag = true;
         }
 

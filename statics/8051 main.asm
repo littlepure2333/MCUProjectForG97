@@ -12,7 +12,7 @@
 ;........ 1.2 数据类型常量................................................
     LED_SEND_INIT       EQU 0x10 ; To initialize LED
     LED_SEND_FLASH      EQU 0x11 ; LED flash when take scooter
-
+    
     KEYBOARD_INIT       EQU 0x12 ; To initialize keyboard input
     LCD_INIT            EQU 0x15 ; To initialize LCD
     LCD_HELLO           EQU 0x16 ; LCD display 'Input your id:'
@@ -27,9 +27,9 @@
     LCD_RET_DONE        EQU 0x25 ; LCD display 'Scooter returned'
     LCD_EXP             EQU 0x26 ; LCD display 'Time expired'
     LCD_PAID            EQU 0x27 ; LCD display 'Pay the payment!'
-
+    
     LED_RETURN_FLASH	EQU 0x28 ; LED flash when return scooter
-
+    
     DATA_END            EQU 0x7F ; LCD display
 
 ;   这里放别的数据类型
@@ -39,7 +39,7 @@
     EN EQU P1.7
     LCM_DATA EQU P0    	; lcd data port
     BUZZ_PORT EQU P3.7	; buzz port
-
+    
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;                   中断设置                                        ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -57,7 +57,7 @@
     RETI            ; 中断返回
     ORG 0023H       ; Serial port 中断程序入口
     RETI            ; 中断返回
-    ORG 002BH       ; Timer 2 中断程序入口
+    ORG 002BH       ; Timer 2 中断程序入口    
     RETI            ; 中断返回
 
 
@@ -69,7 +69,7 @@ MAIN:
     MOV SP, #1FH    ; 设置堆栈指针
     ACALL UART_INIT ; 初始化串行通信
     ;ACALL LCD_INIT
-
+    
 LOOP:
     ACALL UART_READ ; 接受数据块
     MOV A, RDFA     ; 接收数据块的第一个字节，代表数据类型
@@ -77,66 +77,67 @@ LOOP:
 CHECK1:
     CJNE A, #LED_SEND_INIT, CHECK2  ; 判断该执行LED_SEND_INIT_FUNC吗
     ACALL LED_SEND_INIT_FUNC    ;
-    SJMP LOOP
+    AJMP LOOP
 CHECK2:
     CJNE A,#LED_SEND_FLASH, CHECK3  ; 判断该执行LED_SEND_FLASH_FUNC吗
     ACALL LED_SEND_FLASH_FUNC   ;
-    SJMP LOOP
+    AJMP LOOP
 CHECK3:
     CJNE A,#KEYBOARD_INIT,CHECK4; To check if it should go to the function KEYBOARD_INIT
     ACALL KEYBOARD
-    SJMP LOOP
+    AJMP LOOP
 CHECK4:
     CJNE A,#LCD_INIT,CHECK5; To check if it should go to the function LCD_INIT
     ACALL LCD_INIT
-    SJMP LOOP
+    AJMP LOOP
 CHECK5:
     CJNE A,#LCD_HELLO,CHECK6; To check if it should go to the function LCD_HELLO
     ACALL LCD_HELLO
-    SJMP LOOP
+    AJMP LOOP
 CHECK6:
     CJNE A,#LCD_CHOOSE_ACT,CHECK7; To check if it should go to the function YES_INIT
     ACALL LCD_CHOOSE_ACT
-    SJMP LOOP
+    AJMP LOOP
 CHECK7:
     CJNE A,#LCD_ID_NOT_EXIST,CHECK8; To check if it should go to the function YES_INIT
     ACALL LCD_ID_NOT_EXIST
-    SJMP LOOP
+    AJMP LOOP
 CHECK8:
     CJNE A,#LCD_ID_INVALID,CHECK9; To check if it should go to the function YES_INIT
     ACALL LCD_ID_INVALID
-    SJMP LOOP
+    AJMP LOOP
 CHECK9:
     CJNE A,#LCD_READY_TAKE,CHECK10; To check if it should go to the function YES_INIT
     ACALL LCD_READY_TAKE
-    SJMP LOOP
+    AJMP LOOP
 CHECK10:
     CJNE A,#LCD_EMPTY,CHECK11; To check if it should go to the function YES_INIT
     ACALL LCD_EMPTY
-    SJMP LOOP
+    AJMP LOOP
 CHECK11:
     CJNE A,#LCD_TAKE_DONE,CHECK12; To check if it should go to the function YES_INIT
     ACALL LCD_TAKE_DONE
-    SJMP LOOP
+    AJMP LOOP
 CHECK12:
     CJNE A,#LCD_READY_RET,CHECK13; To check if it should go to the function YES_INIT
     ACALL LCD_READY_RET
-    SJMP LOOP
+    AJMP LOOP
 CHECK13:
     CJNE A,#LCD_FULL,CHECK14; To check if it should go to the function YES_INIT
     ACALL LCD_FULL
-    SJMP LOOP
+    AJMP LOOP
 CHECK14:
     CJNE A,#LCD_RET_DONE,CHECK15; To check if it should go to the function YES_INIT
     ACALL LCD_RET_DONE
-    SJMP LOOP
+    AJMP LOOP
 CHECK15:
     CJNE A,#LCD_EXP,CHECK16; To check if it should go to the function YES_INIT
-    ACALL LCD_EXP
-    SJMP LOOP
+    ACALL LCD_EXP    
+    AJMP LOOP
 CHECK16:
     CJNE A,#LCD_PAID,CHECK17; To check if it should go to the function YES_INIT
-    ACALL LCD_PAID
+    ACALL LCD_PAID    
+    AJMP LOOP
 
 CHECK17:
     CJNE A,#LED_RETURN_FLASH,LAST; To check if it should go to the function YES_INIT
@@ -144,7 +145,8 @@ CHECK17:
 
 ;   这里可以插入别的子程序
 
-LAST:    SJMP LOOP       ; 循环
+LAST:    
+    AJMP LOOP       ; 循环
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;                   工具函数                                        ;
@@ -152,16 +154,16 @@ LAST:    SJMP LOOP       ; 循环
 
 ;===================串行端口相关函数==================================
 
-UART_INIT: ;
-    MOV TMOD, #20h      ; set timer 1 to auto-reload
-    MOV TH1, #0FDh      ; set 9600 baud(@11.0592MHz)
+UART_INIT: ; 
+    MOV TMOD, #20h      ; set timer 1 to auto-reload 
+    MOV TH1, #0FDh      ; set 9600 baud(@11.0592MHz) 
     SETB TR1            ; start timer 1
     MOV SCON, #50h      ; set 8-bit data and Mode 1
     RET
 ;...................................................................
-UART_READ:
+UART_READ: 
     MOV R0, #RDFA       ; 设置MCU接收的数据块首地址
-    RECEIVE:
+    RECEIVE:  
         JNB RI, $       ; 等待接收完一字节
         MOV A, SBUF     ; 接受一字节数据
         CLR RI
@@ -185,9 +187,9 @@ BUZZ:
 	RET
 
 ;=================DELAY函数==========================================
-DELAY:
+DELAY: 
     MOV R4,#1
-    THERE:
+    THERE: 
         MOV R5,#255;2
         HERE:
             MOV R6,#255;2
@@ -196,23 +198,31 @@ DELAY:
     DJNZ R4,THERE
     RET
 
-DELAY1:
+DELAY1: 
     MOV R6, #60
-    ERE:
+    ERE: 
         MOV R5,#255;2
         DJNZ R5,$
     DJNZ R6, ERE
     RET
 
-DELAY2:
+DELAY2: 
     MOV R4,#4
-    THERE2:
+    THERE2: 
         MOV R5,#255;2
         HERE2:
             MOV R6,#255;2
             DJNZ R6,$ ;2*255
         DJNZ R5,HERE2;2
     DJNZ R4,THERE2
+    RET
+
+DELAY3: 
+    MOV R6, #200
+    RE: 
+        MOV R5,#255;2
+        DJNZ R5,$
+    DJNZ R6, RE
     RET
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -223,18 +233,18 @@ DELAY2:
 
 LED_SEND_INIT_FUNC:
     MOV R0, #RDFA   ;Save the address of data-1
-    MOV R1, #0FEh   ;col 11111110
-    MOV P1, R1      ;select col
+    MOV R1, #0BFh   ;col 10111111
+    MOV P3, R1      ;select col
     MOV R5, #00h    ;This register is used to save the sum
 INTEGRATE:
     INC R0  ;Save the address of data
     MOV A, @R0     ;move data to A
     CJNE A,#7Fh, DISPLAYADD   ;If not the end, execute add and receive again
     MOV A, R5        ;If it is the end, do not add and directly diplay the sum in the register
-    MOV P0, A      ;
+    MOV P1, A      ;
 
     RET
-
+    
 DISPLAYADD:
     ADD A, R5
     MOV R5, A
@@ -242,15 +252,16 @@ DISPLAYADD:
 
 ;.......................................................
 LED_SEND_FLASH_FUNC:
-    MOV R1, #0FEh   ;col 11111110
-    MOV P1, R1      ;select col
+    ;MOV R1, #0BFh   ;col 10111111
+    MOV P3, #0BFh   ;select col 10111111
     MOV R3, #10   ;Times of flash
-    MOV R7, P0    ;Save the current slot status
+    MOV R7, P1    ;Save the current slot status
     MOV R0, #RDFA   ;Save the address of data-1
     INC R0  ;Save the address of data
     MOV A, @R0     ;move data to A
     MOV R2, A      ;Save which slot to flash to R2
     ;MOV A, R7	   ;Move the initial slot status back to A
+    MOV R1, #1	   ;A flag to indicate if flash is end natually
     SETB IT1      ;Make INT1 edge-trig
     SETB EX1      ;Enable scternal INT1
     SETB EA       ;Enable global interrupt
@@ -258,61 +269,109 @@ FLASH:
     MOV A, R7	   ;Move the initial slot status back to A
     CLR C	   ; ensure subb is correct
     SUBB A, R2
-    MOV P0, A      ;send LED bits
+    MOV P1, A      ;send LED bits
     MOV R7, A	   ; Move new slot status back to R7
     ACALL DELAY2
     MOV A, R7	   ;Move the initial slot status back to A
     ADD A, R2    ;TURN OFF LED
-    MOV P0, A      ;set LED to be off
+    MOV P1, A      ;set LED to be off
     MOV R7, A	   ; Move new slot status back to R7
     ACALL DELAY2
     DJNZ R3, FLASH
     ;CJNE R3, #0, FLASH
-    MOV P0, #00h
+    MOV P1, #00h   ; close all LED
+    CJNE R1, #1, UNNATUALLY1
+    MOV A, #30h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #7Fh
+    ACALL UART_SEND
+    ACALL DELAY1
+UNNATUALLY1:
     RET
 
 LED_SEND_CLOSE_FUNC:
     PUSH ACC
     MOV A, #30h
     ACALL UART_SEND
+    ACALL DELAY1
     MOV A, #01h
     ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
     MOV A, #7Fh
     ACALL UART_SEND
+    ACALL DELAY1
     MOV R3, #1
     POP ACC
-    ACALL DELAY1
+    MOV R1, #0   ; change the flag to indicate unnatually
+    ;ACALL DELAY
 
     RET
 ;....................................................................
 LED_RETURN_FLASH_FUNC:
-    MOV R1, #0FEh   ;col 11111110
-    MOV P1, R1      ;select col
+    ;MOV R1, #0BFh   ;col 11111110
+    MOV P3, #0BFh  ;select col 11111110
     MOV R3, #10   ;Times of flash
-    MOV R7, P0    ;Save the current slot status
+    MOV R7, P1    ;Save the current slot status
     MOV R0, #RDFA   ;Save the address of data-1
     INC R0  ;Save the address of data
     MOV A, @R0     ;move data to A
     MOV R2, A      ;Save which slot to flash to R2
     ;MOV A, R7	   ;Move the initial slot status back to A
+    MOV R1, #1	   ;A flag to indicate if flash is end natually
     SETB IT1      ;Make INT1 edge-trig
     SETB EX1      ;Enable scternal INT1
     SETB EA       ;Enable global interrupt
 FLASH_RETURN:
     MOV A, R7	   ;Move the initial slot status back to A
     ADD A, R2    ;TURN OFF LED
-    MOV P0, A      ;set LED to be off
+    MOV P1, A      ;set LED to be off
     MOV R7, A	   ; Move new slot status back to R7
     ACALL DELAY2
     MOV A, R7	   ;Move the initial slot status back to A
     CLR C	   ; ensure subb is correct
     SUBB A, R2
-    MOV P0, A      ;send LED bits
+    MOV P1, A      ;send LED bits
     MOV R7, A	   ; Move new slot status back to R7
     ACALL DELAY2
     DJNZ R3, FLASH_RETURN
     ;CJNE R3, #0, FLASH
-    MOV P0, #00h
+    MOV P1, #00h
+    CJNE R1, #1, UNNATUALLY2
+    MOV A, #30h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #00h
+    ACALL UART_SEND
+    ACALL DELAY1
+    MOV A, #7Fh
+    ACALL UART_SEND
+    ACALL DELAY1
+UNNATUALLY2:
     RET
 
 ;================LCD相关函数============================================
@@ -449,8 +508,9 @@ RM_DATA:            ;退位
 
 W_STR:				    ;input string
     PUSH ACC
-    ACALL LCD_CLR
-    MOV A,#10000000B		;设置起始读写地址（第一行）
+    ACALL LCD_INIT
+    ;ACALL LCD_CLR
+    ;MOV A,#10000000B		;设置起始读写地址（第一行）
     ACALL W_INST
     CLR A
     LOOP1:
@@ -618,5 +678,4 @@ DB      0x00;Not in use
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 END
-
 

@@ -2,6 +2,9 @@ package mcu;
 
 import bin.AppState;
 import bin.StationManage;
+import data.AppData;
+
+import java.util.Vector;
 
 import static java.lang.Math.pow;
 
@@ -10,21 +13,29 @@ public class Info {
      * Get the station slots, which indicated as 8 byte array
      * @return a byte that represents slots
      */
+    public static void main(String[] a) {
+        new AppData();
+        RxTx.init("COM3");
+        StationManage.chooseStation("A");
+        RxTx.send(new byte[]{0x10, 0x01, 0x7F});
+//        RxTx.communication.sendStationSlots();
+    }
+
     public static byte[] getSlots() { // have tested
-        byte[] slots = new byte[10];
-        slots[0] = RxTx.LED_SEND_INIT;
+        Vector<Byte> slotList = new Vector<>();
+        slotList.add(RxTx.LED_SEND_INIT);
         for (int i = 0; i <= 7; i++) {
             if (AppState.getCurrentStation().getSlot()[7-i] != null) {
-//            if (station[7-i] != null) {
-                slots[i+1] = (byte)pow(2, i);
-            }
-            else {
-                slots[i+1] = 0x00;
+                slotList.add((byte)pow(2, i));
             }
         }
-        slots[9] = RxTx.DATA_END;
-        for (byte slot: slots)
-            System.out.println(slot);
+        slotList.add(RxTx.DATA_END);
+        byte[] slots = new byte[slotList.size()];
+
+        for (int i = 0; i < slotList.size(); i++) {
+            slots[i] = slotList.get(i);
+            System.out.println(slots[i]);
+        }
         return slots;
     }
 

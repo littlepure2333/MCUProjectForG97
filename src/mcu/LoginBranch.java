@@ -13,7 +13,7 @@ class LoginBranch {
     }
 
 
-    public void waitForInput() {
+    private void waitForInput() {
         while(true) {
             RxTx.wait(1000);
             if (!RxTx.communication.getReceiveBuffIsChecked()) {
