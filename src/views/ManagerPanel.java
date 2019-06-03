@@ -7,11 +7,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boundary Class
+ * It is displayed after the manager logged in successfully.
+ * There will be three function for the manager to choose: Register, User information and Station Information.
+ */
 class ManagerPanel extends JPanel {
 	private RegisterInputPanel registerInputPanel = new RegisterInputPanel();
 	private StationInformationPanel stationInformationPanel = new StationInformationPanel();
 	private UserInformationPanel userInformationPanel = new UserInformationPanel();
 
+	/**
+	 * The constructor of ManagerPanel
+	 */
 	ManagerPanel() {
 		this.setLayout(new GridLayout(3, 1));
 		this.add(new JPanel());

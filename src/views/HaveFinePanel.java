@@ -1,9 +1,15 @@
 package views;
 
 import views.components.ReturnButton;
+
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Boundary Class
+ * If the user clicked take and he has fine to pay, he will be taken here
+ * which remind that the user have fine to pay.
+ */
 class HaveFinePanel extends JPanel {
 	HaveFinePanel() {
 		this.setLayout(new GridLayout(3, 1));

@@ -8,10 +8,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StationPanel extends JPanel {
+/**
+ * Boundary Class
+ * The StationPanel is the Panel going to display if the user choose his identity to be 'User'.
+ * This Panel will dispalay A,B,C station for the user to choose which one he'd like to visit.
+ */
+class StationPanel extends JPanel {
 	private UserLoginPanel userLoginPanel = new UserLoginPanel();
 
-	protected StationPanel() {
+	/**
+	 * The constructor of the StationPanel.
+	 */
+	StationPanel() {
 		this.setLayout(new GridLayout(3, 1));
 		this.add(new JPanel());
 		this.add(new MyPanel());
@@ -19,7 +27,6 @@ public class StationPanel extends JPanel {
 
 		this.setVisible(true);
 	}
-
 
 	class MyPanel extends JPanel implements ActionListener {
 		MyPanel() {

@@ -5,6 +5,11 @@ import views.components.ReturnButton;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Boundary Class
+ * If the user clicked take and he has borrowed one, he will be taken here.
+ * which remind that the user has already borrowed one and have to return first.
+ */
 class AlreadyHaveOnePanel extends JPanel {
 	AlreadyHaveOnePanel() {
 		this.setLayout(new GridLayout(3, 1));

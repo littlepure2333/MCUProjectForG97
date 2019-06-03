@@ -7,11 +7,18 @@ import views.components.PanelStateMonitor;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Boundary Class
+ * It is for displaying the user's weekly report.
+ */
 class ReportPanel extends JPanel implements PanelStateMonitor {
 
 	private UsagePanel usagePanel = new UsagePanel();
 	private JLabel greetingLabel = new JLabel();
 
+	/**
+	 * Constructor of ReportPanel
+	 */
 	ReportPanel() {
 		JPanel emailPanel = new EmailPanel();
 
@@ -36,6 +43,9 @@ class ReportPanel extends JPanel implements PanelStateMonitor {
 		}
 	}
 
+	/**
+	 * update the information by reading from AppState.
+	 */
 	@Override
 	public void update() {
 		greetingLabel.setText("<html><body>Dear Mr/Mrs: " +

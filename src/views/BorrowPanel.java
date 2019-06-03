@@ -12,7 +12,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * Boundary Class
+ * It is the panel for user to borrow a scooter.
+ * It will display 8 pic in representation of the 8 slot.
+ * And a button will be displayed to help the user pick one.
+ */
 public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	private static JPanel[] slotPanel;
 	private static JLabel myLabel = new JLabel();
@@ -21,6 +26,9 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	private JPanel submitPanel = new SubmitPanel();
 	private static JPanel subPanel;
 
+	/**
+	 * The constructor of BorrowPanel.
+	 */
 	BorrowPanel() {
 		JPanel upperPanel = new UpperPanel();
 		slotPanel = new JPanel[8];
@@ -36,22 +44,15 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	}
 
 	/**
-	 * 界面后台信息的改动
-	 * 直接影响界面内槽位的显示
-	 * 站点必须在之前已经指定好，本类不要调用该方法
-	 * 更新文本信息
-	 * 适用于初次/再次进入该界面
+	 * The modification of the background information of the interface will directly influence the display of slot in the interface.
+	 * The station must be determined in advance, this class will not call the method.
+	 * Update the text information.
+	 * Apply to the initial visit to this interface or visit again.
 	 */
 	@Override
 	public void update() {
-		/*
-		从后台读取slot数据并设置图片
-		 */
 		refresh();
 
-		/*
-		预判断slot整体情况
-		 */
 		if (!checkIsEmpty()) {
 			myLabel.setText("Preparing for your scooter......\r\n");
 			selectLabel.setText("Please use the one with flashing......");
@@ -63,6 +64,9 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		}
 	}
 
+	/**
+	 * Read the slot data from the background and set the picture.
+	 */
 	private static void refresh() {
 		for (int i = 0; i <= 7; i++) {
 			if (AppState.getCurrentStation().getSlot()[i] == null)
@@ -77,11 +81,11 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 	}
 
 	/**
-	 * 检查站点是否为空
+	 * check if the station is empty
 	 *
-	 * @return true-空，false-非空
+	 * @return true-empty，false-not empty
 	 */
-	public static boolean checkIsEmpty() {
+	private boolean checkIsEmpty() {
 		for (int i = 0; i <= 7; i++) {
 			if (AppState.getCurrentStation().getSlot()[i] != null) {
 				return false;
@@ -89,7 +93,6 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		}
 		return true;
 	}
-
 
 	class UpperPanel extends JPanel {
 		UpperPanel() {
@@ -128,13 +131,13 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		public void actionPerformed(ActionEvent e) {
 			String actionCommand = e.getActionCommand();
 			/*
-			提示阶段
+			remind
 			 */
 			if (actionCommand.equals("Help me pick one")) {
-				//创建线程
+				//creating thread
 				Thread thread = new Thread(new WaitForBorrow());
 				helpButton.setText("Pick");
-				//从左到右找到一个车
+				//find a scooter
 				for (site = 0; site <= 7; site++) {
 					if (AppState.getCurrentStation().getSlot()[site] != null) {
 						StationManage.chooseFlashSlot(site);
@@ -144,7 +147,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 				thread.start();
 			}
 			/*
-			取车阶段
+			take
 			 */
 			if (actionCommand.equals("Pick")) {
 				ScooterManage.takeScooter();
@@ -154,28 +157,25 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 				WaitForBorrow.abort();
 			}
 			/*
-			完成阶段
+			finish
 			 */
 			if (actionCommand.equals("Click here to log out")) {
 				Windows.backToMenu();
 			}
 			/*
-			超时阶段：不会做任何事情
+			expired
 			 */
 		}
 
-		/*
-		闪光线程
-		 */
 		static class WaitForBorrow implements Runnable {
 			private static int i;
+			private static final int WAIT_TIME = 60;
 
 			@Override
 			public void run() {
-				waitForSec(5);
+				waitForSec(WAIT_TIME);
 			}
 
-			@SuppressWarnings("Duplicates")
 			private void waitForSec(int sec) {
 				for (i = 0; i < 100; i++) {
 					setSlotViewOccupied();
@@ -190,13 +190,11 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if (i == (sec-1)) {
+					if (i == (sec - 1)) {
 						myLabel.setText("Time expired\r\n");
-						selectLabel.setText("Please return to previous page");
+						selectLabel.setText("Please return to previous page ");
 						helpButton.setText("Time expired");
 
-						Windows.frame.validate();
-						Windows.frame.repaint();
 						return;
 					}
 				}
@@ -210,7 +208,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 
 
 		/**
-		 * 将目标槽位的图片修改为：有车-无灯
+		 * Modify the target slot's pic to have-car-no-light
 		 */
 		private static void setSlotViewOccupied() {
 			JPanel slot = slotPanel[AppState.getCurrentSlot()];
@@ -220,7 +218,7 @@ public class BorrowPanel extends JPanel implements PanelStateMonitor {
 		}
 
 		/**
-		 * 将目标槽位的图片修改为：有车-有灯
+		 * Modify the target slot's pic to have-car-have-light
 		 */
 		private static void setSlotViewOccupiedFlash() {
 			JPanel slot = slotPanel[AppState.getCurrentSlot()];

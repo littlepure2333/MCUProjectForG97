@@ -10,6 +10,7 @@ import java.awt.*;
 public class OccupiedSlot extends JPanel {
     /**
      * Paint the occupied slot
+     *
      * @param g the <code>Graphics</code> object to protect
      */
     public void paintComponent(Graphics g) {

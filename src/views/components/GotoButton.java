@@ -11,11 +11,12 @@ import java.awt.event.ActionListener;
  * A button that go to another panel once clicked
  */
 public class GotoButton extends JButton implements ActionListener {
-    private JPanel nextPanel;
 
+    private JPanel nextPanel;
     /**
-     * Generate a GOTO button
-     * @param text the button content text
+     * Generate a GOTO button, if it pressed, the frame will change the current panel
+     *
+     * @param text      the button content text
      * @param nextPanel the panel want to go to
      */
     public GotoButton(String text, JPanel nextPanel) {

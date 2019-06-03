@@ -9,6 +9,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boundary Class
+ * This Panel is for displaying the users' account state.
+ */
 class MyAccountPanel extends JPanel implements PanelStateMonitor {
 	private ReportPanel reportPanel = new ReportPanel();
 	private JLabel fineText = new JLabel();
@@ -16,6 +20,9 @@ class MyAccountPanel extends JPanel implements PanelStateMonitor {
 	private JLabel nameText = new JLabel();
 	private JLabel addText = new JLabel();
 
+	/**
+	 * The constructor of MyAccountPanel.
+	 */
 	MyAccountPanel() {
 		JPanel idPanel = new IdPanel();
 		JPanel namePanel = new NamePanel();
@@ -34,6 +41,9 @@ class MyAccountPanel extends JPanel implements PanelStateMonitor {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Update the data from the AppState.
+	 */
 	@Override
 	public void update() {
 		fineText.setText(AppState.getCurrentUser().isNeedToPay().equals("true") ? "Be fined" : "Not be fined");

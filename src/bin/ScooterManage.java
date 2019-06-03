@@ -14,8 +14,8 @@ public class ScooterManage extends AppData {
      */
     public static void takeScooter() {
         AppState.getCurrentUser().takeScooter(
-                        AppState.getCurrentStation()
-                                .removeScooter(AppState.getCurrentSlot()));
+                AppState.getCurrentStation()
+                        .removeScooter(AppState.getCurrentSlot()));
         TransactionManage.generateTransaction("take");
         findScooterById(AppState.getCurrentUser().getScooter().getId()).setUsed(1);
         updateData();
@@ -38,6 +38,7 @@ public class ScooterManage extends AppData {
 
     /**
      * Check that how many scooters are in used state
+     *
      * @return the number of scooters being used
      */
     public static int getUsedCount() {
@@ -52,6 +53,7 @@ public class ScooterManage extends AppData {
 
     /**
      * Find the information of a scooter by its id
+     *
      * @param scooterId scooter id
      * @return the information of the scooter
      */

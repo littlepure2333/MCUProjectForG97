@@ -12,7 +12,8 @@ import java.awt.event.ActionListener;
  */
 public class ReturnButton extends JButton implements ActionListener {
     /**
-     * Generate a RETURN button
+     * Generate a RETURN button, this button can make the frame return to the previous panel
+     *
      * @param text the button content text
      */
     public ReturnButton(String text) {

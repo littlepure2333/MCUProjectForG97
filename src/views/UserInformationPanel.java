@@ -6,6 +6,11 @@ import views.components.PanelStateMonitor;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Boundary Class
+ * This is the panel for displaying the user information.
+ * It will display all the event created by the system and its detail information.
+ */
 class 	UserInformationPanel extends JPanel implements PanelStateMonitor {
 	/**
 	 * Create the panel.

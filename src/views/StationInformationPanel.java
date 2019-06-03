@@ -7,7 +7,11 @@ import views.components.PanelStateMonitor;
 import javax.swing.*;
 import java.awt.*;
 
-
+/**
+ * Boundary Class
+ * Class StationInformationPanel.
+ * It is the panel for displaying the station info.
+ */
 public class StationInformationPanel extends JPanel implements PanelStateMonitor {
 	/**
 	 * Create the panel.
@@ -34,7 +38,7 @@ public class StationInformationPanel extends JPanel implements PanelStateMonitor
 		table.setPreferredScrollableViewportSize(new Dimension(5000, 5000));
 
 		JLabel lblNewLabel = new JLabel("In use: " + ScooterManage.getUsedCount() +
-				((ScooterManage.getUsedCount()==1||ScooterManage.getUsedCount()==0)?" scooter":" scooters")
+				((ScooterManage.getUsedCount()==1|| ScooterManage.getUsedCount()==0)?" scooter":" scooters")
 				, JLabel.CENTER);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 

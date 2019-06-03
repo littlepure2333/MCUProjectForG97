@@ -21,7 +21,7 @@
           <string>id</string>
           <void method="set">
            <object idref="Scooter0"/>
-           <int>6</int>
+           <int>1</int>
           </void>
          </void>
         </object>
@@ -73,6 +73,13 @@
       </array>
      </void>
     </void>
+    <void class="data.Station" method="getField">
+     <string>slotSize</string>
+     <void method="set">
+      <object idref="Station0"/>
+      <int>8</int>
+     </void>
+    </void>
    </object>
   </void>
   <void method="add">
@@ -89,62 +96,69 @@
      <void method="set">
       <object idref="Station1"/>
       <array class="data.Scooter" length="8">
-       <void index="1">
+       <void index="0">
         <object class="data.Scooter" id="Scooter5">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
            <object idref="Scooter5"/>
+           <int>6</int>
+          </void>
+         </void>
+        </object>
+       </void>
+       <void index="1">
+        <object class="data.Scooter" id="Scooter6">
+         <void class="data.Scooter" method="getField">
+          <string>id</string>
+          <void method="set">
+           <object idref="Scooter6"/>
            <int>7</int>
           </void>
          </void>
         </object>
        </void>
        <void index="2">
-        <object class="data.Scooter" id="Scooter6">
+        <object class="data.Scooter" id="Scooter7">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
-           <object idref="Scooter6"/>
+           <object idref="Scooter7"/>
            <int>8</int>
           </void>
          </void>
         </object>
        </void>
        <void index="3">
-        <object class="data.Scooter" id="Scooter7">
+        <object class="data.Scooter" id="Scooter8">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
-           <object idref="Scooter7"/>
+           <object idref="Scooter8"/>
            <int>9</int>
           </void>
          </void>
         </object>
        </void>
        <void index="4">
-        <object class="data.Scooter" id="Scooter8">
-         <void class="data.Scooter" method="getField">
-          <string>id</string>
-          <void method="set">
-           <object idref="Scooter8"/>
-           <int>10</int>
-          </void>
-         </void>
-        </object>
-       </void>
-       <void index="5">
         <object class="data.Scooter" id="Scooter9">
          <void class="data.Scooter" method="getField">
           <string>id</string>
           <void method="set">
            <object idref="Scooter9"/>
-           <int>1</int>
+           <int>10</int>
           </void>
          </void>
         </object>
        </void>
       </array>
+     </void>
+    </void>
+    <void class="data.Station" method="getField">
+     <string>slotSize</string>
+     <void method="set">
+      <object idref="Station1"/>
+      <int>8</int>
      </void>
     </void>
    </object>
@@ -219,6 +233,13 @@
         </object>
        </void>
       </array>
+     </void>
+    </void>
+    <void class="data.Station" method="getField">
+     <string>slotSize</string>
+     <void method="set">
+      <object idref="Station2"/>
+      <int>8</int>
      </void>
     </void>
    </object>

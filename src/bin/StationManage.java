@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class StationManage extends AppData {
     /**
      * Set the station as the current station, then save it into the program state.
+     *
      * @param stationName name of the station
      */
     public static void chooseStation(String stationName) {
@@ -20,6 +21,7 @@ public class StationManage extends AppData {
 
     /**
      * Choose which slot of the current station will start to flash
+     *
      * @param slotId the chosen slot
      */
     public static void chooseFlashSlot(int slotId) {
@@ -28,6 +30,7 @@ public class StationManage extends AppData {
 
     /**
      * Acquire the information of the station by its name
+     *
      * @param stationName name of the station
      * @return the information of the station including scooters in it
      */
@@ -41,12 +44,13 @@ public class StationManage extends AppData {
 
     /**
      * Output all stations for displaying on the interface.
+     *
      * @return All station information to be displayed on the interface
      */
     public static String[][] outputAllStations() {
         ArrayList<String[]> column = new ArrayList<>();
         int rowSize = 0;
-        for (Station station: stations){
+        for (Station station : stations) {
             String[] row = station.toString().split(" ");
             column.add(row);
             rowSize = row.length;

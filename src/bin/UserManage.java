@@ -8,9 +8,9 @@ import data.User;
  * Manage the transmission, validation, queries of user data
  */
 public class UserManage extends AppData {
-
     /**
      * Register a new user
+     *
      * @param qmNumber QM number input by user
      * @param fullName full name input by user
      * @param email    email input by user
@@ -27,6 +27,7 @@ public class UserManage extends AppData {
 
     /**
      * Check if QM number and email address are duplicate with the database information
+     *
      * @param qmNumber the QM number
      * @param email    the email address
      * @return true - duplicate, false - not duplicate
@@ -43,6 +44,7 @@ public class UserManage extends AppData {
 
     /**
      * User log in
+     *
      * @param qmNumber the QM number
      * @return true - log in success, false - log in failure
      */
@@ -57,7 +59,7 @@ public class UserManage extends AppData {
     }
 
     /**
-     * Pay the fine
+     * Pay the user's fine
      */
     public static void payTheFine() {
         AppState.getCurrentUser().setNeedToPay("false");

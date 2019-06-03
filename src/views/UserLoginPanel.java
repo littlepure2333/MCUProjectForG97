@@ -2,24 +2,26 @@ package views;
 
 import bin.FormatCheck;
 import bin.UserManage;
-import mcu.Communication;
-import mcu.CommunicationEvent;
-import mcu.CommunicationListener;
-import mcu.RxTx;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boundary Class
+ * This Panel is for the user to log in.
+ * It is displayed after the user choose which station he'd like to visit.
+ */
 class UserLoginPanel extends JPanel {
-	//next state
 	private UserPanel userPanel = new UserPanel();
 
 	private JTextField answerText;
 	private JLabel feedbackLabel;
-	JButton submitButton = new JButton("Submit");
 
+	/**
+	 * The constructor of the UserLoginPanel.
+	 */
 	UserLoginPanel() {
 		JPanel myPanel = new MyPanel();
 		JPanel feedbackPanel = new FeedbackPanel();
@@ -30,56 +32,11 @@ class UserLoginPanel extends JPanel {
 		this.add(new JPanel());
 
 		this.setVisible(true);
-//。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-//		//RxTx initialization
-//		Communication communication = new Communication("COM3");
-//
-//		communication.registerListener(new CommunicationListener() {
-//			@Override
-//			public void doReceiveQmNumber(CommunicationEvent event) {
-//				answerText.setText(Integer.toString(communication.receiveQmNumber()));
-//				submitButton.doClick();
-////				// if login fail
-////				if (!UserManage.login(Integer.parseInt(answerText.getText()))) {
-////					answerText.setText("");
-////					feedbackLabel.setText("You haven't registered yet!");
-////				}
-////				else { //登录成功
-////					answerText.setText("");
-////					feedbackLabel.setText("Please type in your QM ID.");
-////					Windows.goToPanel(userPanel);
-////				}
-//			}
-//
-//			@Override
-//			public void doBrokenQmNumber(CommunicationEvent event) {
-//				System.out.println("Must be 9 digits");
-//			}
-//		});
-//
-//		byte[] data = new byte[5];
-//		data[0] = communication.KEY_RECEIVE_ID;
-//		data[1] = 0x01;
-//		data[2] = 0x02;
-//		data[3] = 0x03;
-//		data[4] = 0x04;
-//		communication.addReceiveBuff(data);
-//		data = new byte[6];
-//		data[0] = 0x05;
-//		data[1] = 0x06;
-//		data[2] = 0x07;
-//		data[3] = 0x08;
-//		data[4] = 0x09;
-//		data[5] = communication.DATA_END;
-//		communication.addReceiveBuff(data);
-//。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
 	}
 
-
 	class MyPanel extends JPanel implements ActionListener {
-		@SuppressWarnings("Duplicates")
 		MyPanel() {
-			//JButton submitButton = new JButton("Submit");
+			JButton submitButton = new JButton("Submit");
 			submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 			submitButton.addActionListener(this);
 
@@ -90,7 +47,6 @@ class UserLoginPanel extends JPanel {
 			this.add(answerText);
 			this.add(submitButton);
 		}
-
 
 		public void actionPerformed(ActionEvent e) {
 			String actionCommand = e.getActionCommand();
@@ -105,7 +61,6 @@ class UserLoginPanel extends JPanel {
 					answerText.setText("");
 					feedbackLabel.setText("You haven't registered yet!");
 				} else {
-					//登录成功
 					answerText.setText("");
 					feedbackLabel.setText("Please type in your QM ID.");
 					Windows.goToPanel(userPanel);

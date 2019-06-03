@@ -4,16 +4,22 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Vector;
 
-class ResetAll extends AppData {
+/**
+ * Reset all the program's data
+ */
+public class ResetAll extends AppData {
+    /**
+     * reset transaction, station, scooter and user information
+     */
     @Test
-    void resetAll() {
+    public void resetAll() {
         testResetTransaction();
         testResetStationAndScooter();
         testResetUserData();
     }
 
     /**
-     * 将transaction重置为初始状态（什么都没有）
+     * Reset transaction to init state (says nothing)
      */
     @Test
     void testResetTransaction() {
@@ -22,8 +28,8 @@ class ResetAll extends AppData {
     }
 
     /**
-     * 初始化站点信息
-     * （每个站点5辆车，占前五个槽位）
+     * Initialize Station information
+     * (Every station has 5 scooters, which occupy the first 5 slots)
      */
     @Test
     void testResetStationAndScooter() {
@@ -36,17 +42,17 @@ class ResetAll extends AppData {
         Station station2 = new Station("B", 8);
         Station station3 = new Station("C", 8);
         for(;i<=5;i++) {
-            Scooter scooter = new Scooter(i,0);
+            Scooter scooter = new Scooter(i);
             station1.addScooter(scooter);
             scooters.add(scooter);
         }
         for(;i<=10;i++) {
-            Scooter scooter = new Scooter(i,0);
+            Scooter scooter = new Scooter(i);
             station2.addScooter(scooter);
             scooters.add(scooter);
         }
         for(;i<=15;i++) {
-            Scooter scooter = new Scooter(i,0);
+            Scooter scooter = new Scooter(i);
             station3.addScooter(scooter);
             scooters.add(scooter);
         }
@@ -57,19 +63,18 @@ class ResetAll extends AppData {
     }
 
     /**
-     * 重置用户信息
-     * 注意只在需要重新导入数据时使用
-     * 需要同时重置站点信息
+     * Reset user information, Only be used when need to import data again
+     * Need to reset station information simultaneously
      */
     @Test
     void testResetUserData() {
         users = new Vector<>();
-        users.add(new User(123456789,"first","aaa@qmul.ac.uk"));
-        users.add(new User(111111111,"second","bbb@qmul.ac.uk"));
-        users.add(new User(222222222,"third","ccc@qmul.ac.uk"));
-        users.add(new User(333333333,"second","ddd@qmul.ac.uk"));
-        users.add(new User(444444444,"second","eee@qmul.ac.uk"));
+        users.add(new User(161188896, "ShizunWang", "jp2016213584@qmul.ac.uk"));
+        users.add(new User(161189332,"MeiyuChen","jp2016213628@qmul.ac.uk"));
+        users.add(new User(151007257,"TianqiZhu","jp2015213451@qmul.ac.uk"));
+        users.add(new User(333333333,"RuyangLiu","jp2016213460@qmul.ac.uk"));
+        users.add(new User(161188623,"WeipengShen","jp2016213556@qmul.ac.uk"));
+        users.add(new User(161187888, "YufanWang", "jp2016213479@qmul.ac.uk"));
         updateData();
-
     }
 }

@@ -3,11 +3,16 @@ package views;
 import bin.AppState;
 import views.components.PanelStateMonitor;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
 
+/**
+ * Boundary Class
+ * The Panel to be displayed after a user logged in successfully.
+ * The user can choose to borrow, return a scooter or to check his account.
+ */
 class UserPanel extends JPanel implements PanelStateMonitor {
     private BorrowPanel borrowPanel = new BorrowPanel();
     private ReturnPanel returnPanel = new ReturnPanel();
@@ -16,6 +21,9 @@ class UserPanel extends JPanel implements PanelStateMonitor {
     private NotHaveOnePanel notHaveOnePanel = new NotHaveOnePanel();
     private HaveFinePanel haveFinePanel = new HaveFinePanel();
 
+    /**
+     * The constructor of UserPanel
+     */
     UserPanel() {
         this.setLayout(new GridLayout(3, 1));
         this.add(new JPanel());

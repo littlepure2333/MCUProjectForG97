@@ -8,12 +8,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boundary Class
+ * It is the user input panel for registration.
+ */
 class RegisterInputPanel extends JPanel {
 	private JTextField idText;
 	private JTextField nameText;
 	private JTextField addText;
 	private JLabel checkLabel;
 
+	/**
+	 * Constructor of RegisterInputPanel.
+	 */
 	RegisterInputPanel() {
 		JPanel idPanel = new IdPanel();
 		JPanel namePanel = new NamePanel();
@@ -93,11 +100,11 @@ class RegisterInputPanel extends JPanel {
 			} else if (FormatCheck.isAddress(addText.getText()) == 0) {
 				checkLabel.setText("<html>Invalid email address. <br/>Example:qmul123_uk@qmul.ac.uk.</html>");
 			} else {
-				//判断注册信息是否重复
+				//if duplicate
 				if (!UserManage.registration(Integer.parseInt(idText.getText()), nameText.getText(), addText.getText())) {
 					checkLabel.setText("Duplicate ID or email address!");
 				} else {
-					//注册成功
+					//success
 					clear();
 					Windows.backToMenu();
 					createRegisterReminder();
@@ -105,11 +112,6 @@ class RegisterInputPanel extends JPanel {
 			}
 		}
 
-		/**
-		 * 弹出一个提醒注册成功的窗口
-		 * 只有提示功能，无实际用处
-		 * （未实现）鼠标单击任意区域即可让窗口消失
-		 */
 		private void createRegisterReminder() {
 			JFrame littleFrame = new JFrame("Successful");
 			littleFrame.setSize(500, 500);
@@ -150,7 +152,7 @@ class RegisterInputPanel extends JPanel {
 	}
 
 	/**
-	 * 界面初始化（清空所有输入框和标签）
+	 * Initiate the interface(clear all the input box and tags).
 	 */
 	private void clear() {
 		idText.setText("");

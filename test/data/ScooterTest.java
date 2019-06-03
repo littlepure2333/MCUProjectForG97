@@ -8,7 +8,7 @@ class ScooterTest {
 
     @Test
     void testCreateScooter() {
-        Scooter scooter = new Scooter(2333,0);
+        Scooter scooter = new Scooter(2333);
         assertEquals(2333, scooter.getId());
         assertEquals(0, scooter.getUsed());
     }
