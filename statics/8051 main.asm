@@ -11,7 +11,8 @@
     KEYBOARDTEMP    EQU 60H ; 键盘输入缓存，放置在内部RAM区的60～5F单元中
 ;........ 1.2 数据类型常量................................................
     LED_SEND_INIT       EQU 0x10 ; To initialize LED
-    LED_SEND_FLASH      EQU 0x11 ; LED flash
+    LED_SEND_FLASH      EQU 0x11 ; LED flash when take scooter
+
     KEYBOARD_INIT       EQU 0x12 ; To initialize keyboard input
     LCD_INIT            EQU 0x15 ; To initialize LCD
     LCD_HELLO           EQU 0x16 ; LCD display 'Input your id:'
@@ -26,6 +27,9 @@
     LCD_RET_DONE        EQU 0x25 ; LCD display 'Scooter returned'
     LCD_EXP             EQU 0x26 ; LCD display 'Time expired'
     LCD_PAID            EQU 0x27 ; LCD display 'Pay the payment!'
+
+    LED_RETURN_FLASH	EQU 0x28 ; LED flash when return scooter
+
     DATA_END            EQU 0x7F ; LCD display
 
 ;   这里放别的数据类型
@@ -131,8 +135,12 @@ CHECK15:
     ACALL LCD_EXP
     SJMP LOOP
 CHECK16:
-    CJNE A,#LCD_PAID,LAST; To check if it should go to the function YES_INIT
+    CJNE A,#LCD_PAID,CHECK17; To check if it should go to the function YES_INIT
     ACALL LCD_PAID
+
+CHECK17:
+    CJNE A,#LED_RETURN_FLASH,LAST; To check if it should go to the function YES_INIT
+    ACALL LED_RETURN_FLASH_FUNC
 
 ;   这里可以插入别的子程序
 
@@ -242,16 +250,21 @@ LED_SEND_FLASH_FUNC:
     INC R0  ;Save the address of data
     MOV A, @R0     ;move data to A
     MOV R2, A      ;Save which slot to flash to R2
-    MOV A, R7	   ;Move the initial slot status back to A
+    ;MOV A, R7	   ;Move the initial slot status back to A
     SETB IT1      ;Make INT1 edge-trig
     SETB EX1      ;Enable scternal INT1
     SETB EA       ;Enable global interrupt
 FLASH:
+    MOV A, R7	   ;Move the initial slot status back to A
+    CLR C	   ; ensure subb is correct
     SUBB A, R2
     MOV P0, A      ;send LED bits
+    MOV R7, A	   ; Move new slot status back to R7
     ACALL DELAY2
+    MOV A, R7	   ;Move the initial slot status back to A
     ADD A, R2    ;TURN OFF LED
     MOV P0, A      ;set LED to be off
+    MOV R7, A	   ; Move new slot status back to R7
     ACALL DELAY2
     DJNZ R3, FLASH
     ;CJNE R3, #0, FLASH
@@ -270,6 +283,36 @@ LED_SEND_CLOSE_FUNC:
     POP ACC
     ACALL DELAY1
 
+    RET
+;....................................................................
+LED_RETURN_FLASH_FUNC:
+    MOV R1, #0FEh   ;col 11111110
+    MOV P1, R1      ;select col
+    MOV R3, #10   ;Times of flash
+    MOV R7, P0    ;Save the current slot status
+    MOV R0, #RDFA   ;Save the address of data-1
+    INC R0  ;Save the address of data
+    MOV A, @R0     ;move data to A
+    MOV R2, A      ;Save which slot to flash to R2
+    ;MOV A, R7	   ;Move the initial slot status back to A
+    SETB IT1      ;Make INT1 edge-trig
+    SETB EX1      ;Enable scternal INT1
+    SETB EA       ;Enable global interrupt
+FLASH_RETURN:
+    MOV A, R7	   ;Move the initial slot status back to A
+    ADD A, R2    ;TURN OFF LED
+    MOV P0, A      ;set LED to be off
+    MOV R7, A	   ; Move new slot status back to R7
+    ACALL DELAY2
+    MOV A, R7	   ;Move the initial slot status back to A
+    CLR C	   ; ensure subb is correct
+    SUBB A, R2
+    MOV P0, A      ;send LED bits
+    MOV R7, A	   ; Move new slot status back to R7
+    ACALL DELAY2
+    DJNZ R3, FLASH_RETURN
+    ;CJNE R3, #0, FLASH
+    MOV P0, #00h
     RET
 
 ;================LCD相关函数============================================
